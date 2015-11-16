@@ -1,6 +1,6 @@
-# Project Name
+# Doozy
 
-> Pithy project description
+> Project management 
 
 ## Team
 
@@ -22,13 +22,16 @@
 
 > Some usage instructions
 
-## Requirements
+## Tech Stack
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Mongo
+- Express
+- Angular
+- Node
+- Mocha/Chai/Protractor Tests
+- Grunt
+- Angular Material
+- npm
 
 ## Development
 
@@ -42,7 +45,18 @@ npm install
 bower install
 ```
 
-### Roadmap
+### Initial Features
+
+* Sign in to or create team
+* Team has one project
+* Project has many tasks
+* Tasks has one state
+  * Staging (default)
+  * In progress
+  * Complete
+* Task has many users
+* Can view all tasks or your own
+
 
 View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
