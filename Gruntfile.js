@@ -37,6 +37,10 @@ module.exports = function(grunt) {
         options: {
           spawn: false
         }
+      },
+      test: {
+        files: [ 'test/**/*.js' ],
+        tasks: [ 'test' ]
       }
     }
   });
