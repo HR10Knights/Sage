@@ -14,36 +14,40 @@ router.post('/signup', function(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
   var teamname = req.body.teamname;
-  Team.findOne({name: teamname}, function(err, team) {
-    if (team) {
-      User.findOne({username: username}, function(err, user) {
-        if (!user) {
-          var newUser = new User({
-            username: username,
-            password: password
-          });
-          newUser.save(function(err, newUser) {
-            if (err) {
-              res.send(404, err);
-            } else {
-              team.users.push(newUser);
-              team.save(function(err) {
-                if (err) {
-                  res.send(404, err);
-                } else {
-                  res.send(200, 'created');
-                }
-              });
-            }
-          });
-        } else {
-          res.status(400).send('Username exists');
-        }
-      });
-    } else {
-      res.status(400).send('Team does not exist');
-    }
-  });
+  if (username === '' || teamname === '' || password === '') {
+    res.status(400).send('Invalid sign up');
+  } else {
+    Team.findOne({name: teamname}, function(err, team) {
+      if (team) {
+        User.findOne({username: username}, function(err, user) {
+          if (!user) {
+            var newUser = new User({
+              username: username,
+              password: password
+            });
+            newUser.save(function(err, newUser) {
+              if (err) {
+                res.send(404, err);
+              } else {
+                team.users.push(newUser);
+                team.save(function(err) {
+                  if (err) {
+                    res.send(404, err);
+                  } else {
+                    res.send(201, 'created');
+                  }
+                });
+              }
+            });
+          } else {
+            res.status(400).send('Username exists');
+          }
+        });
+      } else {
+        res.status(400).send('Team does not exist');
+      }
+    });
+  } 
 });
 
 // User log in

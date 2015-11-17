@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 if (process.env.MONGOLAB_URI) {
   mongoose.connect(process.env.MONGOLAB_URI);
+} else if (process.env.NODE_ENV === 'test') {
+  mongoose.connect('mongodb://localhost/doozytest')
 } else {
   mongoose.connect('mongodb://localhost/doozy');
 }
@@ -25,18 +28,5 @@ db.teamsSchema = new Schema({
 });
 
 
-// var Team = mongoose.model('Team', db.teamsSchema);
-// var myTeam = new Team({ name: 'My Team'});
-// myTeam.save(function(err) {
-//   console.log('okay: err: ' + err);
-// });
 
-// var User = mongoose.model('User', db.usersSchema);
-// var aUser = new User({ username: 'testuser', password: 'testpass'});
-// aUser.save(function(err) {
-//   myTeam.users.push(aUser);
-//   myTeam.save(function(err) {
-
-//   });
-// });
 module.exports = db;
