@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "test" // Use test database
+process.env.NODE_ENV = "test"; // Use test database
 
 var request = require('supertest');
 var express = require('express');
@@ -57,7 +57,7 @@ describe('Authentication', function() {
         .get('/api/teams/exists?name=test%20team')
         .expect(200)
         .expect(function(res) {
-          res.body = 'true'
+          res.body = 'true';
         })
         .end(done);
     });
@@ -67,10 +67,10 @@ describe('Authentication', function() {
         .get('/api/teams/exists?name=fake%20team')
         .expect(200)
         .expect(function(res) {
-          res.body = 'false'
+          res.body = 'false';
         })
         .end(done);
-    })
+    });
 
   });
 
@@ -142,7 +142,7 @@ describe('Authentication', function() {
           })
           .expect(200)
           .expect(function(res) {
-            res.body = 'true'
+            res.body = 'true';
           })
           .end(done);
       });
@@ -157,7 +157,7 @@ describe('Authentication', function() {
           })
           .expect(401)
           .expect(function(res) {
-            res.body = 'false'
+            res.body = 'false';
           })
           .end(done);
       });
@@ -172,7 +172,7 @@ describe('Authentication', function() {
           })
           .expect(401)
           .expect(function(res) {
-            res.body = 'false'
+            res.body = 'false';
           })
           .end(done);
       });
@@ -186,7 +186,7 @@ describe('Authentication', function() {
           })
           .expect(401)
           .expect(function(res) {
-            res.body = 'false'
+            res.body = 'false';
           })
           .end(done);
       });
@@ -200,7 +200,7 @@ describe('Authentication', function() {
             'password': 'fakepass',
             'teamname': 'test team'   
           })
-          .expect(401)
+          .expect(401);
         request(app)
           .post('/api/users/destroy')
           .send({

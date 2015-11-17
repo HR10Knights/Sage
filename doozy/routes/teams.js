@@ -41,7 +41,7 @@ router.post('/create', function(req, res, next) {
         } else {
           res.sendStatus(201);
         }
-      })
+      });
     }
   });
 });

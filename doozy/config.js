@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 if (process.env.MONGOLAB_URI) {
   mongoose.connect(process.env.MONGOLAB_URI);
 } else if (process.env.NODE_ENV === 'test') {
-  mongoose.connect('mongodb://localhost/doozytest')
+  mongoose.connect('mongodb://localhost/doozytest');
 } else {
   mongoose.connect('mongodb://localhost/doozy');
 }

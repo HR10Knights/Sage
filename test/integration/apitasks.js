@@ -1,4 +1,4 @@
-process.env.NODE_ENV = "test" // Use test database
+process.env.NODE_ENV = "test"; // Use test database
 
 var request = require('supertest');
 var express = require('express');
