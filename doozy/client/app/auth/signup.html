@@ -1,0 +1,10 @@
+<div ng-controller="AuthController">
+  <h2>Sign Up</h2>
+  <form ng-submit="signup(user)">
+      <input type="text" placeholder="Team Name" ng-model="user.teamname" /><br/>
+      <input type="text" placeholder="Username" ng-model="user.username" /><br/>
+      <input type="password" placeholder="Password" ng-model="user.password" /><br/>
+      <button type="submit">Login</button>
+  </form>
+  <a href="#/signin">Already have an account? <strong>Sign in</strong> ...</a>
+</div>

@@ -6,6 +6,7 @@
     "start": "node ./doozy/app.js"
   },
   "dependencies": {
+    "angular": "^1.4.7",
     "bcrypt": "^0.8.5",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.0.5",
