@@ -1,21 +1,40 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
+var Task = require('../models/task');
 
 // List tasks
 router.get('/', function(req, res, next) {
-  res.status(200).send('task list');
+  Task.find({}, function(err, tasks) {
+    res.status(200).send(tasks);
+  });
 });
 
 // View task
 router.get('/:id', function(req, res, next) {
-  var taskId = req.params.id;
-  res.status(200).send('task id: ' + taskId);
+  var taskId = mongoose.Types.ObjectId(req.params.id);
+  Task.find({_id: taskId}, function(err, tasks) {
+    res.status(200).send(tasks);
+  })
 });
 
 // Create task
-// curl -H "Content-Type: application/json" -X POST -d '{"name":"my task"}' http://localhost:3000/api/tasks
+// curl -H "Content-Type: application/json" -X POST -d '{"name":"my task","description":"my description"}' http://localhost:3000/api/tasks
 router.post('/', function(req, res, next) {
-  res.status(200).send('create task');
+  var name = req.body.name;
+  var description = req.body.description;
+  var newTask = new Task({
+    name: name,
+    description: description,
+    status: 'Staging'
+  });
+  newTask.save(function(err, newTask) {
+    if (err) {
+      res.sendStatus(404, err);
+    } else {
+      res.sendStatus(201);
+    }
+  });
 });
 
 module.exports = router;

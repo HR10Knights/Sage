@@ -46,7 +46,7 @@ module.exports = function(grunt) {
     watch: {
       server: {
         files: [ 'doozy/**' ],
-        tasks: [ 'express:dev' ],
+        tasks: [ 'test', 'express:dev' ],
         options: {
           spawn: false
         }
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', [
-      'mochaTest'
+    'mochaTest'
   ]);
 
   grunt.registerTask('default', [
