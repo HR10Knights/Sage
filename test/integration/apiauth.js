@@ -19,6 +19,11 @@ describe('Authentication', function() {
     });
   });
 
+  after(function(done) {
+    mongoose.connection.close();
+    done();
+  });
+
   describe('Teams', function () {
     it('should create a team', function(done) {
       request(app)
