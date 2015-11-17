@@ -10,7 +10,6 @@ angular.module('app.auth', [])
       data: user
     })
     .then(function(response) {
-      // should get {username:x, token:y}
       return response.data;
     });
   };
