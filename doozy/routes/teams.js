@@ -5,7 +5,8 @@ var Team = require('../models/team');
 /* GET team listing. */
 router.get('/', function(req, res, next) {
   Team.find({}, function(err, teams) {
-    res.send(200, teams);
+    // res.send(200, teams);
+    res.status(200).send(teams);
   });
 });
 
