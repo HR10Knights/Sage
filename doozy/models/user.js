@@ -9,7 +9,7 @@ db.usersSchema.pre('save', function(next, done) {
     bcrypt.hash(this.password, null, null, function(err, hash) {
       that.password = hash;
       next();
-    })
+    });
 });
 
 var User = mongoose.model('User', db.usersSchema);
@@ -19,6 +19,6 @@ User.prototype.comparePassword = function(attemptedPassword, callback) {
     bcrypt.compare(attemptedPassword, this.password, function(err, isMatch) {
         callback(isMatch);
     });
-}
+};
 
 module.exports = User;
