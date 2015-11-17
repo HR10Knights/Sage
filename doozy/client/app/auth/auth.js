@@ -1,13 +1,27 @@
 angular.module('app.auth', [])
-.controller('AuthController', function($scope $http) {
+
+.controller('AuthController', function($scope, $http, $location, Auth) {
   $scope.user = {};
-  $scope.signIn = function() {
 
+  $scope.signin = function() {
+    Auth.signin($scope.user)
+      .then(function(token) {
+        $window.localStorage.setItem('wat', token);
+        $location.path('/tasks');
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
   };
 
-  $scope.signUp = function() {
-
+  $scope.signup = function() {
+    Auth.signup($scope.user)
+      .then(function(token) {
+        $window.localStorage.setItem('wat', token);
+        $location.path('/tasks');
+      })
+      .catch(function(error) {
+        console.error(error);
+      });
   };
-  
-})
-.service()
+});
