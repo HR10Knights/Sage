@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-mocha');
@@ -8,6 +9,18 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    jshint: {
+      gruntfile: 'Gruntfile.js',
+      doozy: 'doozy/**/*.js',
+      // client: 'doozy/client/**/*.js',
+      // models: 'doozy/models/**/*.js',
+      test: 'test/**/*.js',
+      options: {
+        globals: {
+          eqeqeq: true
+        }
+      }
+    },
     mochaTest: {
         test: {
           options: {
@@ -52,4 +65,4 @@ module.exports = function(grunt) {
   grunt.registerTask('default', [
     'nodemon'
   ]);
-}
+};
