@@ -3,7 +3,7 @@ process.env.NODE_ENV = "test" // Use test database
 var request = require('supertest');
 var express = require('express');
 var expect = require('chai').expect;
-var app = require('../../doozy/app');
+var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var Team = require('../../doozy/models/team');
 var User = require('../../doozy/models/user');
@@ -17,6 +17,11 @@ describe('Authentication', function() {
         done();
       });
     });
+  });
+
+  after(function(done) {
+    mongoose.connection.close();
+    done();
   });
 
   describe('Teams', function () {
