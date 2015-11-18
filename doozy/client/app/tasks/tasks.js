@@ -1,4 +1,4 @@
-angular.module('app.tasks', [])
+angular.module('app.tasks', ['ngMaterial'])
 
 .controller('TasksController', function($scope, Tasks) {
 	$scope.data = {};
@@ -50,4 +50,17 @@ angular.module('app.tasks', [])
     $scope.task = {};
     $scope.buttonText = 'Add Task';
 	}
+
+  $scope.stagingFilter = function(task) {
+    return !task.completed && task.assignees.length === 0 ? true : false;
+  };
+
+  $scope.assignedFilter = function(task) {
+  	return !task.completed && task.assignees.length > 0 ? true : false;
+  };
+
+  $scope.completedFilter = function(task) {
+  	return task.completed ? true : false;
+  }
+
 });

@@ -1,11 +1,64 @@
-<div id='container' ng-cloak>
-<!--
-  <md-button class="md-raised md-primary" ng-click="showTask=true">Add Task</md-button>
--->
-  <div class='taskList' ng-repeat='task in data.tasks | filter:search | orderBy:"created_at"'>
-    <div class='title'>{{ task.title }}</div>
+<div ng-controller='TasksController' ng-cloak>
+
+  <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+    <md-button 
+      class="md-raised md-primary" 
+      ng-click="clearTaskFields(); showTask=true">
+      Add Task
+    </md-button>
+  </section>
+
+
+  <div class='taskList'>
+
+    <md-subheader class="md-no-sticky">Staging</md-subheader>
+    <md-list-item 
+      ng-repeat="task in data.tasks | filter : stagingFilter">
+      <md-checkbox ng-model="task.selected"></md-checkbox>
+      <p ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
+        {{task.title}}
+      </p>
+      <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+    </md-list-item>
+
+    <md-divider></md-divider>
+
+    <md-subheader class="md-no-sticky">Assigned</md-subheader>
+    <md-list-item 
+      ng-repeat="task in data.tasks | filter : assignedFilter">
+      <md-checkbox ng-model="task.selected"></md-checkbox>
+      <p ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
+        {{task.title}}
+      </p>
+      <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+    </md-list-item>
+
+    <md-divider></md-divider>
+
+    <md-subheader class="md-no-sticky">Completed</md-subheader>
+    <md-list-item 
+      ng-repeat="task in data.tasks | filter : completedFilter">
+      <md-checkbox ng-model="task.selected"></md-checkbox>
+      <p ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
+        {{task.title}}
+      </p>
+      <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+    </md-list-item>
+  
   </div>
+
   <div class='taskDetails' ng-show='showTask'>
-    <p>This is a test</p>
+    <input name='title' type='text' ng-model='task.title' placeholder='Add a task'>
+    <br>
+    <input name='assignees' type='text' ng-model='task.assignees' placeholder='Add an assignee'>
+    <br>
+    <input name='description' type='text' ng-model='task.description' placeholder='Add a description'>
+    <br>
+    <md-button 
+        class="button md-raised md-primary" 
+        ng-click="showTask=false; postTask(task); task = null;">
+      {{ buttonText }}
+    </md-button>
   </div>
-</div>  
+
+</div>
