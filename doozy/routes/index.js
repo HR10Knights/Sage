@@ -79,7 +79,7 @@ router.post('/signup', function(req, res, next) {
               res.status(400).send('Username exists');
             }
           });
-        })
+        });
       }
     });
   } 
