@@ -6,7 +6,7 @@ angular.module('app.services', [])
 
   };
 })
-..factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location, $window) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
