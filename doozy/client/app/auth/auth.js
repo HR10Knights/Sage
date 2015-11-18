@@ -45,7 +45,7 @@ angular.module('app.auth', [])
   return {
     getToken: getToken,
     setToken: setToken
-  }
+  };
 })
 .factory('AuthInterceptor', function(TokenFactory) {
   var addToken = function(config) {
@@ -55,9 +55,9 @@ angular.module('app.auth', [])
       config.headers.Authorization = 'Bearer ' + token;
     }
     return config;
-  }
+  };
 
   return {
     request: addToken
-  }
-})
+  };
+});

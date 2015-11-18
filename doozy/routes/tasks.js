@@ -15,7 +15,7 @@ router.get('/:id', function(req, res, next) {
   var taskId = mongoose.Types.ObjectId(req.params.id);
   Task.find({_id: taskId}, function(err, tasks) {
     res.status(200).send(tasks);
-  })
+  });
 });
 
 // Create task
@@ -47,6 +47,6 @@ router.post('/complete', function(req, res, next) {
     } else {
       res.sendStatus(200);
     }
-  })
+  });
 });
 module.exports = router;

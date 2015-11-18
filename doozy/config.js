@@ -72,7 +72,28 @@ db.tasksSchema = new Schema({
 db.projectsSchema = new Schema({
   id: Number,
   tasks: [db.tasksSchema], // FIXME questionable, not like other
-  name: {type: String, required: true, unique: false},
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: [
+      function(name) {
+        return name.trim().length >= 3;
+      },
+      'Name too short'
+    ]
+  },
+  description: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: [
+      function(description) {
+        return description.trim().length >= 3;
+      },
+      'Description too short'
+    ]
+  },
   created_at: Date,
   updated_at: Date
 });

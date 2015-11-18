@@ -9,6 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
 var tasks = require('./routes/tasks');
+var projects = require('./routes/projects');
 var app = express();
 // var expressJwt = require('express-jwt');
 
@@ -32,6 +33,7 @@ app.use('/api', routes);
 app.use('/api/users', users);
 app.use('/api/teams', teams);
 app.use('/api/tasks', tasks);
+app.use('/api/projects', projects);
 
 
 
