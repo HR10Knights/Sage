@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Team = require('../models/team');
 
+var util = require('../util');
 /* GET team listing. */
 router.get('/', function(req, res, next) {
   Team.find({}, function(err, teams) {

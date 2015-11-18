@@ -3,6 +3,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Task = require('../models/task');
 
+var util = require('../util');
 // List tasks
 router.get('/', function(req, res, next) {
   Task.find({}, function(err, tasks) {
