@@ -7,9 +7,11 @@ var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var mongoose = require('mongoose');
 var Task = require('../../doozy/models/task');
+var User = require('../../doozy/models/user');
 var con = mongoose.createConnection('mongodb://localhost/doozytest');
-describe('Tasks API', function() {
 
+
+describe('Tasks API', function() {
 
   after(function(done) {
     con.db.dropDatabase(function(err, result) {
@@ -76,7 +78,7 @@ describe('Tasks API', function() {
   });
 
   describe('stages and assignments', function() {
-    var id;
+    var task, user;
 
     before(function (done) {
       request(app)
@@ -87,16 +89,121 @@ describe('Tasks API', function() {
         })
         .expect(201)
         .then(function() {
-          Task.find({name: 'findme'}, function(err, tasks) {
-            
-            id = tasks[0]._id;
+          Task.findOne({name: 'findme'}, function(err, foundTask) {
+            task = foundTask;
+
+            request(app)
+              .post('/api/signup')
+              .send({
+                'username': 'testuser',
+                'password': 'testpass',
+                'teamname': 'test team' 
+              })
+              .expect(201)
+              .then(function () {
+                User.findOne({username: 'testuser'}, function (err, foundUser) {
+                  user = foundUser;
+                  done();
+                });
+              });
+          });
+        });
+    });
+
+    it('should be able to update a task to complete', function (done) {
+      expect(task.isCompleted).to.equal(false);
+      task.isCompleted = true;
+
+      request(app)
+        .put('/api/tasks/' + task._id)
+        .send(task)
+        .then(function () {
+          Task.findOne({name: 'findme'}, function (err, foundTask) {
+
+            expect(foundTask.isCompleted).to.equal(true);
             done();
           });
         });
-
     });
 
+    it('should be able to update a task to incomplete', function (done) {
+      expect(task.isCompleted).to.equal(true);
+      task.isCompleted = false;
 
+      request(app)
+        .put('/api/tasks/' + task._id)
+        .send(task)
+        .expect(205)
+        .then(function () {
+          Task.findOne({name: 'findme'}, function (err, foundTask) {
+            if (err) {
+              console.log("Err: ", err);
+            }
+
+            expect(foundTask.isCompleted).to.equal(false);
+            done();
+          });
+        });
+    });
+
+    it('should be able to add an assignee', function (done) {
+      expect(task.users).to.have.length(0);
+      task.users.push(user._id);
+
+      request(app)
+        .put('/api/tasks/' + task._id)
+        .send(task)
+        .expect(205)
+        .then(function () {
+          Task.findOne({name: 'findme'}, function (err, foundTask) {
+            if (err) {
+              console.log("Err: ", err);
+            }
+
+            task = foundTask;
+            expect(task.users).to.have.length(1);
+            done();
+          });
+        });
+    });
+
+    it('should be able to add an assignee after assignees were cleared', function (done) {
+      expect(task.users).to.have.length(1); // from last test FIXME make tests modular
+      task.users = [];
+
+      request(app)
+        .put('/api/tasks/' + task._id)
+        .send(task)
+        .expect(205)
+        .then(function () {
+          Task.findOne({name: 'findme'}, function (err, foundTask) {
+            if (err) {
+              console.log("Err: ", err);
+            }
+
+            expect(foundTask.users).to.have.length(0);
+            task.users.push(user._id);
+
+              request(app)
+                .put('/api/tasks/' + task._id)
+                .send(task)
+                .expect(205)
+                .then(function () {
+                  Task.findOne({name: 'findme'}, function (err, foundTask) {
+                    if (err) {
+                      console.log("Err: ", err);
+                    }
+
+                    expect(foundTask.users).to.have.length(1);
+                    done();
+                  });
+                });
+          });
+        });
+      });
+
+    xit('should respond with whether or not changes were made', function (done) {
+      // body...
+    });
   });
-
 });
