@@ -66,13 +66,13 @@ View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](_CONTRIBUTING.md) for contribution guidelines.
 
 ## Style Guide
 
-See [STYLE-GUIDE.md](STYLE-GUIDE.md) for style guidelines.
+See [STYLE-GUIDE.md](_STYLE-GUIDE.md) for style guidelines.
 
 ## Press Release
 
-See [PRESS-RELEASE.md](PRESS-RELEASE.md) for more information about the app.
+See [PRESS-RELEASE.md](_PRESS-RELEASE.md) for more information about the app.
 
