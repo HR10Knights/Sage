@@ -96,20 +96,7 @@ describe('Tasks API', function() {
 
     });
 
-    it('completes a task', function(done) {
-      request(app)
-        .post('/api/tasks/complete')
-        .send({
-          'id': id
-        })
-        .expect(200)
-        .then(function() {
-          Task.find({_id: id}, function(err, tasks) {
-            expect(tasks[0].status).to.be.equal('Complete');
-            done();
-          });
-        });
-    });
+
   });
 
 });

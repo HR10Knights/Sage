@@ -57,11 +57,9 @@ db.tasksSchema = new Schema({
       'Description too short'
     ]
   },
-  status: {
-    type: String,
-    required: true,
-    unique: false,
-    enum: ['Staging', 'Assigned', 'Complete']
+  isCompleted: {
+    type: Boolean,
+    default: false
   },
   // due_date: Date, // TODO Add this
   created_at: Date,
