@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var teams = require('./routes/teams');
 var tasks = require('./routes/tasks');
 var app = express();
-var expressJwt = require('express-jwt');
+// var expressJwt = require('express-jwt');
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 // Client Route
 app.use(express.static(path.join(__dirname, '/client')));
-app.use(expressJwt({ secret: 'secret' }));
+// app.use(expressJwt({ secret: 'secret' }));
 
 // Controllers
 app.use('/api', routes);
