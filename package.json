@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "test": "grunt test",
-    "start": "node ./doozy/index.js"
+    "postinstall": "./node_modules/bower/bin/bower install",
+    "start": "node ./doozy/server.js"
+
   },
   "dependencies": {
     "angular": "^1.4.7",
