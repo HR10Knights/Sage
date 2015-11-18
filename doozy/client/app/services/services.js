@@ -2,8 +2,27 @@ angular.module('app.services', [])
 
 .factory('Tasks', function($http) {
   
-  return {
+  // var getAll = function() {
+  //   return $http({
+  //     method: 'GET',
+  //     url: '/api/tasks'
+  //   })
+  //   .then(function (resp) {
+  //     return resp.data;
+  //   });
+  // };
 
+  var getAll = function() {
+  	return sampleTasks;
+  }
+
+  var postTask = function() {
+    
+  }
+
+  return {
+    getAll: getAll,
+    postTask: postTask
   };
 })
 .factory('Auth', function ($http, $location, $window) {
@@ -52,3 +71,56 @@ angular.module('app.services', [])
     signout: signout
   };
 });
+
+var luke = {username: 'luke'};
+var andrew = {username: 'andrew'};
+var zach = {username: 'zach'};
+var jeff = {username: 'jeff'};
+var eugene = {username: 'eugene'};
+
+var task1 = {
+	title: 'make UI',
+	assignees: [luke],
+	description: null, 
+  completed: false
+};
+
+var task2 = {
+	title: 'send auth token to server',
+	assignees: [],
+	description: null, 
+  completed: false
+};
+
+var task3 = {
+	title: 'make login page',
+	assignees: [],
+	description: null, 
+  completed: true
+};
+
+var task4 = {
+	title: 'backend routes for signup',
+	assignees: [],
+	description: null, 
+  completed: false
+};
+
+var task5 = {
+	title: 'angular routes',
+	assignees: [luke, jeff],
+	description: null, 
+  completed: false
+};
+
+var task6 = {
+	title: 'automated deployment',
+	assignees: [eugene],
+	description: null, 
+  completed: true
+};
+
+var sampleTasks = [task1, task2, task3, task4, task5, task6];
+
+
+
