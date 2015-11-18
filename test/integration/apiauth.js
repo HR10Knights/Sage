@@ -12,21 +12,13 @@ var con;
 describe('Authentication', function() {
   before(function(done) {
     con = mongoose.createConnection('mongodb://localhost/doozytest');
-
     done();
-
-    // mongoose.connection.on('open', function(){
-    //   con.connection.db.dropDatabase(function(err, result){
-    //     done();
-    //   });
-    // });
   });
 
   after(function(done) {
     con.db.dropDatabase(function(err, result) {
       done();
     });
-    done();
   });
 
   describe('Teams', function () {
