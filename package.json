@@ -22,7 +22,9 @@
     "jwt-simple": "^0.3.1",
     "mongoose": "^4.2.6",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "bower": "~1.6"
+   
   },
   "devDependencies": {
     "chai": "^3.4.1",
