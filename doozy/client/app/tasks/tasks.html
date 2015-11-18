@@ -1,0 +1,11 @@
+<div id='container' ng-cloak>
+<!--
+  <md-button class="md-raised md-primary" ng-click="showTask=true">Add Task</md-button>
+-->
+  <div class='taskList' ng-repeat='task in data.tasks | filter:search | orderBy:"created_at"'>
+    <div class='title'>{{ task.title }}</div>
+  </div>
+  <div class='taskDetails' ng-show='showTask'>
+    <p>This is a test</p>
+  </div>
+</div>  
