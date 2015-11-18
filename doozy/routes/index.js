@@ -49,7 +49,37 @@ router.post('/signup', function(req, res, next) {
           }
         });
       } else {
-        res.status(400).send('Team does not exist');
+        team = new Team({
+          name: teamname
+        });
+        team.save(function(err, newTeam) {
+          User.findOne({username: username}, function(err, user) {
+            if (!user) {
+              var newUser = new User({
+                username: username,
+                password: password
+              });
+              newUser.save(function(err, newUser) {
+                if (err) {
+                  res.send(404, err);
+                } else {
+                  newTeam.users.push(newUser);
+                  newTeam.save(function(err) {
+                    if (err) {
+                      res.send(404, err);
+                    } else {
+                      var token = jwt.encode(newUser, 'secret');
+                      res.status(201);
+                      res.json({token: token});
+                    }
+                  });
+                }
+              });
+            } else {
+              res.status(400).send('Username exists');
+            }
+          });
+        })
       }
     });
   } 
