@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "grunt test",
-    "start": "node ./doozy/server.js"
+    "start": "node ./doozy/index.js"
   },
   "dependencies": {
     "angular": "^1.4.7",
