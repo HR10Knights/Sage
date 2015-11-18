@@ -1,7 +1,11 @@
 angular.module('app.auth', [])
 
 .controller('AuthController', function ($scope, $window, $location, Auth) {
-  $scope.user = {};
+  $scope.user = {
+    username: '',
+    password: '',
+    teamname: ''
+  };
 
   $scope.signin = function () {
     Auth.signin($scope.user)

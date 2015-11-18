@@ -33,12 +33,12 @@ app.use(express.static(path.join(__dirname, '/client')));
 app.use('/api', routes);
 app.use('/api/users', users);
 app.use('/api/teams', teams);
-app.use('/api/tasks', tasks);
 app.use('/api/tasks', util.decode);
+app.use('/api/tasks', tasks);
 app.use('/api/projects', projects);
 
 // TODO refactor into a controller
 // TODO remove this
-checkAuth = util.checkAuth;
+// checkAuth = util.checkAuth;
 
 module.exports = app;
