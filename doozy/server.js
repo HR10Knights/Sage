@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var teams = require('./routes/teams');
 var tasks = require('./routes/tasks');
 var projects = require('./routes/projects');
+var util = require('./util');
 var app = express();
 // var expressJwt = require('express-jwt');
 
@@ -35,26 +36,8 @@ app.use('/api/teams', teams);
 app.use('/api/tasks', tasks);
 app.use('/api/projects', projects);
 
-// Todo refactor into a
-var checkAuth = function (req, res, next) {
-  var token = req.headers['x-access-token'];
-  if (!token) {
-    next(new Error('No token'));
-  } else {
-    var user = jwt.decode(token, 'secret');
-    var findUser = Q.nbind(User.findOne, User);
-    findUser({username: user.username})
-      .then(function (foundUser) {
-        if (foundUser) {
-          res.send(200);
-        } else {
-          res.send(401);
-        }
-      })
-      .fail(function (error) {
-        next(error);
-      });
-  }
-}
+// TODO refactor into a controller
+// TODO remove this
+checkAuth = util.checkAuth;
 
 module.exports = app;

@@ -4,6 +4,7 @@ var Team = require('../models/team');
 var User = require('../models/user');
 var jwt = require('jwt-simple');
 var expressJwt = require('express-jwt');
+var util = require('../util');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

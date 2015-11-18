@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var Team = require('../models/team');
+var util = require('../util');
 // curl -H "Content-Type: application/json" -X POST -d '{"username":"testuser", "password":"testpass", "teamname":"my team"}' http://localhost:3000/api/users/destroy
 router.post('/destroy', function(req, res, next) {
   var username = req.body.username;
