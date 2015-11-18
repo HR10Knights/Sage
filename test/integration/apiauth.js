@@ -90,15 +90,15 @@ describe('Authentication', function() {
           .expect(400)
           .end(done);
       });
-      it('should not create a user with an invalid team name', function(done) {
+      it('should create a team for a user with a new team name', function(done) {
         request(app)
           .post('/api/signup')
           .send({
             'username': 'testusertwo',
             'password': 'testpass',
-            'teamname': 'fake team' 
+            'teamname': 'make me a team' 
           })
-          .expect(400)
+          .expect(201)
           .end(done);
       });
       it('should not create a user with a blank username or password', function(done) {
