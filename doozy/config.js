@@ -35,9 +35,34 @@ db.teamsSchema = new Schema({
 db.tasksSchema = new Schema({
   id: Number,
   users: [ {type: mongoose.Schema.ObjectId, ref : 'User'} ],
-  name: {type: String, required: true, unique: false},
-  description: {type: String, required: true, unique: false},
-  status: {type: String, required: true, unique: false}, // TODO Change this to validate status is of certain types?
+  name: {
+    type: String,
+    required: true,
+    unique: false,
+    validate: [
+      function(name) {
+        return name.trim().length >= 3;
+      },
+      'Name too short'
+    ]
+  },
+  description: {
+    type: String,
+    required: true,
+    unique: false,
+    validate: [
+      function(description) {
+        return description.trim().length >= 3;
+      },
+      'Description too short'
+    ]
+  },
+  status: {
+    type: String,
+    required: true,
+    unique: false,
+    enum: ['Staging', 'Assigned', 'Complete']
+  },
   // due_date: Date, // TODO Add this
   created_at: Date,
   updated_at: Date

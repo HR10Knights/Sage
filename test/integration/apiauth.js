@@ -8,19 +8,24 @@ var db = require('../../doozy/config');
 var Team = require('../../doozy/models/team');
 var User = require('../../doozy/models/user');
 var mongoose = require('mongoose');
-
+var con;
 describe('Authentication', function() {
   before(function(done) {
-    var con = mongoose.connect('mongodb://localhost/doozytest');
-    mongoose.connection.on('open', function(){
-      con.connection.db.dropDatabase(function(err, result){
-        done();
-      });
-    });
+    con = mongoose.createConnection('mongodb://localhost/doozytest');
+
+    done();
+
+    // mongoose.connection.on('open', function(){
+    //   con.connection.db.dropDatabase(function(err, result){
+    //     done();
+    //   });
+    // });
   });
 
   after(function(done) {
-    mongoose.connection.close();
+    con.db.dropDatabase(function(err, result) {
+      done();
+    });
     done();
   });
 
