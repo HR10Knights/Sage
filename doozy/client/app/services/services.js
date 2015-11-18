@@ -26,13 +26,6 @@ angular.module('app.services', [])
   };
 })
 .factory('Auth', function ($http, $location, $window) {
-  // Don't touch this Auth service!!!
-  // it is responsible for authenticating our user
-  // by exchanging the user's username and password
-  // for a JWT from the server
-  // that JWT is then stored in localStorage as 'auth-token'
-  // after you signin/signup open devtools, click resources,
-  // then localStorage and you'll see your token from the server
   var signin = function (user) {
     return $http({
       method: 'POST',
@@ -56,11 +49,11 @@ angular.module('app.services', [])
   };
 
   var isAuth = function () {
-    return !!$window.localStorage.getItem('com.shortly');
+    return !!$window.localStorage.getItem('auth-token');
   };
 
   var signout = function () {
-    $window.localStorage.removeItem('com.shortly');
+    $window.localStorage.removeItem('auth-token');
     $location.path('/signin');
   };
 
