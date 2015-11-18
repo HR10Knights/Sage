@@ -31,6 +31,7 @@ describe('Authentication', function() {
         .expect(201)
         .end(done);
     });
+    
     it('should not create a team with a taken name', function(done) {
       request(app)
         .post('/api/teams/create')

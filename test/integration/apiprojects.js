@@ -7,22 +7,14 @@ var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var Project = require('../../doozy/models/project');
 var mongoose = require('mongoose');
-var con;
+var con = mongoose.createConnection('mongodb://localhost/doozytest');
 
 describe('Projects API', function() {
-  before(function(done) {
-    var con = mongoose.connect('mongodb://localhost/doozytest');
-    mongoose.connection.on('error', function() {});
-    mongoose.connection.on('open', function(){
-      con.connection.db.dropDatabase(function(err, result){
-        done();
-      });
-    });
-  });
 
   after(function(done) {
-    mongoose.connection.close();
-    done();
+    con.db.dropDatabase(function(err, result) {
+      con.close(done);
+    });
   });
 
   describe('/create', function () {
@@ -82,16 +74,6 @@ describe('Projects API', function() {
         .end(done);
     });
 
-    it('should not create a project with a taken description', function (done) {
-      request(app)
-        .post('/api/projects/create')
-        .send({
-          'description': 'test project description', // same description
-          'name': 'different test project'
-        })
-        .expect(400)
-        .end(done);
-    });
   });
 
   // READ

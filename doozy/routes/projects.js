@@ -17,7 +17,7 @@ router.get('/', function (req, res, next) {
 router.post('/create', function(req, res, next) {
   var description = req.body.description;
   var name = req.body.name;
-  Project.findOne({description: description, name: name}, function(err, project) { // FIXME
+  Project.findOne({name: name}, function(err, project) { // FIXME
     if (err) {
       res.sendStatus(500, err);
     }
