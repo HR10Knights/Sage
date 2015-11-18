@@ -45,11 +45,12 @@ router.put('/:id', function(req, res, next) {
 // outdated? curl example:
 // curl -H "Content-Type: application/json" -X POST -d '{"name":"my task","description":"my description"}' http://localhost:3000/api/tasks
 router.post('/', function(req, res, next) {
-  var name = req.body.name;
-  var description = req.body.description;
+  var users = req.body.users || [];
+
   var newTask = new Task({
-    name: name,
-    description: description
+    description: req.body.description,
+    name: req.body.name,
+    users: users
   });
   newTask.save(function(err, newTask) {
     if (err) {

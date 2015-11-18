@@ -78,7 +78,7 @@ describe('Tasks API', function() {
   });
 
   describe('stages and assignments', function() {
-    var task;
+    var task, user;
 
     before(function (done) {
       request(app)
@@ -90,10 +90,22 @@ describe('Tasks API', function() {
         .expect(201)
         .then(function() {
           Task.findOne({name: 'findme'}, function(err, foundTask) {
-
-            // id = foundTask._id;
             task = foundTask;
-            done();
+
+            request(app)
+              .post('/api/signup')
+              .send({
+                'username': 'testuser',
+                'password': 'testpass',
+                'teamname': 'test team' 
+              })
+              .expect(201)
+              .then(function () {
+                User.findOne({username: 'testuser'}, function (err, foundUser) {
+                  user = foundUser;
+                  done();
+                });
+              });
           });
         });
     });
@@ -135,45 +147,62 @@ describe('Tasks API', function() {
     });
 
     it('should be able to add an assignee', function (done) {
-
-      expect(task.users.length).to.equal(0);
+      expect(task.users).to.have.length(0);
+      task.users.push(user._id);
 
       request(app)
-        .post('/api/signup')
-        .send({
-          'username': 'testuser',
-          'password': 'testpass',
-          'teamname': 'test team' 
-        })
-        .expect(201)
+        .put('/api/tasks/' + task._id)
+        .send(task)
+        .expect(205)
         .then(function () {
-          User.findOne({username: 'testuser'}, function (err, user) {
+          Task.findOne({name: 'findme'}, function (err, foundTask) {
             if (err) {
               console.log("Err: ", err);
             }
-            task.users.push(user._id);
-          })
-          .then(function () {
 
-            request(app)
-              .put('/api/tasks/' + task._id)
-              .send(task)
-              .expect(205)
-              .then(function () {
-                Task.findOne({name: 'findme'}, function (err, foundTask) {
-                  if (err) {
-                    console.log("Err: ", err);
-                  }
-
-                  expect(foundTask.users).to.have.length(1);
-                  done();
-                });
-              });
-            });
+            task = foundTask;
+            expect(task.users).to.have.length(1);
+            done();
+          });
         });
     });
 
-    xit('should be able to remove an assignee', function () {
+    it('should be able to add an assignee after assignees were cleared', function (done) {
+      expect(task.users).to.have.length(1); // from last test FIXME make tests modular
+      task.users = [];
+
+      request(app)
+        .put('/api/tasks/' + task._id)
+        .send(task)
+        .expect(205)
+        .then(function () {
+          Task.findOne({name: 'findme'}, function (err, foundTask) {
+            if (err) {
+              console.log("Err: ", err);
+            }
+
+            expect(foundTask.users).to.have.length(0);
+            task.users.push(user._id);
+
+              request(app)
+                .put('/api/tasks/' + task._id)
+                .send(task)
+                .expect(205)
+                .then(function () {
+                  Task.findOne({name: 'findme'}, function (err, foundTask) {
+                    if (err) {
+                      console.log("Err: ", err);
+                    }
+
+                    expect(foundTask.users).to.have.length(1);
+                    done();
+                  });
+                });
+          });
+        });
+      });
+
+    xit('should respond with whether or not changes were made', function (done) {
       // body...
     });
   });
