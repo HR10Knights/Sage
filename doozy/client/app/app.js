@@ -23,4 +23,5 @@ angular.module('app', [
       redirectTo: '/tasks'
     });
 
+  $httpProvider.interceptors.push('AuthInterceptor');
 });

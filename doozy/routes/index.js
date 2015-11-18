@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Team = require('../models/team');
 var User = require('../models/user');
+var jwt = require('jwt-simple');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -34,7 +35,8 @@ router.post('/signup', function(req, res, next) {
                   if (err) {
                     res.send(404, err);
                   } else {
-                    res.send(201, 'created');
+                    var token = jwt.encode(newUser, 'secret');
+                    res.json({token: token});
                   }
                 });
               }
@@ -65,7 +67,8 @@ router.post('/login', function(req, res, next) {
         if (user) {
           user.comparePassword(password, function(match) {
             if (match) {
-              res.status(200).send(true);
+              var token = jwt.encode(user, 'secret');
+              res.json({token: token});
             } else {
               res.status(401).send('Password does not match');
             }
