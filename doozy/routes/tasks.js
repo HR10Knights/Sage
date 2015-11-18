@@ -2,11 +2,12 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var Task = require('../models/task');
+var User = require('../models/user');
 
 var util = require('../util');
 // List tasks
 router.get('/', function(req, res, next) {
-  Task.find({}, function(err, tasks) {
+  Task.find({}).populate('users').exec(function(err, tasks) {
     res.status(200).send(tasks);
   });
 });
@@ -14,7 +15,7 @@ router.get('/', function(req, res, next) {
 // View task
 router.get('/:id', function(req, res, next) {
   var taskId = mongoose.Types.ObjectId(req.params.id);
-  Task.find({_id: taskId}, function(err, tasks) {
+  Task.find({_id: taskId}).populate('users').exec(function(err, tasks) {
     res.status(200).send(tasks);
   });
 });
@@ -42,8 +43,7 @@ router.put('/:id', function(req, res, next) {
 });
 
 // Create task
-// outdated? curl example:
-// curl -H "Content-Type: application/json" -X POST -d '{"name":"my task","description":"my description"}' http://localhost:3000/api/tasks
+// curl -H "Content-Type: application/json" -X POST -d '{"name":"my task 2","description":"my description"}' http://localhost:3000/api/tasks
 router.post('/', function(req, res, next) {
   var users = req.body.users || [];
 
@@ -61,4 +61,34 @@ router.post('/', function(req, res, next) {
   });
 });
 
+// Assign task to user
+// curl -H "Content-Type: application/json" -X POST -d '{"user":"564cd72524d8b619223cd11b","task":"564d0970c7de37cd2bdb3ec2"}' http://localhost:3000/api/tasks/assign
+router.post('/assign', function(req, res, next) {
+  var user = req.body.user;
+  var task = req.body.task;
+
+  Task.findOne({_id: task}, function(err, task) {
+    if (err) {
+      res.sendStatus(404, err);
+      return;
+    }
+    User.findOne({_id: user}, function(err, user) {
+      if (err) {
+        res.sendStatus(404, err);
+        return;
+      }
+      task.users.push(user);
+      user.tasks.push(task);
+      task.save(function(err, t) {
+        user.save(function(err, u) {
+          if (err) {
+            res.sendStatus(404, err);
+          } else {
+            res.sendStatus(200);
+          }
+        });
+      });
+    });
+  });
+});
 module.exports = router;
