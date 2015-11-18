@@ -37,4 +37,16 @@ router.post('/', function(req, res, next) {
   });
 });
 
+// Complete task
+// curl -H "Content-Type: application/json" -X POST -d '{"id":"564ba3c274dcdd15294eb3ed"}' http://localhost:3000/api/tasks/complete
+router.post('/complete', function(req, res, next) {
+  var id = req.body.id;
+  Task.update({_id: id}, { $set: { status: 'Complete' }}, function(err) {
+    if (err) {
+      res.send(404).send('Not found');
+    } else {
+      res.sendStatus(200);
+    }
+  })
+});
 module.exports = router;

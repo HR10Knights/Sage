@@ -11,21 +11,15 @@ var con;
 describe('Tasks API', function() {
   before(function(done) {
     con = mongoose.createConnection('mongodb://localhost/doozytest');
-    // mongoose.connection.on('error', function() {});
     done();
-    // mongoose.connection.on('open', function(){
-    //   con.connection.db.dropDatabase(function(err, result){
-    //     if (err) {
-    //       throw err;
-    //     }
-    //     done();
-    //   });
-    // });
   });
+
   after(function(done) {
-    
-    done();
+    con.db.dropDatabase(function(err, result) {
+      done();
+    });
   });
+
   it('creates a task', function(done) {
     request(app)
       .post('/api/tasks')
@@ -67,49 +61,57 @@ describe('Tasks API', function() {
     request(app)
       .post('/api/tasks')
       .send({
-        'name': 'findme',
-        'description': 'find me'
+        'name': 'abc123123',
+        'description': 'abc123123abc123123'
       })
-      .expect(201);
-    
-    var id;
-
-    Task.find({name: 'findme'}, function(err, tasks) {
-      id = tasks[0]._id;
-      request(app)
-        .get('/api/tasks/' + id)
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(done);
-    });
+      .expect(201)
+      .then(function() {
+        var id;
+        Task.find({}, function(err, tasks) {
+          id = tasks[0]._id;
+          request(app)
+            .get('/api/tasks/' + id)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(done);
+        });
+      });
   });
 
   describe('stages and assignments', function() {
     var id;
 
-    beforeEach(function (done) {
+    before(function (done) {
       request(app)
         .post('/api/tasks')
         .send({
           'name': 'findme',
-          'description': 'find me'
+          'description': 'a test description'
         })
-        .expect(201);
+        .expect(201)
+        .then(function() {
+          Task.find({name: 'findme'}, function(err, tasks) {
+            
+            id = tasks[0]._id;
+            done();
+          });
+        });
 
-      Task.find({name: 'findme'}, function(err, tasks) {
-        id = tasks[0]._id;
-        done();
-      });
     });
 
     it('completes a task', function(done) {
       request(app)
         .post('/api/tasks/complete')
         .send({
-          '_id': id
+          'id': id
         })
         .expect(200)
-        .end(done);
+        .then(function() {
+          Task.find({_id: id}, function(err, tasks) {
+            expect(tasks[0].status).to.be.equal('Complete');
+            done();
+          });
+        });
     });
   });
 

@@ -41,7 +41,7 @@ db.tasksSchema = new Schema({
     unique: false,
     validate: [
       function(name) {
-        return name.length >= 3;
+        return name.trim().length >= 3;
       },
       'Name too short'
     ]
@@ -52,7 +52,7 @@ db.tasksSchema = new Schema({
     unique: false,
     validate: [
       function(description) {
-        return description.length >= 3;
+        return description.trim().length >= 3;
       },
       'Description too short'
     ]
@@ -61,7 +61,7 @@ db.tasksSchema = new Schema({
     type: String,
     required: true,
     unique: false,
-    enum: ['Staging', 'Assigned', 'Completed']
+    enum: ['Staging', 'Assigned', 'Complete']
   },
   // due_date: Date, // TODO Add this
   created_at: Date,
