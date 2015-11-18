@@ -25,7 +25,8 @@ module.exports = function(grunt) {
         test: {
           options: {
               reporter: 'nyan',
-              growl: true
+              growl: true,
+              clearRequireCache: true
           },
           src: ['test/unit/*.js', 'test/integration/*.js']
         }

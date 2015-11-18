@@ -7,16 +7,13 @@ var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var mongoose = require('mongoose');
 var Task = require('../../doozy/models/task');
-var con;
+var con = mongoose.createConnection('mongodb://localhost/doozytest');
 describe('Tasks API', function() {
-  before(function(done) {
-    con = mongoose.createConnection('mongodb://localhost/doozytest');
-    done();
-  });
+
 
   after(function(done) {
     con.db.dropDatabase(function(err, result) {
-      done();
+      con.close(done);
     });
   });
 
