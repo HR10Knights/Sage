@@ -18,8 +18,8 @@
     1. [Tasks](#tasks)
 1. [Team](#team)
 1. [Contributing](#contributing)
-1. [Style Guide](#Style Guide)
-1. [Press Release](#Press Release)
+1. [Style Guide](#style-guide)
+1. [Press Release](#press-release)
 
 ## Usage
 
