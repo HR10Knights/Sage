@@ -34,6 +34,7 @@ app.use('/api', routes);
 app.use('/api/users', users);
 app.use('/api/teams', teams);
 app.use('/api/tasks', tasks);
+app.use('/api/tasks', util.decode);
 app.use('/api/projects', projects);
 
 // TODO refactor into a controller
