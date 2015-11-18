@@ -32,6 +32,9 @@
 - Grunt
 - Angular Material
 - npm
+- Bower
+- Travis CI
+- Heroku
 
 ## Development
 
@@ -50,7 +53,7 @@ bower install
 * Sign in to or create team
 * Team has one project
 * Project has many tasks
-* Tasks has one state
+* Tasks have one state
   * Staging (default)
   * In progress
   * Complete
@@ -63,4 +66,13 @@ View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [CONTRIBUTING.md](_CONTRIBUTING.md) for contribution guidelines.
+
+## Style Guide
+
+See [STYLE-GUIDE.md](_STYLE-GUIDE.md) for style guidelines.
+
+## Press Release
+
+See [PRESS-RELEASE.md](_PRESS-RELEASE.md) for more information about the app.
+
