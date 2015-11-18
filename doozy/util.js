@@ -1,24 +1,23 @@
 var util = {
 
-  checkAuth: function (req, res, next) {
+  decode: function (req, res, next) {
     var token = req.headers['x-access-token'];
+    var user;
+​
     if (!token) {
-      next(new Error('No token'));
-    } else {
-      var user = jwt.decode(token, 'secret');
-      var findUser = Q.nbind(User.findOne, User);
-      findUser({username: user.username})
-        .then(function (foundUser) {
-          if (foundUser) {
-            res.send(200);
-          } else {
-            res.send(401);
-          }
-        })
-        .fail(function (error) {
-          next(error);
-        });
+      return res.send(403); // send forbidden if a token is not provided
     }
+​
+    try {
+      // decode token and attach user to the request
+      // for use inside our controllers
+      user = jwt.decode(token, 'secret');
+      req.user = user;
+      next();
+    } catch(error) {
+      return next(error);
+    }
+​
   }
 };
 
