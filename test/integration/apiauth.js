@@ -60,20 +60,14 @@ describe('Authentication', function() {
     it('should check to see if a team exists when it does', function(done) {
       request(app)
         .get('/api/teams/exists?name=test%20team')
-        .expect(200)
-        .expect(function(res) {
-          res.body = 'true';
-        })
+        .expect(200, 'true')
         .end(done);
     });
 
     it('should check to see if a team exists when it doesnt', function(done) {
       request(app)
-        .get('/api/teams/exists?name=fake%20team')
-        .expect(200)
-        .expect(function(res) {
-          res.body = 'false';
-        })
+        .get('/api/teams/exists?name=weofaje')
+        .expect(200, 'false')
         .end(done);
     });
 
@@ -146,9 +140,6 @@ describe('Authentication', function() {
             'teamname': 'test team'
           })
           .expect(200)
-          .expect(function(res) {
-            res.body = 'true';
-          })
           .end(done);
       });
 
@@ -160,10 +151,7 @@ describe('Authentication', function() {
             'password': 'fakepass',
             'teamname': 'test team'
           })
-          .expect(401)
-          .expect(function(res) {
-            res.body = 'false';
-          })
+          .expect(401, 'Password does not match')
           .end(done);
       });
 
@@ -175,10 +163,7 @@ describe('Authentication', function() {
             'password': 'fakepass',
             'teamname': 'test team'
           })
-          .expect(401)
-          .expect(function(res) {
-            res.body = 'false';
-          })
+          .expect(401, 'Username does not exist')
           .end(done);
       });
       it('should not log in a user with an invalid team name', function(done) {
@@ -189,10 +174,7 @@ describe('Authentication', function() {
             'password': 'fakepass',
             'teamname': 'fake team'
           })
-          .expect(401)
-          .expect(function(res) {
-            res.body = 'false';
-          })
+          .expect(401, 'Team does not exist')
           .end(done);
       });
     });

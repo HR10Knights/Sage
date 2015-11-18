@@ -15,8 +15,8 @@ router.get('/', function(req, res, next) {
 // returns true or false
 router.get('/exists', function(req, res, next) {
   var name = req.query.name;
-  Team.find({name: name}, function(err, team) {
-    if (team) {
+  Team.find({name: name}, function(err, teams) {
+    if (teams.length > 0) {
       res.status(200).send(true);
     } else {
       res.status(200).send(false);
