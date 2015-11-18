@@ -18,3 +18,4 @@ Icon
 node_modules/
 client/lib
 doozy/client/lib
+npm-debug.log
