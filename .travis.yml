@@ -1,5 +1,9 @@
 language: node_js
+services:
+  - mongodb
 node_js:
   - "0.12.7"
 before_script:
+  - sleep 10
+  - mongo mydb_test --eval 'db.addUser("travis", "test");'
   - npm install grunt-cli -g
