@@ -35,9 +35,9 @@ var SeedData = {
         team.save(function(err, t) {
           user.save(function(err, u) {
             console.log('Created user and team');
-          })
-        })
-      })
+          });
+        });
+      });
     }
 
   },
