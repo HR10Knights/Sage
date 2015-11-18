@@ -3,6 +3,7 @@ var router = express.Router();
 var Team = require('../models/team');
 var User = require('../models/user');
 var jwt = require('jwt-simple');
+var expressJwt = require('express-jwt');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
