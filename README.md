@@ -18,6 +18,8 @@
     1. [Tasks](#tasks)
 1. [Team](#team)
 1. [Contributing](#contributing)
+1. [Style Guide](#style-guide)
+1. [Press Release](#press-release)
 
 ## Usage
 
@@ -62,7 +64,7 @@ bower install
 * Can view all tasks or your own
 
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/HR10Knights/HR10Knights/issues?q=is%3Aissue+is%3Aopen)
 
 
 ## Contributing
