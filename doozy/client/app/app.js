@@ -7,15 +7,15 @@ angular.module('app', [
 .config(function($routeProvider, $httpProvider) {
   $routeProvider
     .when('/signin', {
-      templateUrl: 'auth/signin.html',
+      templateUrl: '/app/auth/signin.html',
       controller: 'AuthController'
     })
     .when('/signup', {
-      templateUrl: 'auth/signup.html',
+      templateUrl: '/app/auth/signup.html',
       controller: 'AuthController'
     })
     .when('/tasks', {
-      templateUrl: 'tasks/tasks.html',
+      templateUrl: '/app/tasks/tasks.html',
       controller: 'TasksController',
       authenticate: true,
     })
