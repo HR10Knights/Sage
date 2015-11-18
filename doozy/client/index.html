@@ -21,7 +21,7 @@
           <div class='task' ng-repeat='task in data.tasks'>
             <div 
               class='title' 
-              ng-if='!task.completed && !task.assignee' 
+              ng-if='!task.completed && task.assignees.length === 0' 
               ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
               {{ task.title }}
             </div>
@@ -33,7 +33,7 @@
           <div class='task' ng-repeat='task in data.tasks'>
             <div 
               class='title' 
-              ng-if='!task.completed && task.assignee'
+              ng-if='!task.completed && task.assignees.length > 0'
               ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
               {{ task.title }}
             </div>
@@ -57,7 +57,7 @@
       <div class='taskDetails' ng-show='showTask'>
         <input name='title' type='text' ng-model='task.title' placeholder='Add a task'>
         <br>
-        <input name='assignee' type='text' ng-model='task.assignee' placeholder='Add an assignee'>
+        <input name='assignees' type='text' ng-model='task.assignees' placeholder='Add an assignee'>
         <br>
         <input name='description' type='text' ng-model='task.description' placeholder='Add a description'>
         <br>

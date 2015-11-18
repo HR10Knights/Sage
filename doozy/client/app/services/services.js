@@ -13,15 +13,7 @@ angular.module('app.services', [])
   // };
 
   var getAll = function() {
-  	var task1 = {title: 'make UI', completed: false};
-  	var task2 = {title: 'make login page', completed: true};
-  	var task3 = {title: 'send auth token to server', completed: false};
-  	var task4 = {title: 'authorization for signup', completed: true};
-  	var task5 = {title: 'angular routes', completed: false};
-  	var task6 = {title: 'this is an assigned task', completed: false, assignee: 'Luke'};
-  	var task7 = {title: 'this is an assigned and completed task', completed: true, assignee: 'Luke'};
-  
-    return [task1, task2, task3, task4, task5, task6, task7];
+  	return sampleTasks;
   }
 
   var postTask = function() {
@@ -79,3 +71,56 @@ angular.module('app.services', [])
     signout: signout
   };
 });
+
+var luke = {username: 'luke'};
+var andrew = {username: 'andrew'};
+var zach = {username: 'zach'};
+var jeff = {username: 'jeff'};
+var eugene = {username: 'eugene'};
+
+var task1 = {
+	title: 'make UI',
+	assignees: [luke],
+	description: null, 
+  completed: false
+};
+
+var task2 = {
+	title: 'send auth token to server',
+	assignees: [],
+	description: null, 
+  completed: false
+};
+
+var task3 = {
+	title: 'make login page',
+	assignees: [],
+	description: null, 
+  completed: true
+};
+
+var task4 = {
+	title: 'backend routes for signup',
+	assignees: [],
+	description: null, 
+  completed: false
+};
+
+var task5 = {
+	title: 'angular routes',
+	assignees: [luke, jeff],
+	description: null, 
+  completed: false
+};
+
+var task6 = {
+	title: 'automated deployment',
+	assignees: [eugene],
+	description: null, 
+  completed: true
+};
+
+var sampleTasks = [task1, task2, task3, task4, task5, task6];
+
+
+

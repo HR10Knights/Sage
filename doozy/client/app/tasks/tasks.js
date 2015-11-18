@@ -24,7 +24,7 @@ angular.module('app.tasks', [])
       for (var i = 0; i < $scope.data.tasks.length; i++) {
       	var currentTask = $scope.data.tasks[i];
       	if ( task.title === currentTask.title ) {
-      		currentTask.assignee = task.assignee;
+      		currentTask.assingees = [{username: task.assingees}];
       		currentTask.description = task.description;
       		found = true;
       		break;
@@ -41,7 +41,7 @@ angular.module('app.tasks', [])
 	$scope.loadTaskDetails = function(task) {
 		$scope.task = {};
 		$scope.task.title = task.title;
-		$scope.task.assignee = task.assignee;
+		$scope.task.assignees = task.assignees.length > 0 ? task.assignees[0].username : null;  
 		$scope.task.description = task.description;
 		$scope.buttonText = 'Edit Task';
 	};
