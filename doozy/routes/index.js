@@ -36,6 +36,7 @@ router.post('/signup', function(req, res, next) {
                     res.send(404, err);
                   } else {
                     var token = jwt.encode(newUser, 'secret');
+                    res.status(201);
                     res.json({token: token});
                   }
                 });
