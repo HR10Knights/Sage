@@ -6,6 +6,7 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
+
 .taskListItem:focus {
   outline: none;
   border: 0;
@@ -30,3 +31,12 @@
   bottom: 0px;
   right: 15px;
 }
+
+ .taskListItem:focus {
+    outline: none;
+    border: 0;
+ }
+
+.inputdemoErrors .inputErrorsApp {
+  min-height: 48px; }
+

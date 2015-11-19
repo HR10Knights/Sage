@@ -3,6 +3,7 @@ angular.module('app.tasks', ['ngMaterial'])
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
 	$scope.showAddTaskButton = true;
   $scope.data = {};
+
   $scope.data.tasks = [];
   $scope.getTasks = function() {
 		// $scope.data.tasks = Tasks.getAll();
@@ -45,6 +46,9 @@ angular.module('app.tasks', ['ngMaterial'])
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
         Tasks.updateTask(task)
+          .then(function(resp) {
+            $scope.getTasks();
+          })
           .catch(function(err) {
             console.log(err);
           });
@@ -57,12 +61,13 @@ angular.module('app.tasks', ['ngMaterial'])
     // if the task does not already exists, create a new task
     if ( !found ) {
       Tasks.createTask(task)
+        .then(function(resp) {
+          $scope.getTasks();
+        })
         .catch(function(err) {
           console.log(err);
         });
     }
-
-    $scope.getTasks();
   };
 
   $scope.deleteTask = function(task) {
@@ -72,23 +77,27 @@ angular.module('app.tasks', ['ngMaterial'])
       });
   };
 
-  $scope.completeTask = function(task) {
-
-  };
-
-
 	$scope.loadTaskDetails = function(task) {
-		$scope.task = {};
+    // hide the 'Add Task' button
+		$scope.showAddTaskButton=false;
+    // show the task form
+    $scope.showTaskForm = true;
+    
+    // load the task details into the form
+    $scope.task = {};
     $scope.task._id = task._id;
 		$scope.task.name = task.name;
 		$scope.task.users = task.users.length > 0 ? task.users[0].username : null;  
 		$scope.task.description = task.description;
-		$scope.buttonText = 'Edit Task';
 	};
 
-	$scope.clearTaskFields = function() {
-    $scope.task = {};
-    $scope.buttonText = 'Add Task';
+	$scope.resetTaskDetails = function() {
+    $scope.task.name = null;
+    $scope.task.assigned = null;
+    $scope.task.description = null;
+    $scope.taskForm.$setUntouched();
+    $scope.showTaskForm = false;
+    $scope.showAddTaskButton = true;
 	};
 
   $scope.stagingFilter = function(task) {
