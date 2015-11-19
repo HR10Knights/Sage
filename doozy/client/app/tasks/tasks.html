@@ -1,6 +1,9 @@
 <div flex layout="column" layout-align="center center">
   <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
-  <h1 style="text-align:center" class="signheader">Sage</h1>
+  <h1 style="text-align:center" class="signheader">
+  Sage
+  <p id="teamname">{{ data.teamname }}</p>
+  </h1>
 
   <md-content id="taskdisplay" ng-cloak>
 
@@ -57,7 +60,7 @@
     <md-content class='taskList'>
 
       <md-subheader class="md-no-sticky">Staging</md-subheader>
-      <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter">
+      <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter" class="fx-fade-right fx-speed-500">
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
@@ -74,7 +77,7 @@
       <md-divider></md-divider>
 
       <md-subheader class="md-no-sticky">Assigned</md-subheader>
-      <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter">
+      <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter" class="fx-fade-right fx-speed-500">
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
@@ -92,7 +95,7 @@
       <md-divider></md-divider>
 
       <md-subheader class="md-no-sticky">Complete</md-subheader>
-      <md-list-item ng-repeat="task in data.tasks | filter : completedFilter">
+      <md-list-item ng-repeat="task in data.tasks | filter : completedFilter" class="fx-fade-right fx-speed-500">
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
@@ -108,9 +111,9 @@
       </md-list-item> 
     </md-content>
 
-    <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
 
   </md-content>
 
+    <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
 </div>
 </div>

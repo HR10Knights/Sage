@@ -13,7 +13,7 @@ angular.module('app.tasks', ['ngMaterial'])
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
 	$scope.showAddTaskButton = true;
   $scope.data = {};
-
+  $scope.data.teamname = Auth.getTeamName();
   $scope.data.tasks = [];
   $scope.getTasks = function() {
       Tasks.getAll()
@@ -62,7 +62,6 @@ angular.module('app.tasks', ['ngMaterial'])
       if ( task._id && task._id === currentTask._id ) {
         Tasks.updateTask(task)
           .then(function(resp) {
-            $scope.getTasks();
           })
           .catch(function(err) {
             console.log(err);

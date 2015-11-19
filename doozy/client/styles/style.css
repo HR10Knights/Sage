@@ -6,7 +6,10 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
-
+body {
+  padding-top: 20px;
+  background: #F6F7F9;
+}
 
 .taskListItem:focus {
   outline: none;
@@ -27,10 +30,12 @@
 .signheader {
   margin-bottom: 20px;
   color: rgb(76,175,80);
+  font-size: 3em;
+  font-family: 'Grand Hotel', cursive;
 }
 .logoutbtn {
-  position: fixed;
-  top: 10px;
+  position: absolute;
+  top: 50px;
   right: 15%;
 }
 
@@ -75,9 +80,20 @@
 
 #taskdisplay {
   padding-top: 20px;
+  padding-bottom: 25px;
 }
 
 .userdisplay {
   padding-left: 20px;
   color: #888;
+}
+
+#teamname {
+    font-family: HelveticaNeue-Light, 'Helvetica Neue', Helvetica;
+    color: #888;
+    font-size: .35em;
+}
+
+#signInBtn {
+  margin-left: 25%;
 }
