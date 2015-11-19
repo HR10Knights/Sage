@@ -11,7 +11,7 @@
 
 ## Table of Contents
 
-1. [Usage](#Usage)
+1. [Usage](#usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
@@ -20,6 +20,7 @@
 1. [Contributing](#contributing)
 1. [Style Guide](#style-guide)
 1. [Press Release](#press-release)
+1. [Misc](#misc)
 
 ## Usage
 
@@ -79,3 +80,12 @@ See [STYLE-GUIDE.md](_STYLE-GUIDE.md) for style guidelines.
 
 See [PRESS-RELEASE.md](_PRESS-RELEASE.md) for more information about the app.
 
+## Misc
+
+Stories in ready at Waffle.io:
+
+[![Stories in Ready](https://badge.waffle.io/HR10Knights/HR10Knights.svg?label=ready&title=Ready)](http://waffle.io/HR10Knights/HR10Knights)
+
+Throughput graph from Waffle.io:
+
+[![Throughput Graph](https://graphs.waffle.io/HR10Knights/HR10Knights/throughput.svg)](https://waffle.io/HR10Knights/HR10Knights/metrics)
