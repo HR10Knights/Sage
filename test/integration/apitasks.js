@@ -269,7 +269,7 @@ describe('Tasks API', function() {
               })
               .expect(404)
               .end(done);
-          })
+          });
       });
     });
 
