@@ -73,7 +73,7 @@ angular.module('app.tasks', ['ngMaterial'])
   };
 
   $scope.completeTask = function(task) {
-
+    task.isCompleted = !task.isCompleted;
   };
 
 

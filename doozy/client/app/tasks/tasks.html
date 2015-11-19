@@ -1,3 +1,4 @@
+
 <md-content ng-cloak>
 
   <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="" ng-show='showAddTaskButton'>
@@ -17,13 +18,17 @@
           <div ng-message="required">This is required.</div>
         </div>
       </md-input-container>
+
       <md-input-container flex>
         <label>Assignee</label>
         <md-select ng-model="task.assigned">
           <md-option value="">Unassigned</md-option>
-          <md-option ng-repeat="user in data.users" value="{{user._id}}">{{user.username}}</md-option>
+          <md-option ng-repeat="user in data.users" value="{{user._id}}">
+            {{user.username}}
+          </md-option>
         </md-select>
       </md-input-container>
+
       <md-input-container class="md-block">
         <label>Description</label>
         <textarea ng-model="task.description" rows="3" columns="1" md-maxlength="150" rows="5"></textarea>
@@ -32,7 +37,7 @@
         <md-button 
           class="button md-raised md-primary" 
           ng-click="showTask=false; updateTask(task); task = null; showAddTaskButton=true;">Submit</md-button>
-    </section>
+      </section>
     </form>
   </md-content>
 
@@ -90,4 +95,5 @@
   </md-content>
   <md-button class="md-raised logoutbtn" ng-click="signout()">Sign Out</md-button>
 </md-content>
+
 
