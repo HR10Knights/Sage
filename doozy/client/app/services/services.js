@@ -60,6 +60,8 @@ angular.module('app.services', [])
 })
 
 .factory('Auth', function ($http, $location, $window) {
+  var teamName = '';
+
   var signin = function (user) {
     return $http({
       method: 'POST',
@@ -67,6 +69,7 @@ angular.module('app.services', [])
       data: user
     })
     .then(function (resp) {
+      teamName = user.teamname;
       return resp.data.token;
     });
   };
@@ -78,6 +81,7 @@ angular.module('app.services', [])
       data: user
     })
     .then(function (resp) {
+      teamName = user.teamname;
       return resp.data.token;
     });
   };
@@ -90,11 +94,15 @@ angular.module('app.services', [])
     $window.localStorage.removeItem('auth-token');
     $location.path('/signin');
   };
+  var getTeamName = function () {
+    return teamName;
+  };
 
   return {
     signin: signin,
     signup: signup,
     isAuth: isAuth,
-    signout: signout
+    signout: signout,
+    getTeamName: getTeamName
   };
 });

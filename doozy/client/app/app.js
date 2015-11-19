@@ -2,7 +2,9 @@ angular.module('app', [
   'app.services',
   'app.tasks',
   'app.auth',
-  'ngRoute'
+  'ngRoute',
+  'ngAnimate',
+  'ngFx'
 ])
 .config(function($routeProvider, $httpProvider) {
   $routeProvider
