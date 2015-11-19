@@ -7,6 +7,7 @@
   display: none !important;
 }
 
+
 .taskListItem:focus {
   outline: none;
   border: 0;
@@ -38,5 +39,23 @@
  }
 
 .inputdemoErrors .inputErrorsApp {
-  min-height: 48px; }
+  min-height: 48px; 
+}
+
+.taskForm {
+  background-color: #C8E6C9;
+  margin-top: 75px;
+  border-radius: 25px;
+}
+
+#closeFormBtn {
+  position: absolute;
+  right: 20px;
+}
+
+#closeFormBtn:focus {
+  outline: none;
+  border: 0;
+}
+
 

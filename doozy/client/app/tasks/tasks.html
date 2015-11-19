@@ -9,7 +9,15 @@
     </md-button>
   </section>
 
-  <md-content layout-padding ng-show='showTaskForm'>
+  <md-content layout-padding ng-show='showTaskForm' class='taskForm'>
+    <md-icon 
+      id="closeFormBtn" 
+      ng-click="resetTaskDetails()" 
+      aria-label="Close" 
+      md-svg-icon="/assets/clear_24px.svg">
+    </md-icon>
+    <br>
+    </md-list-item> 
     <form name="taskForm">
       <md-input-container class="md-block">
         <label>Task</label>

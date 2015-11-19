@@ -14,7 +14,6 @@ angular.module('app.tasks', ['ngMaterial'])
 
   $scope.data.tasks = [];
   $scope.getTasks = function() {
-		// $scope.data.tasks = Tasks.getAll();
       Tasks.getAll()
 		  .then(function(tasks) {
 		  	$scope.data.tasks = tasks;
