@@ -4,13 +4,13 @@
   <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="" ng-show='showAddTaskButton'>
     <md-button 
       class="md-raised md-primary" 
-      ng-click="clearTaskFields(); showTask=true; showAddTaskButton=false">
+      ng-click="showTaskForm=true; showAddTaskButton=false">
       Add Task
     </md-button>
   </section>
 
-  <md-content layout-padding ng-show='showTask'>
-    <form name="taskDetailsForm">
+  <md-content layout-padding ng-show='showTaskForm'>
+    <form name="taskForm">
       <md-input-container class="md-block">
         <label>Task</label>
         <input md-maxlength="50" required name="task" ng-model="task.name">
@@ -34,9 +34,11 @@
         <textarea ng-model="task.description" rows="3" columns="1" md-maxlength="150" rows="5"></textarea>
       </md-input-container>
       <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <md-button 
+        <md-button
           class="button md-raised md-primary" 
-          ng-click="showTask=false; updateTask(task); task = null; showAddTaskButton=true;">Submit</md-button>
+          ng-click="updateTask(task);  resetTaskDetails();">
+          Submit
+        </md-button>
       </section>
     </form>
   </md-content>
@@ -45,13 +47,13 @@
 
     <md-subheader class="md-no-sticky">Staging</md-subheader>
     <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter">
-      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the usr clicks on the list item -->
+      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
       <div ng-repeat='n in [0]'>
         <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
       </div>
       <p
         class="taskListItem"
-        ng-click="loadTaskDetails(task); $parent.$parent.showTask=true; $parent.showAddTaskButton=false;"
+        ng-click="loadTaskDetails(task)"
         md-ink-ripple>
         {{ task.name }}
       </p>
@@ -62,13 +64,13 @@
 
     <md-subheader class="md-no-sticky">Assigned</md-subheader>
     <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter">
-      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the usr clicks on the list item -->
+      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
       <div ng-repeat='n in [0]'>
         <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
       </div>
       <p
         class="taskListItem"
-        ng-click="loadTaskDetails(task); $parent.$parent.showTask=true; $parent.showAddTaskButton=false;"
+        ng-click="loadTaskDetails(task)"
         md-ink-ripple>
         {{ task.name }}
       </p>
@@ -79,13 +81,13 @@
 
     <md-subheader class="md-no-sticky">Complete</md-subheader>
     <md-list-item ng-repeat="task in data.tasks | filter : completedFilter">
-      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the usr clicks on the list item -->
+      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
       <div ng-repeat='n in [0]'>
         <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
       </div>
       <p
         class="taskListItem"
-        ng-click="loadTaskDetails(task); $parent.showTask=true; $parent.showAddTaskButton=false;"
+        ng-click="loadTaskDetails(task)"
         md-ink-ripple>
         {{ task.name }}
       </p>

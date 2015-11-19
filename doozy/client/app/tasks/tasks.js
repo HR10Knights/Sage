@@ -1,16 +1,8 @@
 angular.module('app.tasks', ['ngMaterial'])
 
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
-
 	$scope.showAddTaskButton = true;
   $scope.data = {};
-  
-  // this is sample data for the task data form
-  $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
-    'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
-    'WY').split(' ').map(function(state) {
-        return {abbrev: state};
-    });
 
   $scope.data.tasks = [];
   $scope.getTasks = function() {
@@ -87,17 +79,26 @@ angular.module('app.tasks', ['ngMaterial'])
 
 
 	$scope.loadTaskDetails = function(task) {
-		$scope.task = {};
+    // hide the 'Add Task' button
+		$scope.showAddTaskButton=false;
+    // show the task form
+    $scope.showTaskForm = true;
+    
+    // load the task details into the form
+    $scope.task = {};
     $scope.task._id = task._id;
 		$scope.task.name = task.name;
 		$scope.task.users = task.users.length > 0 ? task.users[0].username : null;  
 		$scope.task.description = task.description;
-		$scope.buttonText = 'Edit Task';
 	};
 
-	$scope.clearTaskFields = function() {
-    $scope.task = {};
-    $scope.buttonText = 'Add Task';
+	$scope.resetTaskDetails = function() {
+    $scope.task.name = null;
+    $scope.task.assigned = null;
+    $scope.task.description = null;
+    $scope.taskForm.$setUntouched();
+    $scope.showTaskForm = false;
+    $scope.showAddTaskButton = true;
 	};
 
   $scope.stagingFilter = function(task) {
