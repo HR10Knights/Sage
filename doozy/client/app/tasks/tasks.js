@@ -29,7 +29,9 @@ angular.module('app.tasks', ['ngMaterial'])
   $scope.getUsers();
   
   $scope.updateTask = function(task) {
-    if (!task.users) {
+    if (task.assigned === '') {
+      task.users = [];
+    } else if (!task.users) {
       if (task.assigned) {
         task.users = [task.assigned];
       } else {
@@ -40,7 +42,6 @@ angular.module('app.tasks', ['ngMaterial'])
     var found = false;
 
     // update task data
-    $scope.getTasks();
     // if the task already exists, update it
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
@@ -72,6 +73,9 @@ angular.module('app.tasks', ['ngMaterial'])
 
   $scope.deleteTask = function(task) {
     Tasks.deleteTask(task)
+      .then(function() {
+        $scope.getTasks();
+      })
       .catch(function(err) {
         console.log(err);
       });

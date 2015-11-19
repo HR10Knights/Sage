@@ -61,6 +61,7 @@ module.exports = {
 
   updateTask: function(req, res, next) {
     Task.findOne({_id: req.body._id}, function(err, task) {
+      console.log('task: ' + task);
       if (err) return res.sendStatus(404, err);
 
       task.name = req.body.name;
@@ -71,6 +72,7 @@ module.exports = {
       console.log(req.body.users);
 
       task.save(function (err, task) {
+        if (err) console.log('err: ' , err);
         if (err) return res.sendStatus(404, err);
 
         res.sendStatus(205);
@@ -78,7 +80,12 @@ module.exports = {
     });
   },
   deleteTask: function(req, res, next) {
-    console.log('delete task');
-    res.sendStatus(200);
+    var taskId = mongoose.Types.ObjectId(req.params.id);
+    console.log('delete task: ' + taskId);
+    Task.remove({ _id: taskId }, function(err) {
+      if (err) return res.sendStatus(404, err)
+      
+      res.sendStatus(205);
+    })
   }
 };

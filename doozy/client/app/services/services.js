@@ -31,7 +31,7 @@ angular.module('app.services', [])
   var deleteTask = function(task) {
     return $http({
       method: 'DELETE',
-      url: '/api/tasks',
+      url: '/api/tasks/' + task._id,
       data: JSON.stringify(task)
     });
   };
