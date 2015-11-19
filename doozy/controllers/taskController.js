@@ -23,6 +23,7 @@ module.exports = {
 
         task.users.push(user);
         user.tasks.push(task);
+
         task.save(function(err, t) {
           user.save(function(err, u) {
             if (err) return res.sendStatus(404, err);
@@ -79,12 +80,14 @@ module.exports = {
       });
     });
   },
+
   deleteTask: function(req, res, next) {
     var taskId = mongoose.Types.ObjectId(req.params.id);
     // console.log('delete task: ' + taskId);
+
     Task.remove({ _id: taskId }, function(err) {
       if (err) return res.sendStatus(404, err);
-      
+
       res.sendStatus(205);
     });
   }
