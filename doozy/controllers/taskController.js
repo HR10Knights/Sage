@@ -78,7 +78,12 @@ module.exports = {
     });
   },
   deleteTask: function(req, res, next) {
-    console.log('delete task');
-    res.sendStatus(200);
+    var taskId = mongoose.Types.ObjectId(req.params.id);
+    console.log('delete task: ' + taskId);
+    Task.remove({ _id: taskId }, function(err) {
+      if (err) return res.sendStatus(404, err)
+      
+      res.sendStatus(205);
+    })
   }
 };

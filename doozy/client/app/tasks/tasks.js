@@ -72,6 +72,9 @@ angular.module('app.tasks', ['ngMaterial'])
 
   $scope.deleteTask = function(task) {
     Tasks.deleteTask(task)
+      .then(function() {
+        $scope.getTasks();
+      })
       .catch(function(err) {
         console.log(err);
       });
