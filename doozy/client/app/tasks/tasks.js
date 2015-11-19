@@ -2,7 +2,9 @@ angular.module('app.tasks', ['ngMaterial'])
 .config(function($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
-    .accentPalette('indigo')
+    .accentPalette('green', {
+      default: '800'
+    })
     .warnPalette('deep-orange')
     .backgroundPalette('green', {
       default: '50'
