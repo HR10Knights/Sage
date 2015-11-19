@@ -13,6 +13,7 @@
 
 1. [Usage](#usage)
 1. [Requirements](#requirements)
+1. [Repo Structure](#repo-structure)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
@@ -39,6 +40,21 @@
 - Bower
 - Travis CI
 - Heroku
+
+## Repo Structure
+
+### server:
+
+The server has an MVC architecture (the routes are the API's "views"),
+with each part having its own folder in `doozy/`.
+
+The database schema and config are in `doozy/config.js`.
+
+The back-end server is set up in `doozy/server.js` and `doozy/index.js`.
+
+### client:
+
+pending...
 
 ## Development
 

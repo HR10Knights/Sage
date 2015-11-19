@@ -15,7 +15,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 db.usersSchema = new Schema ({
   id: Number,
-  tasks: [ {type: mongoose.Schema.ObjectId, ref : 'Task'} ], // FIXME "mongoose.Schema.ObjectId is questionable
+  tasks: [ {type: mongoose.Schema.ObjectId, ref : 'Task'} ],
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   created_at: Date,
@@ -25,7 +25,7 @@ db.usersSchema = new Schema ({
 
 db.teamsSchema = new Schema({
   id: Number,
-  users: [db.usersSchema], // FIXME questionable, not like other
+  users: [db.usersSchema],
   name: {type: String, required: true, unique: true},
   created_at: Date,
   updated_at: Date
@@ -63,7 +63,7 @@ db.tasksSchema = new Schema({
 
 db.projectsSchema = new Schema({
   id: Number,
-  tasks: [db.tasksSchema], // FIXME questionable, not like other
+  tasks: [db.tasksSchema],
   name: {
     type: String,
     required: true,
@@ -89,7 +89,6 @@ db.projectsSchema = new Schema({
   created_at: Date,
   updated_at: Date
 });
-
 
 
 module.exports = db;

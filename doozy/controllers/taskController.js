@@ -23,6 +23,7 @@ module.exports = {
 
         task.users.push(user);
         user.tasks.push(task);
+
         task.save(function(err, t) {
           user.save(function(err, u) {
             if (err) return res.sendStatus(404, err);
@@ -68,8 +69,8 @@ module.exports = {
       task.description = req.body.description;
       task.isCompleted = req.body.isCompleted;
       task.users = req.body.users;
-      console.log('users: ')
-      console.log(req.body.users);
+      // console.log('users: ');
+      // console.log(req.body.users);
 
       task.save(function (err, task) {
         if (err) console.log('err: ' , err);
@@ -79,13 +80,15 @@ module.exports = {
       });
     });
   },
+
   deleteTask: function(req, res, next) {
     var taskId = mongoose.Types.ObjectId(req.params.id);
-    console.log('delete task: ' + taskId);
+    // console.log('delete task: ' + taskId);
+
     Task.remove({ _id: taskId }, function(err) {
-      if (err) return res.sendStatus(404, err)
-      
+      if (err) return res.sendStatus(404, err);
+
       res.sendStatus(205);
-    })
+    });
   }
 };

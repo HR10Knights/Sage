@@ -1,4 +1,6 @@
 var jwt = require('jwt-simple');
+
+
 var util = {
 
   decode: function(req, res, next) {
@@ -22,5 +24,6 @@ var util = {
     }
   }
 };
+
 
 module.exports = util;

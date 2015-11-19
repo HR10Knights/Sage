@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/client')));
 // app.use(expressJwt({ secret: 'secret' }));
 
-// Controllers
+// Routing
 app.use('/api', routes);
 app.use('/api/users', users);
 app.use('/api/teams', teams);
@@ -40,5 +40,6 @@ app.use('/api/projects', projects);
 // TODO refactor into a controller
 // TODO remove this
 // checkAuth = util.checkAuth;
+
 
 module.exports = app;
