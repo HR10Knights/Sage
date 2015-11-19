@@ -1,6 +1,6 @@
 angular.module('app.tasks', ['ngMaterial'])
 
-.controller('TasksController', function($scope, Tasks, Users) {
+.controller('TasksController', function($scope, Tasks, Users, Auth) {
 	
   $scope.data = {};
   $scope.data.tasks = [];
@@ -99,4 +99,5 @@ angular.module('app.tasks', ['ngMaterial'])
   	return task.isCompleted ? true : false;
   }
 
+  $scope.signout = Auth.signout;
 });

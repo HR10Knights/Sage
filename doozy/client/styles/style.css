@@ -6,3 +6,18 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
+.subheader {
+  font-weight: normal;
+  font-size: 14px;
+  color: #f44336;
+  margin-top: 0;
+  padding-top: 0;
+}
+.signheader {
+  margin-bottom: 5px;
+}
+.logoutbtn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
