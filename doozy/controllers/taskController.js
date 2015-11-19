@@ -79,6 +79,8 @@ module.exports = {
       task.description = req.body.description;
       task.isCompleted = req.body.isCompleted;
       task.users = req.body.users;
+      console.log('users: ')
+      console.log(req.body.users);
 
       task.save(function (err, task) {
         if (err) {

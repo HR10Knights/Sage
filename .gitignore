@@ -4,7 +4,7 @@ node_modules
 .LSOverride
 azure.err
 iisnode.yml
-
+coverage
 # Icon must ends with two \r.
 Icon
 

@@ -6,6 +6,15 @@
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
 }
+.taskListItem:focus {
+  outline: none;
+  border: 0;
+}
+
+.inputdemoErrors .inputErrorsApp {
+  min-height: 48px;
+}
+
 .subheader {
   font-weight: normal;
   font-size: 14px;

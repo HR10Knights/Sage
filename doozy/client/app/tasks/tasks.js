@@ -1,7 +1,7 @@
 angular.module('app.tasks', ['ngMaterial'])
 
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
-	
+	$scope.showAddTaskButton = true;
   $scope.data = {};
   $scope.data.tasks = [];
   $scope.getTasks = function() {
@@ -29,7 +29,7 @@ angular.module('app.tasks', ['ngMaterial'])
   
   $scope.updateTask = function(task) {
     if (task.assigned) {
-      task.users = [task.assigned._id];
+      task.users = [task.assigned];
     } else {
       // otherwise its unassigned
       task.users = [];
