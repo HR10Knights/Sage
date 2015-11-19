@@ -78,7 +78,7 @@ describe('Projects API', function() {
 
   // READ
   describe('/', function () {
-    xit('gets listing of tasks', function(done) {
+    it('gets listing of tasks', function(done) {
       request(app)
         .get('/api/projects/')
         .expect(200)

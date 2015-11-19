@@ -10,8 +10,7 @@ var Task = require('../../doozy/models/task');
 var User = require('../../doozy/models/user');
 var con = mongoose.createConnection('mongodb://localhost/doozytest');
 var util = require('../../doozy/util');
-
-var decodeStub;
+var sinon = require('sinon');
 
 describe('Tasks API', function() {
   before(function(done) {
@@ -90,31 +89,31 @@ describe('Tasks API', function() {
       });
   });
 
-  xdescribe('stages and assignments', function() {
+  describe('stages and assignments', function() {
     var task, user;
 
     before(function (done) {
       request(app)
         .post('/api/tasks')
         .send({
-          'name': 'findme',
+          'name': 'test task two',
           'description': 'a test description'
         })
         .expect(201)
-        .then(function() {
-          Task.findOne({name: 'findme'}, function(err, foundTask) {
+        .then(function(){
+          Task.findOne({name: 'test task two'}, function(err, foundTask) {
             task = foundTask;
-
             request(app)
               .post('/api/signup')
               .send({
-                'username': 'testuser',
-                'password': 'testpass',
-                'teamname': 'test team' 
+                'username': 'auser',
+                'password': 'apass',
+                'teamname': 'ateam'
               })
               .expect(201)
-              .then(function () {
-                User.findOne({username: 'testuser'}, function (err, foundUser) {
+              .then(function() {
+                User.findOne({username: 'auser'}, function (err, foundUser) {
+                  console.log('user: ' + foundUser);
                   user = foundUser;
                   done();
                 });
@@ -131,7 +130,7 @@ describe('Tasks API', function() {
         .put('/api/tasks/' + task._id)
         .send(task)
         .then(function () {
-          Task.findOne({name: 'findme'}, function (err, foundTask) {
+          Task.findOne({name: 'test task two'}, function (err, foundTask) {
 
             expect(foundTask.isCompleted).to.equal(true);
             done();
@@ -148,7 +147,7 @@ describe('Tasks API', function() {
         .send(task)
         .expect(205)
         .then(function () {
-          Task.findOne({name: 'findme'}, function (err, foundTask) {
+          Task.findOne({name: 'test task two'}, function (err, foundTask) {
             if (err) {
               console.log("Err: ", err);
             }
@@ -168,7 +167,7 @@ describe('Tasks API', function() {
         .send(task)
         .expect(205)
         .then(function () {
-          Task.findOne({name: 'findme'}, function (err, foundTask) {
+          Task.findOne({name: 'test task two'}, function (err, foundTask) {
             if (err) {
               console.log("Err: ", err);
             }
@@ -189,7 +188,7 @@ describe('Tasks API', function() {
         .send(task)
         .expect(205)
         .then(function () {
-          Task.findOne({name: 'findme'}, function (err, foundTask) {
+          Task.findOne({name: 'test task two'}, function (err, foundTask) {
             if (err) {
               console.log("Err: ", err);
             }
@@ -202,7 +201,7 @@ describe('Tasks API', function() {
                 .send(task)
                 .expect(205)
                 .then(function () {
-                  Task.findOne({name: 'findme'}, function (err, foundTask) {
+                  Task.findOne({name: 'test task two'}, function (err, foundTask) {
                     if (err) {
                       console.log("Err: ", err);
                     }
