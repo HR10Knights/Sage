@@ -9,6 +9,8 @@ var Team = require('../../doozy/models/team');
 var User = require('../../doozy/models/user');
 var mongoose = require('mongoose');
 var con;
+
+
 describe('Authentication', function() {
   before(function(done) {
     con = mongoose.createConnection('mongodb://localhost/doozytest');
@@ -68,16 +70,33 @@ describe('Authentication', function() {
 
   describe('Users', function() {
     describe('sign up', function() {
+      // TODO Refactor this to create testuser before all
+
       it('should create a user', function(done) {
+        var username = 'testuser';
+
         request(app)
           .post('/api/signup')
           .send({
-            'username': 'testuser',
+            'username': username,
             'password': 'testpass',
             'teamname': 'test team' 
           })
           .expect(201)
-          .end(done);
+          .then(function () {
+            User.findOne({username: username}, function (err, foundUser) {
+              expect(foundUser.username).to.equal(username);
+
+              // check if user in team
+              done();
+            });
+          });
+      });
+      it('should push user into team', function (done) {
+        Team.findOne({name: 'test team'}, function (err, foundTeam) {
+          expect(foundTeam.users[0].username).to.equal('testuser');
+          done();
+        });
       });
       it('should not create a user with a taken user name', function(done) {
         request(app)
@@ -87,38 +106,53 @@ describe('Authentication', function() {
             'password': 'testpass',
             'teamname': 'test team' 
           })
-          .expect(400)
+          .expect(400, 'Username exists')
           .end(done);
       });
       it('should create a team for a user with a new team name', function(done) {
+        var teamname = 'make me a team';
+
         request(app)
           .post('/api/signup')
           .send({
             'username': 'testusertwo',
             'password': 'testpass',
-            'teamname': 'make me a team' 
+            'teamname': teamname 
           })
           .expect(201)
-          .end(done);
+          .then(function () {
+            Team.findOne({name: teamname}, function (err, foundTeam) {
+              expect(foundTeam.name).to.equal(teamname);
+              done();
+            });
+          });
       });
-      it('should not create a user with a blank username or password', function(done) {
+      it('should not create a user with a blank username, password, or teamname', function(done) {
         request(app)
           .post('/api/signup')
           .send({
             'username': 'testusertwo',
-            'password': '',
+            'password': '          ',
             'teamname': 'test team' 
           })
-          .expect(400);
+          .expect(400, 'Username, Password, and Teamname must be present');
           request(app)
             .post('/api/signup')
             .send({
-              'username': '',
+              'username': '          ',
               'password': 'testpass',
               'teamname': 'test team' 
             })
-            .expect(400)
-            .end(done);
+            .expect(400, 'Username, Password, and Teamname must be present')
+            request(app)
+              .post('/api/signup')
+              .send({
+                'username': 'testusertwo',
+                'password': 'testpass',
+                'teamname': '          ' 
+              })
+              .expect(400, 'Username, Password, and Teamname must be present')
+              .end(done);
       });
       it('should give a list of users', function(done) {
         request(app)
