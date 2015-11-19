@@ -46,6 +46,9 @@ angular.module('app.tasks', ['ngMaterial'])
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
         Tasks.updateTask(task)
+          .then(function(resp) {
+            $scope.getTasks();
+          })
           .catch(function(err) {
             console.log(err);
           });
@@ -58,12 +61,13 @@ angular.module('app.tasks', ['ngMaterial'])
     // if the task does not already exists, create a new task
     if ( !found ) {
       Tasks.createTask(task)
+        .then(function(resp) {
+          $scope.getTasks();
+        })
         .catch(function(err) {
           console.log(err);
         });
     }
-
-    $scope.getTasks();
   };
 
   $scope.deleteTask = function(task) {
