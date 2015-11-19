@@ -31,4 +31,13 @@ router.post('/destroy', function(req, res, next) {
   });
 });
 
+
+router.get('/', function(req, res, next) {
+  // only send _id and username
+  User.find({}, '_id username', function(err, users) {
+    // res.send(200, teams);
+    res.status(200).send(users);
+  });
+});
+
 module.exports = router;

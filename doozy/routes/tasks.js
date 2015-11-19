@@ -46,6 +46,7 @@ router.put('/:id', function(req, res, next) {
 // curl -H "Content-Type: application/json" -X POST -d '{"name":"my task 2","description":"my description"}' http://localhost:3000/api/tasks
 router.post('/', function(req, res, next) {
   var users = req.body.users || [];
+  console.log('lsit of users: ' + req.body.users);
 
   var newTask = new Task({
     description: req.body.description,

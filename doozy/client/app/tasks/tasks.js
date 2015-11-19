@@ -1,6 +1,6 @@
 angular.module('app.tasks', ['ngMaterial'])
 
-.controller('TasksController', function($scope, Tasks) {
+.controller('TasksController', function($scope, Tasks, Users) {
 	
   $scope.data = {};
   $scope.data.tasks = [];
@@ -16,10 +16,29 @@ angular.module('app.tasks', ['ngMaterial'])
 	};
 	$scope.getTasks();
 
-
+  $scope.getUsers = function() {
+    Users.getAll()
+    .then(function(users) {
+      $scope.data.users = users;
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  }
+  $scope.getUsers();
+  
   $scope.updateTask = function(task) {
+    if (task.assigned) {
+      task.users = [task.assigned._id];
+    } else {
+      // otherwise its unassigned
+      task.users = [];
+    }
+
     var found = false;
 
+    // update task data
+    $scope.getTasks();
     // if the task already exists, update it
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
@@ -56,6 +75,7 @@ angular.module('app.tasks', ['ngMaterial'])
 
 	$scope.loadTaskDetails = function(task) {
 		$scope.task = {};
+    $scope.task._id = task._id;
 		$scope.task.name = task.name;
 		$scope.task.users = task.users.length > 0 ? task.users[0].username : null;  
 		$scope.task.description = task.description;
