@@ -5,7 +5,7 @@ var indexController = require('../controllers/indexController');
 
 
 /* GET home page. */
-router.get('/', indexController.index);
+router.get('/', indexController.getIndex);
 
 // User sign up
 // curl -H "Content-Type: application/json" -X POST -d '{"username":"testuser", "password":"testpass", "teamname":"my team"}' http://localhost:3000/api/signup
