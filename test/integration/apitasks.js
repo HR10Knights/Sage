@@ -12,6 +12,7 @@ var con = mongoose.createConnection('mongodb://localhost/doozytest');
 var util = require('../../doozy/util');
 var sinon = require('sinon');
 
+
 describe('Tasks API', function() {
   before(function(done) {
     decodeStub = sinon.stub(util, 'decode');
