@@ -214,6 +214,65 @@ describe('Tasks API', function() {
         });
       });
 
+
+    describe('quick assign', function() {
+
+
+      it('should be able to assign without updating the entire task', function(done) {
+        task.users = [];
+
+        request(app)
+          .put('/api/tasks/' + task._id)
+          .send(task)
+          .expect(205)
+          .then(function() {
+            Task.findOne({name: 'test task two'}, function (err, foundTask) {
+              if (err) {
+                console.log("Err: ", err);
+              }
+              expect(foundTask.users).to.have.length(0);
+              request(app)
+                .post('/api/tasks/assign')
+                .send({
+                  user: user._id,
+                  task: task._id
+                })
+                .expect(200)
+                .then(function() {
+                  Task.findOne({name: 'test task two'}, function (err, foundTask) {
+                    if (err) {
+                      console.log('err: ', err);
+                    }
+
+                    expect(foundTask.users).to.have.length(1);
+                    done();
+                  });
+                });
+            });
+          });
+      });
+
+      it('should not quick assign without a valid task id or user id', function (done) {
+        request(app)
+          .post('/api/tasks/assign')
+          .send({
+            user: user._id,
+            task: '123'
+          })
+          .expect(404)
+          .then(function() {
+            request(app)
+              .post('/api/tasks/assign')
+              .send({
+                task: task._id,
+                user: '123'
+              })
+              .expect(404)
+              .end(done);
+          })
+      });
+    });
+
     xit('should respond with whether or not changes were made', function (done) {
       // body...
     });
