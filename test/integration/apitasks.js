@@ -147,9 +147,7 @@ describe('Tasks API', function() {
         .expect(205)
         .then(function () {
           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-            if (err) {
-              console.log("Err: ", err);
-            }
+            if (err) console.log("Err: ", err);
 
             expect(foundTask.isCompleted).to.equal(false);
             done();
@@ -167,9 +165,7 @@ describe('Tasks API', function() {
         .expect(205)
         .then(function () {
           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-            if (err) {
-              console.log("Err: ", err);
-            }
+            if (err) console.log("Err: ", err);
 
             task = foundTask;
             expect(task.users).to.have.length(1);
@@ -188,9 +184,7 @@ describe('Tasks API', function() {
         .expect(205)
         .then(function () {
           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-            if (err) {
-              console.log("Err: ", err);
-            }
+            if (err) console.log("Err: ", err);
 
             expect(foundTask.users).to.have.length(0);
             task.users.push(user._id);
@@ -201,9 +195,7 @@ describe('Tasks API', function() {
                 .expect(205)
                 .then(function () {
                   Task.findOne({name: 'test task two'}, function (err, foundTask) {
-                    if (err) {
-                      console.log("Err: ", err);
-                    }
+                    if (err) console.log("Err: ", err);
 
                     expect(foundTask.users).to.have.length(1);
                     done();
@@ -226,10 +218,10 @@ describe('Tasks API', function() {
           .expect(205)
           .then(function() {
             Task.findOne({name: 'test task two'}, function (err, foundTask) {
-              if (err) {
-                console.log("Err: ", err);
-              }
+              if (err) console.log("Err: ", err);
+
               expect(foundTask.users).to.have.length(0);
+
               request(app)
                 .post('/api/tasks/assign')
                 .send({
@@ -239,9 +231,7 @@ describe('Tasks API', function() {
                 .expect(200)
                 .then(function() {
                   Task.findOne({name: 'test task two'}, function (err, foundTask) {
-                    if (err) {
-                      console.log('err: ', err);
-                    }
+                    if (err) console.log('err: ', err);
 
                     expect(foundTask.users).to.have.length(1);
                     done();

@@ -12,20 +12,16 @@ module.exports = {
     var name = req.body.name.trim();
 
     Team.findOne({name: name}, function(err, team) {
-      if (team) {
-        res.status(400).send('Team exists');
-        return;
-      }
+      if (team) return res.status(400).send('Team exists');
+
       var newTeam = new Team({
         name: name,
       });
 
       newTeam.save(function(err, newTeam) {
-        if (err) {
-          res.sendStatus(404, err);
-        } else {
-          res.sendStatus(201);
-        }
+        if (err) return res.sendStatus(404, err);
+
+        res.sendStatus(201);
       });
     });
   },

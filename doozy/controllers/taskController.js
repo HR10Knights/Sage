@@ -16,24 +16,18 @@ module.exports = {
     var task = req.body.task;
 
     Task.findOne({_id: task}, function(err, task) {
-      if (err) {
-        res.sendStatus(404, err);
-        return;
-      }
+      if (err) return res.sendStatus(404, err);
+
       User.findOne({_id: user}, function(err, user) {
-        if (err) {
-          res.sendStatus(404, err);
-          return;
-        }
+        if (err) return res.sendStatus(404, err);
+
         task.users.push(user);
         user.tasks.push(task);
         task.save(function(err, t) {
           user.save(function(err, u) {
-            if (err) {
-              res.sendStatus(404, err);
-            } else {
-              res.sendStatus(200);
-            }
+            if (err) return res.sendStatus(404, err);
+
+            res.sendStatus(200);
           });
         });
       });
@@ -50,31 +44,25 @@ module.exports = {
       users: users
     });
     newTask.save(function(err, newTask) {
-      if (err) {
-        res.sendStatus(404, err);
-      } else {
-        res.sendStatus(201);
-      }
+      if (err) return res.sendStatus(404, err);
+
+      res.sendStatus(201);
     });
   },
 
   idToTask: function(req, res, next) {
     var taskId = mongoose.Types.ObjectId(req.params.id);
     Task.find({_id: taskId}).populate('users').exec(function(err, tasks) {
-      if (err) {
-        res.sendStatus(404, err);
-        return;
-      }
+      if (err) return res.sendStatus(404, err);
+
       res.status(200).send(tasks);
     });
   },
 
   updateTask: function(req, res, next) {
     Task.findOne({_id: req.body._id}, function(err, task) {
-      if (err) {
-        res.sendStatus(404, err);
-        return;
-      }
+      if (err) return res.sendStatus(404, err);
+
       task.name = req.body.name;
       task.description = req.body.description;
       task.isCompleted = req.body.isCompleted;
@@ -83,10 +71,8 @@ module.exports = {
       console.log(req.body.users);
 
       task.save(function (err, task) {
-        if (err) {
-          res.sendStatus(404, err);
-          return;
-        }
+        if (err) return res.sendStatus(404, err);
+
         res.sendStatus(205);
       });
     });

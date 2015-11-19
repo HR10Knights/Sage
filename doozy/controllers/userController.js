@@ -6,11 +6,9 @@ module.exports = {
   allUsers: function(req, res, next) {
     // send only _id and username
     User.find({}, '_id username', function(err, users) {
-      if (err) {
-        res.status(500).send();
-      } else {
-        res.status(200).send(users);
-      }
+      if (err) return res.status(500).send();
+
+      res.status(200).send(users);
     });
   },
 
@@ -20,20 +18,13 @@ module.exports = {
     var teamname = req.body.teamname.trim();
 
     Team.findOne({name: teamname}, function(err, team) {
-      if (!team) {
-        res.status(401).send('Team does not exist');
-        return;
-      }
+      if (!team) return res.status(401).send('Team does not exist');
+
       User.findOne({username: username}, function(err, user) {
-        if (!user) {
-          res.status(401).send('Username does not exist');
-          return;
-        }
+        if (!user) return res.status(401).send('Username does not exist');
+
         user.comparePassword(password, function(match) {
-          if (!match) {
-            res.status(401).send('Password does not match');
-            return;
-          }
+          if (!match) return res.status(401).send('Password does not match');
 
           user.remove();
           res.status(200).send('Deleted');
