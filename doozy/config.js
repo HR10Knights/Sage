@@ -85,12 +85,6 @@ db.projectsSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    validate: [
-      function(description) {
-        return description.trim().length >= 3;
-      },
-      'Description too short'
-    ]
   },
   created_at: Date,
   updated_at: Date
