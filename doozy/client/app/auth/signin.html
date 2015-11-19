@@ -2,7 +2,7 @@
   <h1 style="text-align:center" class="signheader">Sage</h1>
   <p class="subheader">Sign In</p>
   <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
-    <md-content class="md-padding">
+    <md-content class="md-padding" id="authbox">
       <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
         <form name="loginForm" ng-submit="signin(user)">
           <md-input-container>
@@ -17,13 +17,14 @@
             <label>Password:</label>
             <input type="password" ng-model="user.password" required>
           </md-input-container><br>
-          <md-button type="submit" class="md-accent"
-            ng-class="{'md-raised md-accent': (loginForm.$dirty && loginForm.$valid) }"
+          <md-button type="submit" class="md-primary darkbutton"
+            ng-class="{'md-raised md-primary': (loginForm.$dirty && loginForm.$valid) }"
             aria-label="Sign In">Sign In</md-button>
+          
         </form>
       </div>
     </md-content>
   </div>
   <br><br>
-  Don't have an account?<a href="#/signup">Sign up</a>
+  Don't have an account?<a href="#/signup" id="signuplink">Sign up</a>
 </div>

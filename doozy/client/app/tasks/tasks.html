@@ -1,110 +1,116 @@
+<div flex layout="column" layout-align="center center">
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
+  <h1 style="text-align:center" class="signheader">Sage</h1>
 
-<md-content ng-cloak>
+  <md-content id="taskdisplay" ng-cloak>
 
-  <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddTaskButton'>
-    <md-button 
-      class="md-raised md-primary" 
-      ng-click="showTaskForm=true; showAddTaskButton=false">
-      Add Task
-    </md-button>
-  </section>
+    <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddTaskButton'>
+      <md-button 
+        class="md-raised md-primary" 
+        ng-click="showTaskForm=true; showAddTaskButton=false">
+        Add Task
+      </md-button>
+    </section>
 
-  <md-content layout-padding ng-show='showTaskForm' class='taskForm'>
-    <md-icon 
-      id="closeFormBtn" 
-      ng-click="resetTaskDetails()" 
-      aria-label="Close" 
-      md-svg-icon="/assets/clear_24px.svg">
-    </md-icon>
-    <br>
-    </md-list-item> 
-    <form name="taskForm">
-      <md-input-container class="md-block">
-        <label>Task</label>
-        <input md-maxlength="50" required name="task" ng-model="task.name">
-        <div ng-messages="projectForm.description.$error">
-          <div ng-message="required">This is required.</div>
+
+    <md-content layout-padding ng-show='showTaskForm'>
+      <md-icon 
+        id="closeFormBtn" 
+        ng-click="resetTaskDetails()" 
+        aria-label="Close" 
+        md-svg-icon="/assets/clear_24px.svg">
+      </md-icon>
+      <br>
+      <form name="taskForm">
+        <md-input-container class="md-block">
+          <label>Task</label>
+          <input md-maxlength="50" required name="task" ng-model="task.name">
+          <div ng-messages="projectForm.description.$error">
+            <div ng-message="required">This is required.</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container flex>
+          <label>Assignee</label>
+          <md-select ng-model="task.assigned">
+            <md-option value="">Unassigned</md-option>
+            <md-option ng-repeat="user in data.users" value="{{user._id}}">
+              {{user.username}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+
+        <md-input-container class="md-block">
+          <label>Description</label>
+          <textarea ng-model="task.description" rows="3" columns="1" md-maxlength="150" rows="5"></textarea>
+        </md-input-container>
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+          <md-button
+            class="button md-raised md-primary" 
+            ng-click="updateTask(task);  resetTaskDetails();">
+            Submit
+          </md-button>
+        </section>
+      </form>
+    </md-content>
+
+    <md-content class='taskList'>
+
+      <md-subheader class="md-no-sticky">Staging</md-subheader>
+      <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter">
+        <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
+        <div ng-repeat='n in [0]'>
+          <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
         </div>
-      </md-input-container>
+        <p
+          class="taskListItem fx-fade-normal"
+          ng-click="loadTaskDetails(task)"
+          md-ink-ripple>
+          {{ task.name }}
+        </p>
+        <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
+      </md-list-item>
 
-      <md-input-container flex>
-        <label>Assignee</label>
-        <md-select ng-model="task.assigned">
-          <md-option value="">Unassigned</md-option>
-          <md-option ng-repeat="user in data.users" value="{{user._id}}">
-            {{user.username}}
-          </md-option>
-        </md-select>
-      </md-input-container>
+      <md-divider></md-divider>
 
-      <md-input-container class="md-block">
-        <label>Description</label>
-        <textarea ng-model="task.description" rows="3" columns="1" md-maxlength="150" rows="5"></textarea>
-      </md-input-container>
-      <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-        <md-button
-          class="button md-raised md-primary" 
-          ng-click="updateTask(task);  resetTaskDetails();">
-          Submit
-        </md-button>
-      </section>
-    </form>
+      <md-subheader class="md-no-sticky">Assigned</md-subheader>
+      <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter">
+        <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
+        <div ng-repeat='n in [0]'>
+          <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
+        </div>
+        <p
+          class="taskListItem"
+          ng-click="loadTaskDetails(task)"
+          md-ink-ripple>
+          {{ task.name }}
+          <span class="userdisplay"> {{ task.users[0].username }} </span>
+        </p>
+        <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
+      </md-list-item>
+
+      <md-divider></md-divider>
+
+      <md-subheader class="md-no-sticky">Complete</md-subheader>
+      <md-list-item ng-repeat="task in data.tasks | filter : completedFilter">
+        <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
+        <div ng-repeat='n in [0]'>
+          <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
+        </div>
+        <p
+          class="taskListItem"
+          ng-click="loadTaskDetails(task)"
+          md-ink-ripple>
+          {{ task.name }}
+          <span class="userdisplay"> {{ task.users[0].username }} </span>
+        </p>
+        <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
+      </md-list-item> 
+    </md-content>
+
+    <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
+
   </md-content>
 
-  <md-content class='taskList'>
-
-    <md-subheader class="md-no-sticky">Staging</md-subheader>
-    <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter">
-      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
-      <div ng-repeat='n in [0]'>
-        <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
-      </div>
-      <p
-        class="taskListItem"
-        ng-click="loadTaskDetails(task)"
-        md-ink-ripple>
-        {{ task.name }}
-      </p>
-      <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
-    </md-list-item>
-
-    <md-divider></md-divider>
-
-    <md-subheader class="md-no-sticky">Assigned</md-subheader>
-    <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter">
-      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
-      <div ng-repeat='n in [0]'>
-        <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
-      </div>
-      <p
-        class="taskListItem"
-        ng-click="loadTaskDetails(task)"
-        md-ink-ripple>
-        {{ task.name }}
-      </p>
-      <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
-    </md-list-item>
-
-    <md-divider></md-divider>
-
-    <md-subheader class="md-no-sticky">Complete</md-subheader>
-    <md-list-item ng-repeat="task in data.tasks | filter : completedFilter">
-      <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
-      <div ng-repeat='n in [0]'>
-        <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
-      </div>
-      <p
-        class="taskListItem"
-        ng-click="loadTaskDetails(task)"
-        md-ink-ripple>
-        {{ task.name }}
-      </p>
-      <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
-    </md-list-item> 
-  </md-content>
-
-  <md-button class="md-raised md-accent logoutbtn" ng-click="signout()">Sign Out</md-button>
-
-</md-content>
-
-
+</div>
+</div>

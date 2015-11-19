@@ -25,12 +25,13 @@
   padding-top: 0;
 }
 .signheader {
-  margin-bottom: 5px;
+  margin-bottom: 20px;
+  color: rgb(76,175,80);
 }
 .logoutbtn {
   position: fixed;
-  top: 0px;
-  right: 30px;
+  top: 10px;
+  right: 15%;
 }
 
  .taskListItem:focus {
@@ -59,3 +60,24 @@
 }
 
 
+.md-raised span.ng-scope {
+  color: white;
+}
+
+#signuplink {
+  color: rgb(76,175,80);
+  text-decoration: none;
+}
+
+#maincontainer {
+  width: 80%;
+}
+
+#taskdisplay {
+  padding-top: 20px;
+}
+
+.userdisplay {
+  padding-left: 20px;
+  color: #888;
+}
