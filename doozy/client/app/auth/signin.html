@@ -1,10 +1,29 @@
-<div ng-controller="AuthController">
-  <h2>Sign In</h2>
-  <form ng-submit="signin(user)">
-      <input type="text" placeholder="Team Name" ng-model="user.teamname" /><br/>
-      <input type="text" placeholder="Username" ng-model="user.username" /><br/>
-      <input type="password" placeholder="Password" ng-model="user.password" /><br/>
-      <button type="submit">Sign In</button>
-  </form>
-  <a href="#/signup">Don't have an account? <strong>Signup</strong></a>
+<div data-ng-controller="AuthController" flex layout="column" layout-align="center center" ng-cloak>
+  <h1 style="text-align:center" class="signheader">Doozy</h1>
+  <p class="subheader">Sign In</p>
+  <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
+    <md-content class="md-padding">
+      <div flex-sm="100" flex-gt-sm="80" layout-sm="column">
+        <form name="loginForm" ng-submit="signin(user)">
+          <md-input-container>
+            <label>Team name:</label>
+            <input ng-model="user.teamname" required>
+          </md-input-container><br>
+          <md-input-container>
+            <label>Name:</label>
+            <input ng-model="user.username" required>
+          </md-input-container><br>
+          <md-input-container>
+            <label>Password:</label>
+            <input type="password" ng-model="user.password" required>
+          </md-input-container><br>
+          <md-button type="submit" class="md-primary"
+            ng-class="{'md-raised md-primary': (loginForm.$dirty && loginForm.$valid) }"
+            aria-label="Sign In">Sign In</md-button>
+        </form>
+      </div>
+    </md-content>
+  </div>
+  <br><br>
+  Don't have an account?<a href="#/signup">Sign up</a>
 </div>
