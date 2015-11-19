@@ -1,4 +1,4 @@
-<div ng-controller='TasksController' ng-cloak>
+<div ng-cloak>
 
   <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
     <md-button 
@@ -16,7 +16,7 @@
       ng-repeat="task in data.tasks | filter : stagingFilter">
       <md-checkbox ng-model="task.selected"></md-checkbox>
       <p ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
-        {{task.title}}
+        {{task.name}}
       </p>
       <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
     </md-list-item>
@@ -28,7 +28,7 @@
       ng-repeat="task in data.tasks | filter : assignedFilter">
       <md-checkbox ng-model="task.selected"></md-checkbox>
       <p ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
-        {{task.title}}
+        {{task.name}}
       </p>
       <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
     </md-list-item>
@@ -40,7 +40,7 @@
       ng-repeat="task in data.tasks | filter : completedFilter">
       <md-checkbox ng-model="task.selected"></md-checkbox>
       <p ng-click="loadTaskDetails(task); $parent.$parent.showTask=true">
-        {{task.title}}
+        {{task.name}}
       </p>
       <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
     </md-list-item>
@@ -48,15 +48,15 @@
   </div>
 
   <div class='taskDetails' ng-show='showTask'>
-    <input name='title' type='text' ng-model='task.title' placeholder='Add a task'>
+    <input name='taskName' type='text' ng-model='task.name' placeholder='Add a task'>
     <br>
-    <input name='assignees' type='text' ng-model='task.assignees' placeholder='Add an assignee'>
+    <input name='users' type='text' ng-model='task.users' placeholder='Add an assignee'>
     <br>
     <input name='description' type='text' ng-model='task.description' placeholder='Add a description'>
     <br>
     <md-button 
         class="button md-raised md-primary" 
-        ng-click="showTask=false; postTask(task); task = null;">
+        ng-click="showTask=false; updateTask(task); task = null;">
       {{ buttonText }}
     </md-button>
   </div>
