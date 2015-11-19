@@ -15,27 +15,26 @@ module.exports = {
     var password = req.body.password.trim();
     var teamname = req.body.teamname.trim();
     if (username === '' || teamname === '' || password === '') {
-      res.status(400).send('Username, Password, and Teamname must be present');
-      return;
+      return res.status(400).send('Username, Password, and Teamname must be present');
     }
 
     User.findOne({username: username}, function(err, user) {
-      if (user) { res.status(400).send('Username exists'); return; }
+      if (user) return res.status(400).send('Username exists');
       var newUser = new User({
         username: username,
         password: password
       });
 
       newUser.save(function(err, newUser) {
-        if (err) { res.status(404).send(err); return; }
+        if (err) return res.status(404).send(err);
 
         Team.findOne({name: teamname}, function(err, team) {
-          if (err) { res.status(404).send(err); return; }
+          if (err) return res.status(404).send(err);
           team = team || new Team({name: teamname});
 
           team.users.push(newUser);
           team.save(function (err) {
-            if (err) { res.status(404).send(err); return; }
+            if (err) return res.status(404).send(err);
 
             res.status(201);
             sendJWT(newUser, res);
@@ -54,26 +53,18 @@ module.exports = {
     var password = req.body.password.trim();
     var teamname = req.body.teamname.trim();
     if (username === '' || teamname === '' || password === '') {
-      res.status(400).send('Username, Password, and Teamname must be present');
-      return;
+      return res.status(400).send('Username, Password, and Teamname must be present');
     }
 
     Team.findOne({name: teamname}, function(err, team) {
-      if (!team) {
-        res.status(401).send('Team does not exist');
-        return;
-      }
+      if (!team) return res.status(401).send('Team does not exist');
 
       User.findOne({username: username}, function(err, user) {
-        if (!user) {
-          res.status(401).send('Username does not exist');
-          return;
-        }
+        if (!user) return res.status(401).send('Username does not exist');
+
         user.comparePassword(password, function(match) {
-          if (!match) {
-            res.status(401).send('Password does not match');
-            return;
-          }
+          if (!match) return res.status(401).send('Password does not match');
+
           sendJWT(user, res);
         });
       });
