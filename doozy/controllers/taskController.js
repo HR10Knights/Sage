@@ -90,5 +90,9 @@ module.exports = {
         res.sendStatus(205);
       });
     });
+  },
+  deleteTask: function(req, res, next) {
+    console.log('delete task');
+    res.sendStatus(200);
   }
 };

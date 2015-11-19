@@ -28,13 +28,14 @@ angular.module('app.tasks', ['ngMaterial'])
   $scope.getUsers();
   
   $scope.updateTask = function(task) {
-    if (task.assigned) {
-      task.users = [task.assigned];
-    } else {
-      // otherwise its unassigned
-      task.users = [];
+    if (!task.users) {
+      if (task.assigned) {
+        task.users = [task.assigned];
+      } else {
+        // otherwise its unassigned
+        task.users = [];
+      }
     }
-
     var found = false;
 
     // update task data
@@ -65,7 +66,10 @@ angular.module('app.tasks', ['ngMaterial'])
   };
 
   $scope.deleteTask = function(task) {
-
+    Tasks.deleteTask(task)
+      .catch(function(err) {
+        console.log(err);
+      });
   };
 
   $scope.completeTask = function(task) {

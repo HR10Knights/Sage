@@ -42,7 +42,7 @@
     <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter">
       <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the usr clicks on the list item -->
       <div ng-repeat='n in [0]'>
-        <md-checkbox ng-model="task.selected" ng-change="completeTask(task)"></md-checkbox>
+        <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
       </div>
       <p
         class="taskListItem"
@@ -59,7 +59,7 @@
     <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter">
       <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the usr clicks on the list item -->
       <div ng-repeat='n in [0]'>
-        <md-checkbox ng-model="task.selected" ng-change="completeTask(task)"></md-checkbox>
+        <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
       </div>
       <p
         class="taskListItem"
@@ -76,7 +76,7 @@
     <md-list-item ng-repeat="task in data.tasks | filter : completedFilter">
       <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the usr clicks on the list item -->
       <div ng-repeat='n in [0]'>
-        <md-checkbox ng-model="task.selected" ng-change="completeTask(task)"></md-checkbox>
+        <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
       </div>
       <p
         class="taskListItem"
@@ -88,24 +88,6 @@
     </md-list-item>
   
   </md-content>
-
-</md-content>
-<!--   <div class='taskDetails' ng-show='showTask'>
-    <input type="hidden" ng-model="task._id" value="{{ task._id }}">
-    <input name='taskName' type='text' ng-model='task.name' placeholder='Add a task'>
-    <br>
-    <select ng-options="user as user.username for user in data.users track by user._id" ng-model="task.assigned">
-      <option value="">Unassigned</option>
-    </select>
-    <br>
-    <input name='description' type='text' ng-model='task.description' placeholder='Add a description'>
-    <br>
-    <md-button 
-        class="button md-raised md-primary" 
-        ng-click="showTask=false; updateTask(task); task = null;">
-      {{ buttonText }}
-    </md-button>
-  </div>
-
   <md-button class="md-raised logoutbtn" ng-click="signout()">Sign Out</md-button>
-</div> -->
+</md-content>
+
