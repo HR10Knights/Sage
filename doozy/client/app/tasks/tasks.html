@@ -51,7 +51,7 @@
     <input type="hidden" ng-model="task._id" value="{{ task._id }}">
     <input name='taskName' type='text' ng-model='task.name' placeholder='Add a task'>
     <br>
-    <select ng-options="user as user.username for user in data.users track by user._id" ng-model="task._id">
+    <select ng-options="user as user.username for user in data.users track by user._id" ng-model="task.assigned">
       <option value="">Unassigned</option>
     </select>
     <br>
