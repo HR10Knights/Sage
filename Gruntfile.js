@@ -12,11 +12,13 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint: {
-      gruntfile: 'Gruntfile.js',
-      doozy: 'doozy/**/*.js',
-      // client: 'doozy/client/**/*.js',
-      // models: 'doozy/models/**/*.js',
-      test: 'test/**/*.js',
+      // 'doozy/client/lib/**/*.js'],
+      all: [
+        'Gruntfile.js',
+        'doozy/**/*.js',
+        '!doozy/client/lib/**',
+        'test/**/*.js',
+      ],
       options: {
         globals: {
           eqeqeq: true
