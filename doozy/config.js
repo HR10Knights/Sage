@@ -50,12 +50,6 @@ db.tasksSchema = new Schema({
     type: String,
     required: false,
     unique: false,
-    validate: [
-      function(description) {
-        return description.trim().length >= 3;
-      },
-      'Description too short'
-    ]
   },
   isCompleted: {
     type: Boolean,

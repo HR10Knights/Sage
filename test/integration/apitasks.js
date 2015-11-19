@@ -49,13 +49,6 @@ describe('Tasks API', function() {
         'name': ' ',
         'description': 'a test description'
       })
-      .expect(404);
-    request(app)
-      .post('/api/tasks')
-      .send({
-        'name': 'test task',
-        'description': 'ab'
-      })
       .expect(404)
       .end(done);
   });
