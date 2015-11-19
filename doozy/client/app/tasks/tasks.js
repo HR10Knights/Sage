@@ -29,6 +29,11 @@ angular.module('app.tasks', ['ngMaterial'])
   $scope.getUsers();
   
   $scope.updateTask = function(task) {
+    // check for a blank form 
+    if (!task) {
+      return;
+    }
+
     if (task.assigned === '') {
       task.users = [];
     } else if (!task.users) {
@@ -39,9 +44,9 @@ angular.module('app.tasks', ['ngMaterial'])
         task.users = [];
       }
     }
+
     var found = false;
 
-    // update task data
     // if the task already exists, update it
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
@@ -96,11 +101,17 @@ angular.module('app.tasks', ['ngMaterial'])
 	};
 
 	$scope.resetTaskDetails = function() {
-    $scope.task.name = null;
-    $scope.task.assigned = null;
-    $scope.task.description = null;
-    $scope.taskForm.$setUntouched();
+    // reset the task form if it was dirty
+    if ( $scope.task ) {
+      $scope.task.name = null;
+      $scope.task.assigned = null;
+      $scope.task.description = null;
+      $scope.taskForm.$setUntouched();
+    }
+    
+    // hide the task form
     $scope.showTaskForm = false;
+    // show the 'Add Task' button
     $scope.showAddTaskButton = true;
 	};
 
