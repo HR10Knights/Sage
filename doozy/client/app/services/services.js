@@ -29,7 +29,7 @@ angular.module('app.services', [])
   var signin = function (user) {
     return $http({
       method: 'POST',
-      url: '/api/signin',
+      url: '/api/login',
       data: user
     })
     .then(function (resp) {

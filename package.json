@@ -6,7 +6,6 @@
     "test": "grunt test",
     "postinstall": "./node_modules/bower/bin/bower install",
     "start": "node ./doozy/server.js"
-
   },
   "dependencies": {
     "angular": "^1.4.7",
@@ -24,7 +23,6 @@
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
     "bower": "~1.6"
-   
   },
   "devDependencies": {
     "chai": "^3.4.1",
