@@ -127,6 +127,7 @@ describe('Authentication', function() {
             });
           });
       });
+      // TODO refactor this into 3 tests
       it('should not create a user with a blank username, password, or teamname', function(done) {
         request(app)
           .post('/api/signup')
@@ -136,23 +137,23 @@ describe('Authentication', function() {
             'teamname': 'test team' 
           })
           .expect(400, 'Username, Password, and Teamname must be present');
-          request(app)
-            .post('/api/signup')
-            .send({
-              'username': '          ',
-              'password': 'testpass',
-              'teamname': 'test team' 
-            })
-            .expect(400, 'Username, Password, and Teamname must be present')
-            request(app)
-              .post('/api/signup')
-              .send({
-                'username': 'testusertwo',
-                'password': 'testpass',
-                'teamname': '          ' 
-              })
-              .expect(400, 'Username, Password, and Teamname must be present')
-              .end(done);
+        request(app)
+          .post('/api/signup')
+          .send({
+            'username': '          ',
+            'password': 'testpass',
+            'teamname': 'test team' 
+          })
+          .expect(400, 'Username, Password, and Teamname must be present');
+        request(app)
+          .post('/api/signup')
+          .send({
+            'username': 'testusertwo',
+            'password': 'testpass',
+            'teamname': '          ' 
+          })
+          .expect(400, 'Username, Password, and Teamname must be present')
+          .end(done);
       });
       it('should give a list of users', function(done) {
         request(app)
