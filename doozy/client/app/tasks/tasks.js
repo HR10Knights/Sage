@@ -77,11 +77,6 @@ angular.module('app.tasks', ['ngMaterial'])
       });
   };
 
-  $scope.completeTask = function(task) {
-    task.isCompleted = !task.isCompleted;
-  };
-
-
 	$scope.loadTaskDetails = function(task) {
     // hide the 'Add Task' button
 		$scope.showAddTaskButton=false;
