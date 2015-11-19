@@ -120,6 +120,12 @@ describe('Authentication', function() {
             .expect(400)
             .end(done);
       });
+      it('should give a list of users', function(done) {
+        request(app)
+          .get('/api/users')
+          .expect(200)
+          .end(done);
+      });
     });
 
     describe('log in', function() {
