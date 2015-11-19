@@ -23,7 +23,7 @@ angular.module('app.services', [])
   var updateTask = function(task) {
     return $http({
       method: 'PUT',
-      url: '/api/tasks' + task.id,
+      url: '/api/tasks/' + task._id,
       data: JSON.stringify(task)
     });
   };
@@ -32,6 +32,7 @@ angular.module('app.services', [])
 
   };
 
+
   return {
     getAll: getAll,
     createTask: createTask,
@@ -39,6 +40,21 @@ angular.module('app.services', [])
     deleteTask: deleteTask
   };
 })
+.factory('Users', function ($http) {
+  var getAll = function () {
+    return $http({
+      method: 'GET',
+      url: '/api/users'
+    })
+    .then(function (resp) {
+      return resp.data;
+    });
+  };
+  return {
+    getAll: getAll
+  }
+})
+
 .factory('Auth', function ($http, $location, $window) {
   var signin = function (user) {
     return $http({
