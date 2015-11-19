@@ -94,6 +94,3 @@ angular.module('app.services', [])
     signout: signout
   };
 });
-
-
-
