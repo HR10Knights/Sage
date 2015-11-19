@@ -1,8 +1,17 @@
 angular.module('app.tasks', ['ngMaterial'])
 
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
+
 	$scope.showAddTaskButton = true;
   $scope.data = {};
+  
+  // this is sample data for the task data form
+  $scope.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
+    'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
+    'WY').split(' ').map(function(state) {
+        return {abbrev: state};
+    });
+
   $scope.data.tasks = [];
   $scope.getTasks = function() {
 		// $scope.data.tasks = Tasks.getAll();
