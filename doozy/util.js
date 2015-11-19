@@ -23,6 +23,6 @@ var util = {
       return next(error);
     }
   }
-}
+};
 
 module.exports = util;

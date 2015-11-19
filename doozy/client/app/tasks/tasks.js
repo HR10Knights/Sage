@@ -24,7 +24,7 @@ angular.module('app.tasks', ['ngMaterial'])
     .catch(function(err) {
       console.log(err);
     });
-  }
+  };
   $scope.getUsers();
   
   $scope.updateTask = function(task) {
@@ -85,7 +85,7 @@ angular.module('app.tasks', ['ngMaterial'])
 	$scope.clearTaskFields = function() {
     $scope.task = {};
     $scope.buttonText = 'Add Task';
-	}
+	};
 
   $scope.stagingFilter = function(task) {
     return !task.isCompleted && task.users.length === 0 ? true : false;
@@ -97,6 +97,6 @@ angular.module('app.tasks', ['ngMaterial'])
 
   $scope.completedFilter = function(task) {
   	return task.isCompleted ? true : false;
-  }
+  };
 
 });

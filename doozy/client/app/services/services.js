@@ -52,7 +52,7 @@ angular.module('app.services', [])
   };
   return {
     getAll: getAll
-  }
+  };
 })
 
 .factory('Auth', function ($http, $location, $window) {

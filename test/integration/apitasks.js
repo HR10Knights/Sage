@@ -113,7 +113,6 @@ describe('Tasks API', function() {
               .expect(201)
               .then(function() {
                 User.findOne({username: 'auser'}, function (err, foundUser) {
-                  console.log('user: ' + foundUser);
                   user = foundUser;
                   done();
                 });
@@ -269,7 +268,7 @@ describe('Tasks API', function() {
               })
               .expect(404)
               .end(done);
-          })
+          });
       });
     });
 
