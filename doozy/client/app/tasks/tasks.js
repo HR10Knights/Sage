@@ -1,5 +1,13 @@
 angular.module('app.tasks', ['ngMaterial'])
-
+.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('green')
+    .accentPalette('indigo')
+    .warnPalette('deep-orange')
+    .backgroundPalette('green', {
+      default: '50'
+    });
+})
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
 	$scope.showAddTaskButton = true;
   $scope.data = {};

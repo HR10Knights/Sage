@@ -27,9 +27,9 @@
   margin-bottom: 5px;
 }
 .logoutbtn {
-  position: absolute;
-  bottom: 0px;
-  right: 15px;
+  position: fixed;
+  top: 0px;
+  right: 30px;
 }
 
  .taskListItem:focus {
