@@ -16,7 +16,7 @@
     </section>
 
 
-    <md-content layout-padding ng-show='showTaskForm'>
+    <md-content layout-padding ng-show='showTaskForm' class="fx-zoom-normal fx-speed-500">
       <md-icon 
         id="closeFormBtn" 
         ng-click="resetTaskDetails()" 
@@ -60,7 +60,8 @@
     <md-content class='taskList'>
 
       <md-subheader class="md-no-sticky">Staging</md-subheader>
-      <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter" class="fx-fade-right fx-speed-500">
+      <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter">
+      <!-- <md-list-item ng-repeat="task in data.tasks | filter : stagingFilter" class="fx-fade-right fx-speed-500"> -->
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
@@ -77,7 +78,8 @@
       <md-divider></md-divider>
 
       <md-subheader class="md-no-sticky">Assigned</md-subheader>
-      <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter" class="fx-fade-right fx-speed-500">
+      <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter">
+      <!-- <md-list-item ng-repeat="task in data.tasks | filter : assignedFilter" class="fx-fade-right fx-speed-500"> -->
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
@@ -95,7 +97,8 @@
       <md-divider></md-divider>
 
       <md-subheader class="md-no-sticky">Complete</md-subheader>
-      <md-list-item ng-repeat="task in data.tasks | filter : completedFilter" class="fx-fade-right fx-speed-500">
+      <md-list-item ng-repeat="task in data.tasks | filter : completedFilter">
+      <!-- <md-list-item ng-repeat="task in data.tasks | filter : completedFilter" class="fx-fade-right fx-speed-500"> -->
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>

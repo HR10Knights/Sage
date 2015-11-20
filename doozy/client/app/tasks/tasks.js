@@ -39,19 +39,16 @@ angular.module('app.tasks', ['ngMaterial'])
   
   $scope.updateTask = function(task) {
     // check for a blank form 
+    var changedUser = false;
     if (!task) {
       return;
     }
 
-    if (task.assigned === '') {
+    if (task.assigned) {
+      task.users = [task.assigned];
+      changedUser = true;
+    } else {
       task.users = [];
-    } else if (!task.users) {
-      if (task.assigned) {
-        task.users = [task.assigned];
-      } else {
-        // otherwise its unassigned
-        task.users = [];
-      }
     }
 
     var found = false;
@@ -62,12 +59,16 @@ angular.module('app.tasks', ['ngMaterial'])
       if ( task._id && task._id === currentTask._id ) {
         Tasks.updateTask(task)
           .then(function(resp) {
+            if (changedUser) {
+              $scope.getTasks();
+            }
           })
           .catch(function(err) {
             console.log(err);
           });
 
         found = true;
+
         break;
      }
     }
