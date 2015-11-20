@@ -1,20 +1,25 @@
 process.env.NODE_ENV = "test"; // Use test database
 
-var request = require('supertest');
-var express = require('express');
 var expect = require('chai').expect;
-var app = require('../../doozy/server');
-var db = require('../../doozy/config');
+var express = require('express');
 var mongoose = require('mongoose');
-var Task = require('../../doozy/models/task');
-var User = require('../../doozy/models/user');
-var con = mongoose.createConnection('mongodb://localhost/doozytest');
-var util = require('../../doozy/util');
+var request = require('supertest');
 var sinon = require('sinon');
 
+var app = require('../../doozy/server');
+var db = require('../../doozy/config');
+var Task = require('../../doozy/models/task');
+var User = require('../../doozy/models/user');
+var util = require('../../doozy/util');
+
+
 describe('Tasks API', function() {
+  var con, decodeStub;
+
   before(function(done) {
+    con = mongoose.createConnection('mongodb://localhost/doozytest');
     decodeStub = sinon.stub(util, 'decode');
+
     request(app)
       .post('/api/signup')
       .send({
@@ -25,6 +30,7 @@ describe('Tasks API', function() {
       .expect(201)
       .end(done);
   });
+
   after(function(done) {
     con.db.dropDatabase(function(err, result) {
       con.close(done);
@@ -78,6 +84,34 @@ describe('Tasks API', function() {
             .expect(200)
             .expect('Content-Type', /json/)
             .end(done);
+        });
+      });
+  });
+
+  it('should be able to destroy task', function (done) {
+    request(app)
+      .post('/api/tasks')
+      .send({
+        'name': 'delete me!',
+        'description': 'now you see me...'
+      })
+      .expect(201)
+      .then(function () {
+        Task.findOne({name: 'delete me!'}, function (err, foundTask) {
+          if (err) console.log("Err: ", err);
+
+          request(app)
+            .del('/api/tasks/' + foundTask._id)
+            .send()
+            .expect(200)
+            .then(function () {
+              Task.findOne({name: 'delete me!'}, function (err, foundTask) {
+                if (err) console.log("Err:", err);
+
+                expect(foundTask).to.equal(null);
+                done();
+              });
+            });
         });
       });
   });
