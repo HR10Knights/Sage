@@ -16,7 +16,7 @@
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
-    1. [Code Coverage](#coverage)
+    1. [Code Coverage](#code-coverage)
 1. [Team](#team)
 1. [Contributing](#contributing)
 1. [Style Guide](#style-guide)
