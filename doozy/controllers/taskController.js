@@ -88,7 +88,7 @@ module.exports = {
     Task.remove({ _id: taskId }, function(err) {
       if (err) return res.sendStatus(404, err);
 
-      res.sendStatus(205);
+      res.sendStatus(200);
     });
   }
 };

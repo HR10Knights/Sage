@@ -20,7 +20,7 @@ describe('Projects API (api/projects)', function() {
     };
 
     con = mongoose.createConnection('mongodb://localhost/doozytest');
-    setTimeout(done, 500); // hack to give connection enough time
+    setTimeout(done, 100); // hack to give connection enough time
   });
 
   afterEach(function(done) {
