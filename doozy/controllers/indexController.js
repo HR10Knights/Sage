@@ -43,7 +43,9 @@ module.exports = {
       });
     });
   },
-
+  getIndex: function(req, res, next) {   
+    res.render('index', { title: 'Express' });   
+  },
   loginUser: function(req, res, next) {
     var username = req.body.username.trim();
     var password = req.body.password.trim();
