@@ -17,6 +17,7 @@
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
     1. [Tasks](#tasks)
+    1. [Code Coverage](#code-coverage)
 1. [Team](#team)
 1. [Contributing](#contributing)
 1. [Style Guide](#style-guide)
@@ -83,6 +84,8 @@ bower install
 
 View the project roadmap [here](https://github.com/HR10Knights/HR10Knights/issues?q=is%3Aissue+is%3Aopen)
 
+### Code Coverage
+* Install istanbul with `npm install -g istanbul` and run it with `istanbul cover node_modules/.bin/_mocha -- -R spec test/**/*`
 
 ## Contributing
 
