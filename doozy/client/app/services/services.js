@@ -2,6 +2,19 @@ angular.module('app.services', [])
 
 .factory('Tasks', function($http) {
 
+/*
+API format for a task object (all requests types):
+taskObj = {
+  name: 'task name',
+  users: [userObj, userObj],
+  description: 'bla bla bla',
+  isCompleted: false
+}
+
+required properties: name, isCompleted
+optional properties: users, description
+*/
+
   var getAll = function() {
     return $http({
       method: 'GET',
@@ -62,12 +75,14 @@ angular.module('app.services', [])
 .factory('Auth', function ($http, $location, $window) {
   var teamName = '';
 
+  // sends user login input to db
   var signin = function (user) {
     return $http({
       method: 'POST',
       url: '/api/login',
       data: user
     })
+    // if successful, send encoded token back to auth.js
     .then(function (resp) {
       teamName = user.teamname;
       return resp.data.token;
@@ -80,16 +95,20 @@ angular.module('app.services', [])
       url: '/api/signup',
       data: user
     })
+    // if successful, send encoded token back to auth.js
     .then(function (resp) {
       teamName = user.teamname;
       return resp.data.token;
     });
   };
 
+  // checks if user has a previously stored web token
+  // returning false will redirect user to signin page
   var isAuth = function () {
     return !!$window.localStorage.getItem('auth-token');
   };
 
+  // clears web token and redirect to signin
   var signout = function () {
     $window.localStorage.removeItem('auth-token');
     $location.path('/signin');
