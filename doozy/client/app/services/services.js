@@ -2,6 +2,19 @@ angular.module('app.services', [])
 
 .factory('Tasks', function($http) {
 
+/*
+API format for a task object (all requests types):
+taskObj = {
+  name: 'task name',
+  users: [userObj, userObj],
+  description: 'bla bla bla',
+  isCompleted: false
+}
+
+required properties: name, isCompleted
+optional properties: users, description
+*/
+
   var getAll = function() {
     return $http({
       method: 'GET',
