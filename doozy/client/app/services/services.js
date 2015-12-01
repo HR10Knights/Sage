@@ -1,36 +1,8 @@
 angular.module('app.services', [
-  'services.UserFactory'
+
+  'services.UserFactory',
+  'services.email'
   ])
-
-
-// Project Factory
-
-  // getProjectByOrganizationId
-    // Get all projects for an organization
-  
-  // Remove Project
-    // Delete project from organization
-    // Removes all child teams
-
-  // Add Team to Project
-    // Adds a new team to the project
-    // adds to project with id and posts new team info
-
-// Team Factory
-
-  // getTeamByOrganizationId
-    // Get all teams for an organization
-
-  // getTeamByProjectId
-    // Get all teams for a project
-
-  // addUserToTeam
-    // Add a new user to a team by teamId
-    // Associates with existing user or by email address if user isn't signed up yet
-
-  // removeTeam
-    // Delete team from a project
-    // removes all child tasks
 
 .factory('Tasks', function($http) {
 
