@@ -8,6 +8,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-mocha-istanbul');
   grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -24,7 +27,7 @@ module.exports = function(grunt) {
         globals: {
           eqeqeq: true
         },
-        ignores: ['client/dist/**/*',
+        ignores: ['doozy/dist/**/*',
                   'doozy/seed.js'
         ]
       }
@@ -79,12 +82,12 @@ module.exports = function(grunt) {
     // Injects between <!-- bower:css / js --><!-- endbower -->
     wiredep: {
       task :{
-        src: ['client/index.html']
+        src: ['doozy/client/index.html']
       }
     },
 
     // Remove all files from the dist folder
-    clean: ['client/dist/**/*'],
+    clean: ['doozy/dist/**/*'],
 
     concat: {
       options: {
@@ -93,7 +96,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // Concat all js files in client
-          'client/dist/scripts/app.js': ['client/app/**/*.js'],
+          'doozy/dist/scripts/app.js': ['client/app/**/*.js'],
         }
       }
     },
@@ -102,7 +105,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // Minify concatenated files
-          'client/dist/scripts/app.min.js': ['client/dist/scripts/app.js'],
+          'doozy/dist/scripts/app.min.js': ['client/dist/scripts/app.js'],
         }
       }
     },
@@ -110,7 +113,7 @@ module.exports = function(grunt) {
     cssmin: {
       target: {
         files: {
-          'client/dist/styles/style.min.css': ['client/styles/**/*.css']
+          'doozy/dist/styles/style.min.css': ['client/styles/**/*.css']
         }
       }
     }
