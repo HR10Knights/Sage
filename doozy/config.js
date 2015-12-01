@@ -79,11 +79,9 @@ db.tasksSchema = new Schema ({
 db.usersSchema = new Schema ({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  organization_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }]
+  organization: [{ type: Schema.Types.ObjectId, ref: 'Org' }]
   project_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }],
-  task_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }], 
+  task_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }] 
 });
-
-
 
 module.exports = db;
