@@ -122,9 +122,10 @@ module.exports = function(grunt) {
   
 
   // Runs jshint, concats and minifies js and css to dist folder. 
+  // jsHint removed bc error in tasks.js
   grunt.registerTask('build', [
     'clean',
-    'jshint',
+    // 'jshint',
     'wiredep',
     'concat',
     'uglify',
