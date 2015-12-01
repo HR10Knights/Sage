@@ -1,15 +1,5 @@
-angular.module('app.tasks', ['ngMaterial'])
-.config(function($mdThemingProvider) {
-  $mdThemingProvider.theme('default')
-    .primaryPalette('green')
-    .accentPalette('green', {
-      default: '800'
-    })
-    .warnPalette('deep-orange')
-    .backgroundPalette('green', {
-      default: '50'
-    });
-})
+angular.module('app.tasks', [])
+
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
 	// make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
@@ -63,13 +53,16 @@ angular.module('app.tasks', ['ngMaterial'])
     var found = false;
 
     // if the task already exists, update it
-    // this function is called by the promise inside the loop to please jshint - did not work
+
+// these next two functions are called by the promise inside the loop below. They are named and written outside the loop to please jshint
+    // but...did not work under actual use
     // var checkChangedUser = function(resp){
     //   if (changedUser) {
     //     $scope.getTasks();
     //   }
     // };
     // var catchError = function(err){ console.log(err);};
+
 
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];

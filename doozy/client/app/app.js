@@ -1,12 +1,25 @@
 angular.module('app', [
   'app.services',
   'app.tasks',
+  'app.projects',
   'app.auth',
   'ngRoute',
   'ngAnimate',
+  'ngMaterial',
   'ngFx'
 ])
-.config(function($routeProvider, $httpProvider) {
+.config(function($routeProvider, $httpProvider, $mdThemingProvider) {
+ 
+  $mdThemingProvider.theme('default')
+    .primaryPalette('green')
+    .accentPalette('green', {
+      default: '800'
+    })
+    .warnPalette('deep-orange')
+    .backgroundPalette('green', {
+      default: '50'
+    });
+ 
   $routeProvider
     .when('/signin', {
       templateUrl: '/app/auth/signin.html',
@@ -18,6 +31,11 @@ angular.module('app', [
     })
     .when('/tasks', {
       templateUrl: '/app/tasks/tasks.html',
+      controller: 'TasksController',
+      authenticate: true,
+    })
+    .when('/projects', {
+      templateUrl: '/app/projects/projects.html',
       controller: 'TasksController',
       authenticate: true,
     })
