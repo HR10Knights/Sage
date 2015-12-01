@@ -3,7 +3,7 @@ var Project = require('../models/project');
 
 module.exports = {
   allProjects: function (req, res, next) {
-    Project.find({ }, function (err, projects) {
+    Project.find({}, function (err, projects) {
       if (err) return res.status(500).send(err);
 
       res.status(200).send(projects);

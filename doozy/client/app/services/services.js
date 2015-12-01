@@ -1,4 +1,36 @@
-angular.module('app.services', [])
+angular.module('app.services', [
+  'services.UserFactory'
+  ])
+
+
+// Project Factory
+
+  // getProjectByOrganizationId
+    // Get all projects for an organization
+  
+  // Remove Project
+    // Delete project from organization
+    // Removes all child teams
+
+  // Add Team to Project
+    // Adds a new team to the project
+    // adds to project with id and posts new team info
+
+// Team Factory
+
+  // getTeamByOrganizationId
+    // Get all teams for an organization
+
+  // getTeamByProjectId
+    // Get all teams for a project
+
+  // addUserToTeam
+    // Add a new user to a team by teamId
+    // Associates with existing user or by email address if user isn't signed up yet
+
+  // removeTeam
+    // Delete team from a project
+    // removes all child tasks
 
 .factory('Tasks', function($http) {
 
@@ -25,6 +57,19 @@ optional properties: users, description
     });
   };
 
+  // getTaskByUserId
+    // Gets all tasks assigned to a user
+
+  // getTaskByTeamId
+    // Gets all tasks assigned to a team
+
+  // getTaskByProjectId
+    // Gets all tasks assigned to a project
+
+  // getTaskByOrganizationId
+    // gets all tasks assigned to an organization
+
+  // Modify task object to include teamId
   var createTask = function(task) {
     return $http({
       method: 'POST',
@@ -55,20 +100,6 @@ optional properties: users, description
     createTask: createTask,
     updateTask: updateTask,
     deleteTask: deleteTask
-  };
-})
-.factory('Users', function ($http) {
-  var getAll = function () {
-    return $http({
-      method: 'GET',
-      url: '/api/users'
-    })
-    .then(function (resp) {
-      return resp.data;
-    });
-  };
-  return {
-    getAll: getAll
   };
 })
 
