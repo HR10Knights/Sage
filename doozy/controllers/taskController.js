@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var Task = require('../models/task');
+var Org = require('../models/org');
 var User = require('../models/user');
 
 
