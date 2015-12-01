@@ -22,7 +22,10 @@ module.exports = function(grunt) {
       options: {
         globals: {
           eqeqeq: true
-        }
+        },
+        ignores: ['client/dist/**/*',
+                  'doozy/seed.js'
+        ]
       }
     },
     mochaTest: {
@@ -68,9 +71,66 @@ module.exports = function(grunt) {
           
         }
       }
-    }
-  });
+    },
 
+
+    // Injects all bower dependencies into index.html
+    // Injects between <!-- bower:css / js --><!-- endbower -->
+    wiredep: {
+      task :{
+        src: ['client/index.html']
+      }
+    },
+
+    // Remove all files from the dist folder
+    clean: ['client/dist/**/*'],
+
+    concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        files: {
+          // Concat all js files in client
+          'client/dist/scripts/app.js': ['client/app/**/*.js'],
+        }
+      }
+    },
+
+    uglify: {
+      dist: {
+        files: {
+          // Minify concatenated files
+          'client/dist/scripts/app.min.js': ['client/dist/scripts/app.js'],
+        }
+      }
+    },
+
+    cssmin: {
+      target: {
+        files: {
+          'client/dist/styles/style.min.css': ['client/styles/**/*.css']
+        }
+      }
+    }
+
+  });
+  
+
+  // Runs jshint, concats and minifies js and css to dist folder. 
+  grunt.registerTask('build', [
+    'clean',
+    'jshint',
+    'wiredep',
+    'concat',
+    'uglify',
+    'cssmin',
+  ]);
+
+  grunt.registerTask('hint', [
+    'jshint'
+    ]);
+  
   grunt.registerTask('test', [
     'mochaTest'
   ]);
