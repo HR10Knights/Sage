@@ -12,42 +12,8 @@ if (process.env.MONGOLAB_URI) {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-
-db.orgSchema = new Schema ({
-    title: String,
-    projects: [db.projectsSchema]
-});
-
-db.projectsSchema = new Schema ({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: [
-      function(name) {
-        return name.trim().length >= 3;
-      },
-      'Name too short'
-    ]
-  },
-  description: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: [
-      function(description) {
-        return description.trim().length >= 3;
-      },
-      'Description too short'
-    ]
-  },
-  teamLead: {type: Schema.Types.ObjectID, ref: 'User'} // ref user
-  teamMembers: [{type: Schema.Types.ObjectID, ref: 'User'}], // ref users
-  tasks: [db.tasksSchema],
-  deadline: Date
-});
-
-db.tasksSchema = new Schema ({
+// Tasks
+var tasksSchema = new Schema ({
   name: {
     type: String,
     required: true,
@@ -72,16 +38,64 @@ db.tasksSchema = new Schema ({
     type: Date,
     required: false,
     unique: false
-  }
-  assignee: {type: Schema.Types.ObjectID, ref: 'User'} //ref user
+  },
+  assignee: {type: Schema.ObjectId, ref: 'User'}
 });
 
-db.usersSchema = new Schema ({
+db.tasksSchema = tasksSchema;
+
+
+// Projects
+var projectsSchema = new Schema ({
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: [
+      function(name) {
+        return name.trim().length >= 3;
+      },
+      'Name too short'
+    ]
+  },
+  description: {
+    type: String,
+    required: true,
+    unique: true,
+    validate: [
+      function(description) {
+        return description.trim().length >= 3;
+      },
+      'Description too short'
+    ]
+  },
+  teamLead: {type: Schema.ObjectId, ref: 'User'}, 
+  teamMembers: [{type: Schema.ObjectId, ref: 'User'}],
+  tasks: [{type: Schema.ObjectId, ref: 'Task'}],
+  deadline: Date
+});
+
+db.projectsSchema = projectsSchema;
+
+
+// Users
+var usersSchema = new Schema ({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
-  organization: [{ type: Schema.Types.ObjectId, ref: 'Org' }]
-  project_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }],
-  task_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }] 
+  organization: [{ type: Schema.ObjectId, ref: 'Org' }],
+  project_list: [{ type: Schema.ObjectId, ref: 'Project' }],
+  task_list: [{ type: Schema.ObjectId, ref: 'Task' }] 
 });
+
+db.usersSchema = usersSchema;
+
+
+// Organization
+var orgSchema = new Schema ({
+    title: String,
+    projects: [{type: Schema.ObjectId, ref: 'Project'}]
+});
+
+db.orgSchema = orgSchema;
 
 module.exports = db;
