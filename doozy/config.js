@@ -75,7 +75,6 @@ var projectsSchema = new Schema ({
 
 db.projectsSchema = projectsSchema;
 
-
 // Users
 var usersSchema = new Schema ({
   username: {type: String, required: true, unique: true},
@@ -83,7 +82,6 @@ var usersSchema = new Schema ({
   organization: [{ type: Schema.ObjectId, ref: 'Org' }],
   project_list: [{ type: Schema.ObjectId, ref: 'Project' }],
   task_list: [{ type: Schema.ObjectId, ref: 'Task' }] 
-});
 
 db.usersSchema = usersSchema;
 
