@@ -43,7 +43,7 @@ db.projectsSchema = new Schema ({
   },
   teamLead: {type: Schema.Types.ObjectID, ref: 'User'} // ref user
   teamMembers: [{type: Schema.Types.ObjectID, ref: 'User'}],
-  unregisteredUsers: String // ref users
+  unregisteredUsers: String, 
   tasks: [db.tasksSchema],
   deadline: Date
 });
