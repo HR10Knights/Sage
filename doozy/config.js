@@ -77,9 +77,10 @@ db.tasksSchema = new Schema ({
 });
 
 db.usersSchema = new Schema ({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  organization: [{ type: Schema.Types.ObjectId, ref: 'Org' }]
+  username: {type: String, required: false, unique: true},
+  password: {type: String, required: false},
+  email: {type: String, required true},
+  organization: [{ type: Schema.Types.ObjectId, ref: 'Org' }],
   project_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }],
   task_list: [{ type: Schema.Types.ObjectId, ref: 'Org' }] 
 });
