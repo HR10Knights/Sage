@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var teams = require('./routes/teams');
 var tasks = require('./routes/tasks');
 var projects = require('./routes/projects');
+var emails = require('./routes/emails');
 var util = require('./util');
 var app = express();
 // var expressJwt = require('express-jwt');
@@ -36,6 +37,7 @@ app.use('/api/teams', teams);
 app.use('/api/tasks', util.decode);
 app.use('/api/tasks', tasks);
 app.use('/api/projects', projects);
+app.use('/api/email', emails);
 
 // TODO refactor into a controller
 // TODO remove this

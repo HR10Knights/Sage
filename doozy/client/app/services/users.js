@@ -61,4 +61,4 @@ angular.module('services.UserFactory', [])
     return {
       getAll: getAll
     };
-  })
+  });
