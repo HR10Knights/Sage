@@ -1,12 +1,4 @@
-angular.module('app.projects', ['ngMaterial'])
-.config(function($mdThemingProvider) {
-  $mdThemingProvider.theme('default')
-    .primaryPalette('green')
-    .accentPalette('green', {
-      default: '800'
-    })
-    .warnPalette('deep-orange')
-    .backgroundPalette('green', {
-      default: '50'
-    });
-})
+angular.module('app.projects', [])
+.controller('ProjectsController', function($scope, Tasks, Users, Auth){
+  // Projects html may use the TasksController
+});
