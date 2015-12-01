@@ -80,7 +80,7 @@ describe('Authentication', function() {
           .send({
             'username': username,
             'password': 'testpass',
-            'teamname': 'test team' 
+            'teamname': 'test team'
           })
           .expect(201)
           .then(function () {
