@@ -1,7 +1,10 @@
 angular.module('services.UserFactory', [])
   .factory('Users', function($http) {
-    // getUserByTaskId
-    // get all users assigned to a task
+    /**
+     * Return all users currently assigned to a task
+     * @param  {[int]} taskId   [id of the given task]
+     * @return {[array]}        [array of user objects]
+     */
     var getUsersByTaskId = function(taskId){
       return $http({
           method: 'GET',
@@ -11,8 +14,12 @@ angular.module('services.UserFactory', [])
           return resp.data;
         });
     };
-    // getUserByProjectId
-    // get all users assigned to a project
+
+    /**
+     * Return all users currently assigned to a project
+     * @param  {[int]} projectId   [id of the given project]
+     * @return {[array]}        [array of user objects]
+     */
     var getUsersByProjectId = function(projectId){
       return $http({
           method: 'GET',
@@ -22,8 +29,12 @@ angular.module('services.UserFactory', [])
           return resp.data;
         });
     };
-    // getUserByOrganizationId
-    // get all users from an organization
+
+    /**
+     * Return all users currently assigned to a organization
+     * @param  {[int]} organizationId   [id of the given organization]
+     * @return {[array]}        [array of user objects]
+     */
     var getUsersByOrganizationId = function(organizationId){
       return $http({
           method: 'GET',
@@ -34,6 +45,10 @@ angular.module('services.UserFactory', [])
         });
     };
 
+    /**
+     * Returns all users
+     * @return {[array]} [array of user objects]
+     */
     var getAll = function() {
       return $http({
           method: 'GET',

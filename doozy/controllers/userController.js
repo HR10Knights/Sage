@@ -13,6 +13,9 @@ module.exports = {
     });
   },
 
+  /**
+   * Returns all users that have given taskId in their task list
+   */
   getUserByTaskId: function(req, res, next) {
     var taskId = req.params.taskId;
     User.find({
@@ -26,10 +29,15 @@ module.exports = {
     });
   },
 
+  /**
+   * Returns all users that are part of a project
+   */
   getUserByProjectId: function(req, res, next) {
     var projectId = req.params.projectId;
     User.find({
-      project_id: projectId
+      project_list: {
+        $in: projectId
+      }
     }, {}, function(err, users) {
       if (err) return res.status(500).send();
 
@@ -37,10 +45,15 @@ module.exports = {
     });
   },
 
+  /**
+   * Returns all users that are part of an organization
+   */
   getUserByOrganizationId: function(req, res, next) {
     var organizationId = req.params.organizationId;
     User.find({
-      organization_id: organizationId
+      organization_list: {
+        $in: organizationId
+      }
     }, {}, function(err, users) {
       if (err) return res.status(500).send();
 
