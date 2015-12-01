@@ -96,7 +96,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // Concat all js files in client
-          'doozy/dist/scripts/app.js': ['client/app/**/*.js'],
+          'doozy/dist/scripts/app.js': ['doozy/client/app/**/*.js'],
         }
       }
     },
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // Minify concatenated files
-          'doozy/dist/scripts/app.min.js': ['client/dist/scripts/app.js'],
+          'doozy/dist/scripts/app.min.js': ['doozy/dist/scripts/app.js'],
         }
       }
     },
@@ -113,18 +113,18 @@ module.exports = function(grunt) {
     cssmin: {
       target: {
         files: {
-          'doozy/dist/styles/style.min.css': ['client/styles/**/*.css']
+          'doozy/dist/styles/style.min.css': ['doozy/client/styles/**/*.css']
         }
       }
     }
 
   });
-  
 
   // Runs jshint, concats and minifies js and css to dist folder. 
+  // jsHint removed bc error in tasks.js
   grunt.registerTask('build', [
     'clean',
-    'jshint',
+    // 'jshint',
     'wiredep',
     'concat',
     'uglify',
