@@ -63,18 +63,23 @@ angular.module('app.tasks', ['ngMaterial'])
     var found = false;
 
     // if the task already exists, update it
+    // this function is called by the promise inside the loop to please jshint
+    var checkChangedUser = function(resp){
+      if (changedUser) {
+        $scope.getTasks();
+      }
+    };
+    var catchError = function(err){ console.log(err);};
+
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
         Tasks.updateTask(task)
-          .then(function(resp) {
-            if (changedUser) {
-              $scope.getTasks();
-            }
-          })
-          .catch(function(err) {
-            console.log(err);
-          });
+          .then(checkChangedUser(resp)
+          )
+          .catch(
+            catchError(err)
+          );
 
         found = true;
 
