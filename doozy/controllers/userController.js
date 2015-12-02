@@ -1,6 +1,8 @@
 // NOTE: createUser and loginUser are in the indexController
 // var Team = require('../models/team');
 var User = require('../models/user');
+var Task = require('../models/task')
+var Project = require('../models/project')
 
 
 module.exports = {
@@ -82,6 +84,49 @@ module.exports = {
           user.remove();
           res.status(200).send('Deleted');
         });
+      });
+    });
+  },
+
+  getTasksForUser: function(req, res, next){
+    var userId = req.params.userId
+    User.findOne({_id: userId})
+    .populate('task_list')
+    .exec(function (err, tasks) {
+      if (err) return res.status(500).send();
+      res.status(200).send(tasks)
+    })
+
+  },
+
+  getProjectsforUser: function(req, res, next){
+    var userId = req.params.userId
+    User.findOne({_id: userId})
+    .populate('project_list')
+    .exec(function (err, projects) {
+      if (err) return res.status(500).send();
+      res.status(200).send(projects)
+    })
+  },
+
+  addTaskToUser: function(req, res, next){
+    var userId = req.params.userId;
+    var taskId = req.params.taskId;
+
+    User.findOne({_id: userId}, function (err, user){
+      Task.findOne({_id: taskId}, function (err, task){
+        user.task_list.push(task);
+      });
+    });
+  },
+
+  addProjectToUser: function(req, res, next){
+    var userId = req.params.userId;
+    var projectId = req.params.taskId;
+
+    User.findOne({_id: userId}, function (err, user){
+      Project.findOne({_id: taskId}, function (err, project){
+        user.task_list.push(project);
       });
     });
   }
