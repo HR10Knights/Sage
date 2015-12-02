@@ -10,7 +10,6 @@ var Org = require('../../doozy/models/org');
 var mongoose = require('mongoose');
 
 
-
 describe('Projects API (api/projects)', function() {
   var org, con;
 
