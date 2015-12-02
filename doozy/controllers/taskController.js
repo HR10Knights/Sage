@@ -45,16 +45,17 @@ module.exports = {
    * @return {[object]}              [Updated Project]
    */
   createTaskByProject: function(req, res, next) {
-    var task = new Task({
-      name: req.body.name,
-      description: req.body.description
-    });
 
     Project.findById(req.body.projectId, function(err, project) {
       if (err) {
         return res.status(500).send(err);
       }
       if (project) {
+        var task = new Task({
+          name: req.body.name,
+          description: req.body.description,
+          project_id: project._id
+        });
         project.tasks.push(task._id);
         project.save(function(err) {
           if (err) {
@@ -79,10 +80,7 @@ module.exports = {
    * @return {[object]}                   [Task]
    */
   getTaskById: function(req, res, next) {
-    var taskId = mongoose.Types.ObjectId(req.params.id);
-    Task.find({
-      _id: taskId
-    }, function(err, tasks) {
+    Task.findById(req.params.id, function(err, tasks) {
       if (err) return res.sendStatus(404, err);
 
       res.status(200).send(tasks);

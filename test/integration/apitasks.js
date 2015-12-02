@@ -39,6 +39,13 @@ describe('Tasks API (api/tasks)', function() {
     });
   });
 
+  it('should have name, created_at, and isCompleted fields', function(done){
+    expect(task.name).to.not.equal(null);
+    expect(task.created_at).to.not.equal(null);
+    expect(task.isCompleted).to.not.equal(null);
+    done();
+  });
+
   it('should add a task to a project', function(done) {
     request(app)
       .post('/api/tasks/create')
@@ -62,6 +69,18 @@ describe('Tasks API (api/tasks)', function() {
       .end(done);
   });
 
+  it('should know who is it\'s daddy', function(done){
+    Task.findOne({name: 'new task'})
+      .populate('project_id')
+      .exec(function(err, task) {
+        if (err) {
+          console.log(err);
+        }
+        expect(task.project_id.name).to.equal(project.name);
+        done();
+      });
+  });
+
   it('should not add a task to a project that does not exist', function(done) {
     request(app)
       .post('/api/tasks/create')
@@ -72,6 +91,7 @@ describe('Tasks API (api/tasks)', function() {
       .expect(404)
       .end(done);
   });
+
 
   it('should list all tasks for a project', function(done) {
     request(app)

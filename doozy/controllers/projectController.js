@@ -71,13 +71,19 @@ module.exports = {
    * @return {[object]}        [organization object]
    */
   createProjectByOrg: function(req, res, next) {
-    var project = new Project(req.body.project);
+
     Org.findById(req.body.orgId, function(err, org) {
       if (err) {
         return res.status(500).send(err);
       }
       if (org) {
+        var project = new Project({
+          name: req.body.name,
+          description: req.body.description,
+          org_id: org._id
+        });
         org.projects.push(project._id);
+        project.org_id = org._id;
         org.save(function(err) {
           if (err) {
             return res.status(500).send(err);
