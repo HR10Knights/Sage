@@ -35,8 +35,8 @@ angular.module('app', [
       controller: 'TasksController',
       authenticate: true,
     })
-    .when('/projects', {
-      templateUrl: '/app/projects/projects.html',
+    .when('/landing', {
+      templateUrl: '/app/landing/landing.html',
       controller: 'TasksController',
       authenticate: true,
     })
