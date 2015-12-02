@@ -2,6 +2,8 @@ angular.module('app', [
   'app.services',
   'app.tasks',
   'app.projects',
+  'services.email',
+  'services.UserFactory',
   'app.auth',
   'ngRoute',
   'ngAnimate',
@@ -12,12 +14,12 @@ angular.module('app', [
  
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
-    .accentPalette('green', {
+    .accentPalette('deep-orange', {
       default: '800'
     })
     .warnPalette('deep-orange')
     .backgroundPalette('green', {
-      default: '50'
+      default: '100'
     });
  
   $routeProvider
@@ -35,6 +37,11 @@ angular.module('app', [
       authenticate: true,
     })
     .when('/projects', {
+      templateUrl: '/app/projects/projects.html',
+      controller: 'TasksController',
+      authenticate: true,
+    })
+    .when('/projects/:projectId', {
       templateUrl: '/app/projects/projects.html',
       controller: 'TasksController',
       authenticate: true,

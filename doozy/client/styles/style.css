@@ -97,3 +97,7 @@ body {
 #signInBtn {
   margin-left: 25%;
 }
+
+#orgcontainer {
+  width: 80%;
+}

@@ -8,13 +8,49 @@
   <!-- Signout button -->
   <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
 
-  <!-- Project Header -->
-  <!-- this does not work -->
-<div flex layout="column" layout-align="center center">
-  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="projectcontainer" class="md-whiteframe-z2">
-    <h1 style="text-align:center" class="projectheader">
-  Sage
-  <p id="teamname">{{ data.teamname }}</p>
-  </h1>
   </div>
-</div>
+ 
+<br>
+
+  <!-- Organization -->
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
+  <div layout="column" layout-align="center stretch">Organization
+    <div flex style="background-color: pink">proj1</div>
+    <div flex style="background-color: blue">proj2</div>
+
+      <div layout="row" style="background-color: red">
+        <div flex>task1</div>
+        <div flex>task2</div>
+        <div flex>task3</div>
+      </div>
+    <div flex>proj2</div>
+      <div layout="row">
+        <div flex>task1</div>
+        <div flex>task2</div>
+        <div flex>task3</div>
+      </div>
+    </div>
+  </div>
+<br>
+
+
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
+  <div layout="column" layout-align="center stretch">Organization2
+    <div flex style="background-color: pink">proj1</div>
+    <div flex style="background-color: blue">proj2</div>
+
+      <div layout="row" style="background-color: red">
+        <div flex>task1</div>
+        <div flex>task2</div>
+        <div flex>task3</div>
+      </div>
+    <div flex>proj2</div>
+      <div layout="row">
+        <div flex>task1</div>
+        <div flex>task2</div>
+        <div flex>task3</div>
+      </div>
+    </div>
+  </div>
+
+  </div>
