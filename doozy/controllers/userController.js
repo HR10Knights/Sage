@@ -92,9 +92,11 @@ module.exports = {
     var userId = req.params.userId
     User.findOne({_id: userId})
     .populate('task_list')
-    .exec(function (err, tasks) {
-      if (err) return res.status(500).send();
-      res.status(200).send(tasks)
+    .exec(function (err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user.task_list)
     })
 
   },
@@ -103,30 +105,46 @@ module.exports = {
     var userId = req.params.userId
     User.findOne({_id: userId})
     .populate('project_list')
-    .exec(function (err, projects) {
-      if (err) return res.status(500).send();
-      res.status(200).send(projects)
+    .exec(function (err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user.project_list)
     })
   },
 
   addTaskToUser: function(req, res, next){
-    var userId = req.params.userId;
-    var taskId = req.params.taskId;
+    var userId = req.body.userId;
+    var taskId = req.body.taskId;
 
     User.findOne({_id: userId}, function (err, user){
+      if (err) {
+        return res.status(500).send();
+      }
       Task.findOne({_id: taskId}, function (err, task){
+        if (err) {
+          return res.status(500).send();
+        }
         user.task_list.push(task);
+        res.status(200).send(user)
       });
     });
   },
 
   addProjectToUser: function(req, res, next){
-    var userId = req.params.userId;
-    var projectId = req.params.taskId;
+    var userId = req.body.userId;
+    var projectId = req.body.projectId;
 
     User.findOne({_id: userId}, function (err, user){
+      if (err) {
+        return res.status(500).send();
+      }
       Project.findOne({_id: taskId}, function (err, project){
-        user.task_list.push(project);
+        if (err) {
+          return res.status(500).send();
+        }
+        user.project_list.push(project);
+        res.status(200).send(user)
       });
     });
   }
