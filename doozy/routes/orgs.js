@@ -3,13 +3,22 @@ var router = express.Router();
 
 var orgController = require('../controllers/orgController');
 
-// curl http://localhost:3000/api/orgs/
+// get all organizations
 router.get('/', orgController.allOrganizations);
 
-// To add a project by curl // NOTE: Untested
-// curl -H "Content-Type: application/json" -X POST -d '{"title":"Organization 1"}' http://localhost:3000/api/orgs/create
-router.post('/create', orgController.createOrganization);
+// get an organization by id
+router.get('/:id', orgController.getOrganizationById);
 
+// Get all users for an organization
+router.get('/users/:id', orgController.getUserByOrganizationId);
+
+// To add an organization
+router.post('/', orgController.createOrganization);
+
+// Update Organization
+router.put('/', orgController.updateOrganization);
+
+// Delete TODO
 router.delete('/:orgId', orgController.removeOrganization);
 
 

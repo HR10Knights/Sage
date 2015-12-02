@@ -8,7 +8,6 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var orgs = require('./routes/orgs');
-var teams = require('./routes/teams');
 var tasks = require('./routes/tasks');
 var projects = require('./routes/projects');
 var emails = require('./routes/emails');
@@ -36,6 +35,7 @@ app.use('/api', routes);
 app.use('/api/orgs', orgs);
 app.use('/api/projects', projects);
 app.use('/api/users', users);
+// Might need to modify where decoding happens (on user?)
 app.use('/api/tasks', util.decode);
 app.use('/api/tasks', tasks);
 app.use('/api/email', emails);
