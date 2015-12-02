@@ -10,8 +10,9 @@ var Org = require('../../doozy/models/org');
 var mongoose = require('mongoose');
 
 
+
 describe('Projects API (api/projects)', function() {
-  var org, con;
+  var org, project, con;
 
   before(function(done) {
     con = mongoose.createConnection('mongodb://localhost/doozytest');
@@ -26,7 +27,24 @@ describe('Projects API (api/projects)', function() {
           title: 'org1'
         }, function(err, foundOrg) {
           org = foundOrg;
-          done();
+          request(app)
+            .post('/api/projects/create')
+            .send({
+              orgId: org._id,
+              project: {
+                'name': 'project1',
+                'description': 'project1'
+              }
+            })
+            .expect(201)
+            .then(function() {
+              Project.findOne({
+                name: 'project1'
+              }, function(err, foundProject) {
+                project = foundProject;
+                done();
+              });
+            });
         });
       });
   });
@@ -52,7 +70,7 @@ describe('Projects API (api/projects)', function() {
       .send({
         orgId: org._id,
         project: {
-          'name': 'project1',
+          'name': 'project2',
           'description': 'project1'
         }
       })
@@ -66,7 +84,7 @@ describe('Projects API (api/projects)', function() {
       .send({
         orgId: mongoose.Types.ObjectId(),
         project: {
-          'name': 'project1',
+          'name': 'project2',
           'description': 'project1'
         }
       })
@@ -77,8 +95,9 @@ describe('Projects API (api/projects)', function() {
   it('should get projects from an organization', function(done) {
     request(app)
       .get('/api/projects/' + org._id)
-      .expect(function(res){
+      .expect(function(res) {
         expect(res.body[0].name).to.equal('project1');
+        expect(res.body.length).to.equal(2);
       })
       .end(done);
   });

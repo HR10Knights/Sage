@@ -2,11 +2,52 @@ var mongoose = require('mongoose');
 
 var Task = require('../models/task');
 var User = require('../models/user');
+var Project = require('../models/project');
 
 
 module.exports = {
+
+  getTasksByProject: function(req, res, next) {
+    Project.findById(req.params.projectId)
+      .populate('tasks')
+      .exec(function(err, project) {
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(project.tasks);
+      });
+  },
+
+  createTaskByProject: function(req, res, next) {
+    var task = new Task(req.body.task);
+    Project.findById(req.body.projectId, function(err, project) {
+      if (err) {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+      if (project) {
+        project.tasks.push(task._id);
+        project.save(function(err) {
+          if (err) {
+            console.log(err);
+            return res.status(500).send(err);
+          }
+          task.save(function(err) {
+            if (err) {
+              console.log(err);
+              return res.status(500).send(err);
+            }
+            res.status(201).send(project);
+          });
+        });
+      } else {
+        res.status(404).send();
+      }
+    });
+  },
+
   allTasks: function(req, res, next) {
-    Task.find({}).populate('users').exec(function(err, tasks) {
+    Task.find({}, function(err, tasks) {
       res.status(200).send(tasks);
     });
   },
@@ -15,10 +56,14 @@ module.exports = {
     var user = req.body.user;
     var task = req.body.task;
 
-    Task.findOne({_id: task}, function(err, task) {
+    Task.findOne({
+      _id: task
+    }, function(err, task) {
       if (err) return res.sendStatus(404, err);
 
-      User.findOne({_id: user}, function(err, user) {
+      User.findOne({
+        _id: user
+      }, function(err, user) {
         if (err) return res.sendStatus(404, err);
 
         task.users.push(user);
@@ -35,25 +80,11 @@ module.exports = {
     });
   },
 
-  createTask: function(req, res, next) {
-    var users = req.body.users || [];
-    // console.log('list of users: ' + req.body.users);
-
-    var newTask = new Task({
-      description: req.body.description,
-      name: req.body.name,
-      users: users
-    });
-    newTask.save(function(err, newTask) {
-      if (err) return res.sendStatus(404, err);
-
-      res.sendStatus(201);
-    });
-  },
-
   idToTask: function(req, res, next) {
     var taskId = mongoose.Types.ObjectId(req.params.id);
-    Task.find({_id: taskId}).populate('users').exec(function(err, tasks) {
+    Task.find({
+      _id: taskId
+    }).populate('users').exec(function(err, tasks) {
       if (err) return res.sendStatus(404, err);
 
       res.status(200).send(tasks);
@@ -61,7 +92,9 @@ module.exports = {
   },
 
   updateTask: function(req, res, next) {
-    Task.findOne({_id: req.body._id}, function(err, task) {
+    Task.findOne({
+      _id: req.body._id
+    }, function(err, task) {
       console.log('task: ' + task);
       if (err) return res.sendStatus(404, err);
 
@@ -72,8 +105,8 @@ module.exports = {
       // console.log('users: ');
       // console.log(req.body.users);
 
-      task.save(function (err, task) {
-        if (err) console.log('err: ' , err);
+      task.save(function(err, task) {
+        if (err) console.log('err: ', err);
         if (err) return res.sendStatus(404, err);
 
         res.sendStatus(205);
@@ -85,7 +118,9 @@ module.exports = {
     var taskId = mongoose.Types.ObjectId(req.params.id);
     // console.log('delete task: ' + taskId);
 
-    Task.remove({ _id: taskId }, function(err) {
+    Task.remove({
+      _id: taskId
+    }, function(err) {
       if (err) return res.sendStatus(404, err);
 
       res.sendStatus(200);

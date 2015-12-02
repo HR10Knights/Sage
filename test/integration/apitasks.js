@@ -1,296 +1,61 @@
-// process.env.NODE_ENV = "test"; // Use test database
+process.env.NODE_ENV = "test"; // Use test database
 
-// var expect = require('chai').expect;
-// var express = require('express');
-// var mongoose = require('mongoose');
-// var request = require('supertest');
-// var sinon = require('sinon');
-
-// var app = require('../../doozy/server');
-// var db = require('../../doozy/config');
-// var Task = require('../../doozy/models/task');
-// var User = require('../../doozy/models/user');
-// var util = require('../../doozy/util');
+var request = require('supertest');
+var express = require('express');
+var expect = require('chai').expect;
+var app = require('../../doozy/server');
+var db = require('../../doozy/config');
+var Project = require('../../doozy/models/project');
+var Org = require('../../doozy/models/org');
+var mongoose = require('mongoose');
 
 
-// describe('Tasks API', function() {
-//   var con, decodeStub;
 
-//   before(function(done) {
-//     con = mongoose.createConnection('mongodb://localhost/doozytest');
-//     decodeStub = sinon.stub(util, 'decode');
+describe('Tasks API (api/tasks)', function() {
+  var org, project, con;
 
-//     request(app)
-//       .post('/api/signup')
-//       .send({
-//         'username': 'testuser',
-//         'password': 'testpass',
-//         'teamname': 'testteam'
-//       })
-//       .expect(201)
-//       .end(done);
-//   });
+  before(function(done) {
+    con = mongoose.createConnection('mongodb://localhost/doozytest');
 
-//   after(function(done) {
-//     con.db.dropDatabase(function(err, result) {
-//       con.close(done);
-//     });
-//   });
+    project = Project.create({
+      name: 'project',
+      description: 'project'
+    }, function(err, foundProject) {
+      if (err) console.log(err);
+      if (foundProject) {
+        project = foundProject;
+        done();
+      }
+    });
 
-//   it('creates a task', function(done) {
-//     request(app)
-//       .post('/api/tasks')
-//       .send({
-//         'name': 'test task',
-//         'description': 'a test description'
-//       })
-//       .expect(201)
-//       .end(done);
-//   });
+  });
 
-//   it('rejects an invalid task', function(done) {
-//     request(app)
-//       .post('/api/tasks')
-//       .send({
-//         'name': ' ',
-//         'description': 'a test description'
-//       })
-//       .expect(404)
-//       .end(done);
-//   });
-  
-//   it('list tasks', function(done) {
-//     request(app)
-//       .get('/api/tasks')
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end(done);
-//   });
+  it('should add a task to a project', function(done) {
+    request(app)
+      .post('/api/tasks/create')
+      .send({
+        projectId: project._id,
+        task: {
+          name: 'new task'
+        }
+      })
+      .expect(201)
+      .end(done);
+  });
 
-//   it('finds the task that was added by id', function(done) {
-//     request(app)
-//       .post('/api/tasks')
-//       .send({
-//         'name': 'abc123123',
-//         'description': 'abc123123abc123123'
-//       })
-//       .expect(201)
-//       .then(function() {
-//         var id;
-//         Task.find({}, function(err, tasks) {
-//           id = tasks[0]._id;
-//           request(app)
-//             .get('/api/tasks/' + id)
-//             .expect(200)
-//             .expect('Content-Type', /json/)
-//             .end(done);
-//         });
-//       });
-//   });
+  it('should list all tasks for a project', function(done) {
+    request(app)
+      .get('/api/tasks/' + project._id)
+      .expect(function(res){
+      	expect(res.body.length).to.equal(1);
+      })
+      .end(done);
+  });
 
-//   it('should be able to destroy task', function (done) {
-//     request(app)
-//       .post('/api/tasks')
-//       .send({
-//         'name': 'delete me!',
-//         'description': 'now you see me...'
-//       })
-//       .expect(201)
-//       .then(function () {
-//         Task.findOne({name: 'delete me!'}, function (err, foundTask) {
-//           if (err) console.log("Err: ", err);
+  after(function(done) {
+    con.db.dropDatabase(function(err, result) {
+      con.close(done);
+    });
+  });
 
-//           request(app)
-//             .del('/api/tasks/' + foundTask._id)
-//             .send()
-//             .expect(200)
-//             .then(function () {
-//               Task.findOne({name: 'delete me!'}, function (err, foundTask) {
-//                 if (err) console.log("Err:", err);
-
-//                 expect(foundTask).to.equal(null);
-//                 done();
-//               });
-//             });
-//         });
-//       });
-//   });
-
-//   describe('stages and assignments', function() {
-//     var task, user;
-
-//     before(function (done) {
-//       request(app)
-//         .post('/api/tasks')
-//         .send({
-//           'name': 'test task two',
-//           'description': 'a test description'
-//         })
-//         .expect(201)
-//         .then(function(){
-//           Task.findOne({name: 'test task two'}, function(err, foundTask) {
-//             task = foundTask;
-//             request(app)
-//               .post('/api/signup')
-//               .send({
-//                 'username': 'auser',
-//                 'password': 'apass',
-//                 'teamname': 'ateam'
-//               })
-//               .expect(201)
-//               .then(function() {
-//                 User.findOne({username: 'auser'}, function (err, foundUser) {
-//                   user = foundUser;
-//                   done();
-//                 });
-//               });
-//           });
-//         });
-//     });
-
-//     it('should be able to update a task to complete', function (done) {
-//       expect(task.isCompleted).to.equal(false);
-//       task.isCompleted = true;
-
-//       request(app)
-//         .put('/api/tasks/' + task._id)
-//         .send(task)
-//         .then(function () {
-//           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-
-//             expect(foundTask.isCompleted).to.equal(true);
-//             done();
-//           });
-//         });
-//     });
-
-//     it('should be able to update a task to incomplete', function (done) {
-//       expect(task.isCompleted).to.equal(true);
-//       task.isCompleted = false;
-
-//       request(app)
-//         .put('/api/tasks/' + task._id)
-//         .send(task)
-//         .expect(205)
-//         .then(function () {
-//           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-//             if (err) console.log("Err: ", err);
-
-//             expect(foundTask.isCompleted).to.equal(false);
-//             done();
-//           });
-//         });
-//     });
-
-//     it('should be able to add an assignee', function (done) {
-//       expect(task.users).to.have.length(0);
-//       task.users.push(user._id);
-
-//       request(app)
-//         .put('/api/tasks/' + task._id)
-//         .send(task)
-//         .expect(205)
-//         .then(function () {
-//           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-//             if (err) console.log("Err: ", err);
-
-//             task = foundTask;
-//             expect(task.users).to.have.length(1);
-//             done();
-//           });
-//         });
-//     });
-
-//     it('should be able to add an assignee after assignees were cleared', function (done) {
-//       expect(task.users).to.have.length(1); // from last test FIXME make tests modular
-//       task.users = [];
-
-//       request(app)
-//         .put('/api/tasks/' + task._id)
-//         .send(task)
-//         .expect(205)
-//         .then(function () {
-//           Task.findOne({name: 'test task two'}, function (err, foundTask) {
-//             if (err) console.log("Err: ", err);
-
-//             expect(foundTask.users).to.have.length(0);
-//             task.users.push(user._id);
-
-//               request(app)
-//                 .put('/api/tasks/' + task._id)
-//                 .send(task)
-//                 .expect(205)
-//                 .then(function () {
-//                   Task.findOne({name: 'test task two'}, function (err, foundTask) {
-//                     if (err) console.log("Err: ", err);
-
-//                     expect(foundTask.users).to.have.length(1);
-//                     done();
-//                   });
-//                 });
-//           });
-//         });
-//       });
-
-
-//     describe('quick assign', function() {
-
-
-//       it('should be able to assign without updating the entire task', function(done) {
-//         task.users = [];
-
-//         request(app)
-//           .put('/api/tasks/' + task._id)
-//           .send(task)
-//           .expect(205)
-//           .then(function() {
-//             Task.findOne({name: 'test task two'}, function (err, foundTask) {
-//               if (err) console.log("Err: ", err);
-
-//               expect(foundTask.users).to.have.length(0);
-
-//               request(app)
-//                 .post('/api/tasks/assign')
-//                 .send({
-//                   user: user._id,
-//                   task: task._id
-//                 })
-//                 .expect(200)
-//                 .then(function() {
-//                   Task.findOne({name: 'test task two'}, function (err, foundTask) {
-//                     if (err) console.log('err: ', err);
-
-//                     expect(foundTask.users).to.have.length(1);
-//                     done();
-//                   });
-//                 });
-//             });
-//           });
-//       });
-
-//       it('should not quick assign without a valid task id or user id', function (done) {
-//         request(app)
-//           .post('/api/tasks/assign')
-//           .send({
-//             user: user._id,
-//             task: '123'
-//           })
-//           .expect(404)
-//           .then(function() {
-//             request(app)
-//               .post('/api/tasks/assign')
-//               .send({
-//                 task: task._id,
-//                 user: '123'
-//               })
-//               .expect(404)
-//               .end(done);
-//           });
-//       });
-//     });
-
-//     xit('should respond with whether or not changes were made', function (done) {
-//       // body...
-//     });
-//   });
-// });
+});

@@ -50,7 +50,6 @@ var projectsSchema = new Schema ({
   name: {
     type: String,
     required: true,
-    unique: true,
     validate: [
       function(name) {
         return name.trim().length >= 3;
@@ -61,7 +60,6 @@ var projectsSchema = new Schema ({
   description: {
     type: String,
     required: true,
-    unique: true,
     validate: [
       function(description) {
         return description.trim().length >= 3;

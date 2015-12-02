@@ -12,7 +12,7 @@ module.exports = {
         return res.status(500).send();
       }
       res.status(200).send(projects);
-    })
+    });
   },
 
   /**
