@@ -1,5 +1,5 @@
 var jwt = require('jwt-simple');
-var Team = require('../models/team');
+// var Team = require('../models/team');
 var User = require('../models/user');
 
 

@@ -1,5 +1,5 @@
 // NOTE: createUser and loginUser are in the indexController
-var Team = require('../models/team');
+// var Team = require('../models/team');
 var User = require('../models/user');
 
 
