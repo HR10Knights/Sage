@@ -20,8 +20,10 @@ client/lib
 doozy/client/lib
 npm-debug.log
 doozy/dist/**/*
-  .floo
-  .flooignore
-  .gitignore.orig
-sandbox.html
+<<<<<<< a4568dffe05ea805af11bc5c675141122cc6ea24
 
+
+test/integration/apitasks.old.js
+=======
+sandbox.html
+>>>>>>> Basic LandingPage view
