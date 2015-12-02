@@ -7,6 +7,11 @@ var Project = require('../models/project');
 
 module.exports = {
 
+  /**
+   * [Gets all task for a given project]
+   * @param  {[object]}   req.params.projectId  [project's _id]
+   * @return {[array]}                          [All tasks for the project]
+   */
   getTasksByProject: function(req, res, next) {
     Project.findById(req.params.projectId)
       .populate('tasks')
@@ -18,23 +23,29 @@ module.exports = {
       });
   },
 
+  /**
+   * [Creates a task for a given project]
+   * @param  {[object]}   req  [req.body.name, req.body.description, req.body.projectId]
+   * @return {[object]}              [Updated Project]
+   */
   createTaskByProject: function(req, res, next) {
-    var task = new Task(req.body.task);
+    var task = new Task({
+      name: req.body.name,
+      description: req.body.description
+    });
+
     Project.findById(req.body.projectId, function(err, project) {
       if (err) {
-        console.log(err);
         return res.status(500).send(err);
       }
       if (project) {
         project.tasks.push(task._id);
         project.save(function(err) {
           if (err) {
-            console.log(err);
             return res.status(500).send(err);
           }
           task.save(function(err) {
             if (err) {
-              console.log(err);
               return res.status(500).send(err);
             }
             res.status(201).send(project);
@@ -46,11 +57,48 @@ module.exports = {
     });
   },
 
-  allTasks: function(req, res, next) {
-    Task.find({}, function(err, tasks) {
+  /**
+   * [Gets a task by id]
+   * @param  {[object]}   req.params.id  [Task's _id]
+   * @return {[object]}                   [Task]
+   */
+  getTaskById: function(req, res, next) {
+    var taskId = mongoose.Types.ObjectId(req.params.id);
+    Task.find({
+      _id: taskId
+    }, function(err, tasks) {
+      if (err) return res.sendStatus(404, err);
+
       res.status(200).send(tasks);
     });
   },
+
+  /**
+   * [Updates a task]
+   * @param  {[object]}   req.body  [Fields to update.  Requires _id]
+   * @return {[object]}             [Updated task]
+   */
+  updateTaskById: function(req, res, next) {
+
+    Task.findOne({
+      _id: req.body._id
+    }, function(err, task) {
+
+      if (err) return res.sendStatus(404, err);
+
+      task.name = req.body.name;
+      task.description = req.body.description;
+      task.isCompleted = req.body.isCompleted;
+
+      task.save(function(err, task) {
+        if (err) console.log('err: ', err);
+        if (err) return res.sendStatus(404, err);
+
+        res.status(205).send(task);
+      });
+    });
+  },
+
 
   assignTask: function(req, res, next) {
     var user = req.body.user;
@@ -80,50 +128,16 @@ module.exports = {
     });
   },
 
-  idToTask: function(req, res, next) {
-    var taskId = mongoose.Types.ObjectId(req.params.id);
-    Task.find({
-      _id: taskId
-    }).populate('users').exec(function(err, tasks) {
-      if (err) return res.sendStatus(404, err);
-
-      res.status(200).send(tasks);
-    });
-  },
-
-  updateTask: function(req, res, next) {
-    Task.findOne({
-      _id: req.body._id
-    }, function(err, task) {
-      console.log('task: ' + task);
-      if (err) return res.sendStatus(404, err);
-
-      task.name = req.body.name;
-      task.description = req.body.description;
-      task.isCompleted = req.body.isCompleted;
-      task.users = req.body.users;
-      // console.log('users: ');
-      // console.log(req.body.users);
-
-      task.save(function(err, task) {
-        if (err) console.log('err: ', err);
-        if (err) return res.sendStatus(404, err);
-
-        res.sendStatus(205);
-      });
-    });
-  },
-
-  deleteTask: function(req, res, next) {
-    var taskId = mongoose.Types.ObjectId(req.params.id);
-    // console.log('delete task: ' + taskId);
-
-    Task.remove({
-      _id: taskId
-    }, function(err) {
-      if (err) return res.sendStatus(404, err);
-
-      res.sendStatus(200);
+  /**
+   * Removes a task
+   * @param  {[object]}   req.params.id  [_id of task to remove]
+   * @return {[object]}                  [removed task]
+   */
+  removeTask: function(req, res, next) {
+    Task.findOneAndRemove(req.params.id, function(err, task) {
+      if (err) return res.sendStatus(500, err);
+      if (!task) return res.sendStatus(404, err);
+      res.status(200).send(task);
     });
   }
 };
