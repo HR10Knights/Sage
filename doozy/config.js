@@ -44,7 +44,6 @@ var tasksSchema = new Schema ({
 
 db.tasksSchema = tasksSchema;
 
-
 // Projects
 var projectsSchema = new Schema ({
   name: {
@@ -75,14 +74,13 @@ var projectsSchema = new Schema ({
 
 db.projectsSchema = projectsSchema;
 
-
 // Users
 var usersSchema = new Schema ({
   username: {type: String, required: true, unique: true},
   password: {type: String, required: true},
   organization: [{ type: Schema.ObjectId, ref: 'Org' }],
   project_list: [{ type: Schema.ObjectId, ref: 'Project' }],
-  task_list: [{ type: Schema.ObjectId, ref: 'Task' }] 
+  task_list: [{ type: Schema.ObjectId, ref: 'Task' }]
 });
 
 db.usersSchema = usersSchema;

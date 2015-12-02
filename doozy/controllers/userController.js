@@ -1,6 +1,8 @@
 // NOTE: createUser and loginUser are in the indexController
 // var Team = require('../models/team');
 var User = require('../models/user');
+var Task = require('../models/task')
+var Project = require('../models/project')
 
 
 module.exports = {
@@ -82,6 +84,67 @@ module.exports = {
           user.remove();
           res.status(200).send('Deleted');
         });
+      });
+    });
+  },
+
+  getTasksForUser: function(req, res, next){
+    var userId = req.params.userId
+    User.findOne({_id: userId})
+    .populate('task_list')
+    .exec(function (err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user.task_list);
+    });
+
+  },
+
+  getProjectsforUser: function(req, res, next){
+    var userId = req.params.userId
+    User.findOne({_id: userId})
+    .populate('project_list')
+    .exec(function (err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user.project_list);
+    });
+  },
+
+  addTaskToUser: function(req, res, next){
+    var userId = req.body.userId;
+    var taskId = req.body.taskId;
+
+    User.findOne({_id: userId}, function (err, user){
+      if (err) {
+        return res.status(500).send();
+      }
+      Task.findOne({_id: taskId}, function (err, task){
+        if (err) {
+          return res.status(500).send();
+        }
+        user.task_list.push(task);
+        res.status(200).send(user);
+      });
+    });
+  },
+
+  addProjectToUser: function(req, res, next){
+    var userId = req.body.userId;
+    var projectId = req.body.projectId;
+
+    User.findOne({_id: userId}, function (err, user){
+      if (err) {
+        return res.status(500).send();
+      }
+      Project.findOne({_id: taskId}, function (err, project){
+        if (err) {
+          return res.status(500).send();
+        }
+        user.project_list.push(project);
+        res.status(200).send(user);
       });
     });
   }
