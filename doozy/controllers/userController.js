@@ -96,8 +96,8 @@ module.exports = {
       if (err) {
         return res.status(500).send();
       }
-      res.status(200).send(user.task_list)
-    })
+      res.status(200).send(user.task_list);
+    });
 
   },
 
@@ -109,8 +109,8 @@ module.exports = {
       if (err) {
         return res.status(500).send();
       }
-      res.status(200).send(user.project_list)
-    })
+      res.status(200).send(user.project_list);
+    });
   },
 
   addTaskToUser: function(req, res, next){
@@ -126,7 +126,7 @@ module.exports = {
           return res.status(500).send();
         }
         user.task_list.push(task);
-        res.status(200).send(user)
+        res.status(200).send(user);
       });
     });
   },
@@ -144,7 +144,7 @@ module.exports = {
           return res.status(500).send();
         }
         user.project_list.push(project);
-        res.status(200).send(user)
+        res.status(200).send(user);
       });
     });
   }
