@@ -20,3 +20,6 @@ client/lib
 doozy/client/lib
 npm-debug.log
 doozy/dist/**/*
+
+
+test/integration/apitasks.old.js

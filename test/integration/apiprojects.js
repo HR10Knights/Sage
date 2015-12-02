@@ -6,114 +6,99 @@ var expect = require('chai').expect;
 var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var Project = require('../../doozy/models/project');
+var Org = require('../../doozy/models/org');
 var mongoose = require('mongoose');
-var con = mongoose.createConnection('mongodb://localhost/doozytest');
+
 
 
 describe('Projects API (api/projects)', function() {
-  var project;
+  var org, project, con;
 
-  beforeEach(function (done) {
-    project = {
-      'description': 'test project description',
-      'name': 'test project'
-    };
-
+  before(function(done) {
     con = mongoose.createConnection('mongodb://localhost/doozytest');
-    setTimeout(done, 100); // hack to give connection enough time
+    request(app)
+      .post('/api/orgs/create')
+      .send({
+        'title': 'org1',
+      })
+      .expect(201)
+      .then(function() {
+        Org.findOne({
+          title: 'org1'
+        }, function(err, foundOrg) {
+          org = foundOrg;
+          request(app)
+            .post('/api/projects/create')
+            .send({
+              orgId: org._id,
+              project: {
+                'name': 'project1',
+                'description': 'project1'
+              }
+            })
+            .expect(201)
+            .then(function() {
+              Project.findOne({
+                name: 'project1'
+              }, function(err, foundProject) {
+                project = foundProject;
+                done();
+              });
+            });
+        });
+      });
   });
 
-  afterEach(function(done) {
+  after(function(done) {
     con.db.dropDatabase(function(err, result) {
       con.close(done);
     });
   });
 
-  describe('/create', function () {
-    it('should reject a project with whitespace name and description', function (done) {
-      request(app)
-        .post('/api/projects/create')
-        .send({
-          'description': '          ',
-          'name': '          '
-        })
-        .expect(400)
-        .end(done);
-    });
-
-    it('should reject a project with a name less than 3 characters', function (done) {
-      request(app)
-        .post('/api/projects/create')
-        .send({
-          'description': 'test project description',
-          'name': ' do '
-        })
-        .expect(400)
-        .end(done);
-    });
-
-    it('should reject a project with a description less than 3 characters', function (done) {
-      request(app)
-        .post('/api/projects/create')
-        .send({
-          'description': ' do ',
-          'name': 'test project'
-        })
-        .expect(400)
-        .end(done);
-    });
-
-    it('should create a new project', function (done) {
-      request(app)
-        .post('/api/projects/create')
-        .send(project)
-        .expect(201)
-        .end(done);
-    });
-
-    it('should not create a project with a taken name', function (done) {
-      // create project
-      request(app)
-        .post('/api/projects/create')
-        .send(project)
-        .expect(201)
-        // try to create a project with the same name 
-        .then(function () {
-          project.description = 'different description';
-          
-          request(app)
-            .post('/api/projects/create')
-            .send(project)
-            .expect(400)
-            .end(done);
-        });
-    });
+  it('should have one organization', function(done) {
+    request(app)
+      .get('/api/orgs/')
+      .expect(function(res) {
+        expect(res.body[0].title).to.equal('org1');
+      })
+      .end(done);
   });
 
-  // READ
-  describe('/', function () {
-    it('gets listing of tasks', function(done) {
-      request(app)
-        .post('/api/projects/create')
-        .send(project)
-        .expect(201)
-        .then(function () {
-          request(app)
-            .get('/api/projects/')
-            .expect(200)
-            .then(function () {
-              Project.findOne({name: project.name}, function (err, foundProject) {
-              if (err) return console.log("Err: ", err);
-
-              expect(foundProject.name).to.equal(project.name);
-              done();
-              });
-            });
-        });
-    });
+  it('should add a project to an organization', function(done) {
+    request(app)
+      .post('/api/projects/create')
+      .send({
+        orgId: org._id,
+        project: {
+          'name': 'project2',
+          'description': 'project1'
+        }
+      })
+      .expect(201)
+      .end(done);
   });
 
-  // UPDATE
+  it('should not add a project to an organization that does not exist', function(done) {
+    request(app)
+      .post('/api/projects/create')
+      .send({
+        orgId: mongoose.Types.ObjectId(),
+        project: {
+          'name': 'project2',
+          'description': 'project1'
+        }
+      })
+      .expect(404)
+      .end(done);
+  });
 
-  // DELETE
+  it('should get projects from an organization', function(done) {
+    request(app)
+      .get('/api/projects/' + org._id)
+      .expect(function(res) {
+        expect(res.body[0].name).to.equal('project1');
+        expect(res.body.length).to.equal(2);
+      })
+      .end(done);
+  });
 });

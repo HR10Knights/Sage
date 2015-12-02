@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var orgs = require('./routes/orgs');
 var teams = require('./routes/teams');
 var tasks = require('./routes/tasks');
 var projects = require('./routes/projects');
@@ -32,11 +33,11 @@ app.use(express.static(path.join(__dirname, '/client')));
 
 // Routing
 app.use('/api', routes);
+app.use('/api/orgs', orgs);
+app.use('/api/projects', projects);
 app.use('/api/users', users);
-app.use('/api/teams', teams);
 app.use('/api/tasks', util.decode);
 app.use('/api/tasks', tasks);
-app.use('/api/projects', projects);
 app.use('/api/email', emails);
 
 // TODO refactor into a controller
