@@ -1,7 +1,6 @@
 angular.module('app', [
   'app.services',
   'app.tasks',
-  'app.projects',
   'services.email',
   'services.UserFactory',
   'app.auth',
@@ -17,10 +16,10 @@ angular.module('app', [
     .accentPalette('deep-orange', {
       default: '800'
     })
-    .warnPalette('deep-orange')
-    .backgroundPalette('green', {
-      default: '100'
-    });
+    // .warnPalette('deep-orange')
+    // .backgroundPalette('green', {
+    //   default: '100'
+    // });
  
   $routeProvider
     .when('/signin', {
@@ -41,11 +40,7 @@ angular.module('app', [
       controller: 'TasksController',
       authenticate: true,
     })
-    .when('/projects/:projectId', {
-      templateUrl: '/app/projects/projects.html',
-      controller: 'TasksController',
-      authenticate: true,
-    })
+
     .otherwise({
       redirectTo: '/tasks'
     });

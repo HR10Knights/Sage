@@ -1,6 +1,26 @@
 angular.module('app.tasks', [])
 
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
+  $scope.mockdata = {
+    teamname: null,
+    username: null,
+    tasks: [
+      {
+        name: 'build slideout sidebar',
+        description: null,
+        project: 'frontEnd',
+        organization: 'Sparta',
+        assigned_to : ['nissa'],
+        isCompleted: false,
+        created_at: "12/1/15",
+        updated_at: null,
+        due_at: '12/10/15',
+        status: 'assigned'
+      },
+      {}
+    ]
+  };
+
 	// make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
   $scope.data = {};

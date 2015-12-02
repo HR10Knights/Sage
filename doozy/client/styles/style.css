@@ -11,6 +11,10 @@ body {
   background: #F6F7F9;
 }
 
+.tasklist {
+  margin-top: 80px;
+}
+
 .taskListItem:focus {
   outline: none;
   border: 0;
@@ -100,4 +104,8 @@ body {
 
 #orgcontainer {
   width: 80%;
+}
+
+#projcontainer {
+  width: 40%;
 }
