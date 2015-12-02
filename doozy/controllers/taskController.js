@@ -24,6 +24,22 @@ module.exports = {
   },
 
   /**
+   * Returns all users that have given taskId in their task list
+   */
+  getUserByTaskId: function(req, res, next) {
+    var taskId = req.params.taskId;
+    User.find({
+      task_list: {
+        $in: taskId
+      }
+    }, {}, function(err, users) {
+      if (err) return res.status(500).send();
+
+      res.status(200).send(users);
+    });
+  },
+
+  /**
    * [Creates a task for a given project]
    * @param  {[object]}   req  [req.body.name, req.body.description, req.body.projectId]
    * @return {[object]}              [Updated Project]

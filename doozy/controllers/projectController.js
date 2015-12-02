@@ -29,7 +29,23 @@ module.exports = {
       } else {
         res.status(200).send(project);
       }
-    })
+    });
+  },
+
+  /**
+   * Returns all users that are part of a project
+   */
+  getUserByProjectId: function(req, res, next) {
+    var projectId = req.params.projectId;
+    User.find({
+      project_list: {
+        $in: projectId
+      }
+    }, {}, function(err, users) {
+      if (err) return res.status(500).send();
+
+      res.status(200).send(users);
+    });
   },
 
   /**

@@ -7,6 +7,7 @@ var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var Project = require('../../doozy/models/project');
 var Org = require('../../doozy/models/org');
+var User = require('../../doozy/models/user');
 var mongoose = require('mongoose');
 
 
@@ -32,7 +33,7 @@ describe('Projects API (api/projects)', function() {
         title: 'org1'
       })
       .expect(201)
-      .end(done)
+      .end(done);
   });
 
   it('should not create an organization that already exists', function(done) {
@@ -42,7 +43,7 @@ describe('Projects API (api/projects)', function() {
         title: 'org1'
       })
       .expect(400)
-      .end(done)
+      .end(done);
   });
 
 
@@ -58,7 +59,7 @@ describe('Projects API (api/projects)', function() {
 
   it('should update an organization', function(done) {
     expect(org.title).to.equal('org1');
-    org.title = 'new organization'
+    org.title = 'new organization';
     request(app)
       .put('/api/orgs')
       .send(org)
@@ -68,8 +69,8 @@ describe('Projects API (api/projects)', function() {
           if (err) console.log(err);
           expect(org.title).to.equal('new organization');
           done();
-        })
-      })
+        });
+      });
   });
 
   it('should add a project to an organization', function(done) {
@@ -164,4 +165,93 @@ describe('Projects API (api/projects)', function() {
         });
       });
   });
+
+  describe('users', function() {
+    var user, org, project;
+
+    before(function(done) {
+      request(app)
+        .post('/api/signup')
+        .send({
+          'username': 'auser',
+          'password': 'apass',
+        })
+        .expect(201)
+        .then(function() {
+          User.findOne({
+            username: 'auser'
+          }, function(err, foundUser) {
+            user = foundUser;
+            Org.create({
+              title: 'org1'
+            }, function(err, foundOrg) {
+              if (err) console.log(err);
+              org = foundOrg;
+
+              Project.create({
+                name: 'project',
+                description: 'project'
+              }, function(err, foundProject) {
+                if (err) console.log(err);
+                project = foundProject;
+                done();
+              });
+            });
+          });
+        });
+    });
+
+    it('should have a user, organization, and a project', function(done) {
+      expect(user.username).to.equal('auser');
+      expect(org.title).to.equal('org1');
+      expect(project.name).to.equal('project');
+      done();
+    });
+
+    it('should add an organization to the user', function(done) {
+      request(app)
+        .post('/api/users/orgs')
+        .send({
+          userId: user._id,
+          organizationId: org._id
+        })
+        .expect(200)
+        .end(done);
+    });
+
+    it('should add a project to the user', function(done) {
+      request(app)
+        .post('/api/users/projects')
+        .send({
+          userId: user._id,
+          projectId: project._id
+        })
+        .expect(200)
+        .end(done);
+    });
+
+    it('should get all organizations for a user', function(done) {
+      request(app)
+        .get('/api/users/orgs/' + user._id)
+        .expect(function(res){
+          expect(res.body.length).to.equal(1);
+          expect(res.body[0].title).to.equal('org1');
+        })
+        .end(done);
+    });
+
+    it('should get all projects for a user', function(done) {
+      request(app)
+        .get('/api/users/projects/' + user._id)
+        .expect(function(res){
+          expect(res.body.length).to.equal(1);
+          expect(res.body[0].name).to.equal('project');
+        })
+        .end(done);
+    });
+
+  });
+
+
+
 });

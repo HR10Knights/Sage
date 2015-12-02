@@ -9,6 +9,9 @@ router.get('/', projectController.allProjects);
 // Get a project by Id
 router.get('/:id', projectController.getProjectById);
 
+// Gets all users for a project
+router.get('/users/:projectId', projectController.getUserByProjectId);
+
 // Gets all projects for an organization
 router.get('/org/:orgId', projectController.getProjectsByOrg);
 

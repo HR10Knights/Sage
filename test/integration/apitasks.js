@@ -7,6 +7,7 @@ var app = require('../../doozy/server');
 var db = require('../../doozy/config');
 var Project = require('../../doozy/models/project');
 var Task = require('../../doozy/models/task');
+var User = require('../../doozy/models/user');
 var mongoose = require('mongoose');
 
 
@@ -141,5 +142,70 @@ describe('Tasks API (api/tasks)', function() {
       con.close(done);
     });
   });
+
+  describe('assign tasks to user', function() {
+    var user, task;
+
+    before(function(done) {
+      request(app)
+        .post('/api/signup')
+        .send({
+          'username': 'auser',
+          'password': 'apass',
+        })
+        .expect(201)
+        .then(function() {
+          User.findOne({
+            username: 'auser'
+          }, function(err, foundUser) {
+            user = foundUser;
+            Task.create({
+              name: 'task'
+            }, function(err, foundTask) {
+              if (err) console.log(err);
+              task = foundTask;
+              done();
+            });
+          });
+        });
+    });
+
+    it('should have a user and a task', function(done) {
+      expect(user.username).to.equal('auser');
+      expect(task.name).to.equal('task');
+      done();
+    });
+
+    it('should add a task to the user', function(done) {
+      request(app)
+        .post('/api/users/tasks')
+        .send({
+          userId: user._id,
+          taskId: task._id
+        })
+        .expect(200)
+        .end(done);
+    });
+
+    it('should get all tasks for a user', function(done) {
+      request(app)
+        .get('/api/users/tasks/' + user._id)
+        .expect(function(res) {
+          expect(res.body.length).to.equal(1);
+          expect(res.body[0].name).to.equal('task');
+        })
+        .end(done);
+    });
+
+
+  });
+
+
+
+
+
+
+
+
 
 });

@@ -3,22 +3,26 @@ var jwt = require('jwt-simple');
 var User = require('../models/user');
 
 
-var sendJWT = function (user, res) {
+var sendJWT = function(user, res) {
   var token = jwt.encode(user, 'secret');
-  res.json({token: token});
+  res.json({
+    token: token
+  });
 };
 
 
 module.exports = {
   createUser: function(req, res, next) {
+
     var username = req.body.username.trim();
     var password = req.body.password.trim();
-    var teamname = req.body.teamname.trim();
-    if (username === '' || teamname === '' || password === '') {
+    if (username === '' || password === '') {
       return res.status(400).send('Username, Password, and Teamname must be present');
     }
 
-    User.findOne({username: username}, function(err, user) {
+    User.findOne({
+      username: username
+    }, function(err, user) {
       if (user) return res.status(400).send('Username exists');
       var newUser = new User({
         username: username,
@@ -28,23 +32,16 @@ module.exports = {
       newUser.save(function(err, newUser) {
         if (err) return res.status(404).send(err);
 
-        Team.findOne({name: teamname}, function(err, team) {
-          if (err) return res.status(404).send(err);
-          team = team || new Team({name: teamname});
+        res.status(201);
+        sendJWT(newUser, res);
 
-          team.users.push(newUser);
-          team.save(function (err) {
-            if (err) return res.status(404).send(err);
-
-            res.status(201);
-            sendJWT(newUser, res);
-          });
-        });
       });
     });
   },
-  getIndex: function(req, res, next) {   
-    res.render('index', { title: 'Express' });   
+  getIndex: function(req, res, next) {
+    res.render('index', {
+      title: 'Express'
+    });
   },
   loginUser: function(req, res, next) {
     var username = req.body.username.trim();
@@ -54,10 +51,14 @@ module.exports = {
       return res.status(400).send('Username, Password, and Teamname must be present');
     }
 
-    Team.findOne({name: teamname}, function(err, team) {
+    Team.findOne({
+      name: teamname
+    }, function(err, team) {
       if (!team) return res.status(401).send('Team does not exist');
 
-      User.findOne({username: username}, function(err, user) {
+      User.findOne({
+        username: username
+      }, function(err, user) {
         if (!user) return res.status(401).send('Username does not exist');
 
         user.comparePassword(password, function(match) {

@@ -1,8 +1,9 @@
 // NOTE: createUser and loginUser are in the indexController
 // var Team = require('../models/team');
 var User = require('../models/user');
-var Task = require('../models/task')
-var Project = require('../models/project')
+var Task = require('../models/task');
+var Project = require('../models/project');
+var Org = require('../models/org');
 
 
 module.exports = {
@@ -15,136 +16,171 @@ module.exports = {
     });
   },
 
-  /**
-   * Returns all users that have given taskId in their task list
-   */
-  getUserByTaskId: function(req, res, next) {
-    var taskId = req.params.taskId;
-    User.find({
-      task_list: {
-        $in: taskId
-      }
-    }, {}, function(err, users) {
-      if (err) return res.status(500).send();
-
-      res.status(200).send(users);
+  getUserById: function(req, res, next) {
+    User.findById(req.params.id, function(err, user) {
+      if (err) return res.sendStatus(500, err);
+      if (!user) return res.sendStatus(404, err);
+      res.status(200).sned(user);
     });
   },
 
-  /**
-   * Returns all users that are part of a project
-   */
-  getUserByProjectId: function(req, res, next) {
-    var projectId = req.params.projectId;
-    User.find({
-      project_list: {
-        $in: projectId
-      }
-    }, {}, function(err, users) {
-      if (err) return res.status(500).send();
+  updateUser: function(req, res, next) {
+    User.findOne({
+      _id: req.body._id
+    }, function(err, user) {
 
-      res.status(200).send(users);
+      if (err) return res.sendStatus(404, err);
+
+      username.username = req.body.name;
+      username.email = req.body.email;
+
+      user.save(function(err, user) {
+        if (err) console.log('err: ', err);
+        if (err) return res.sendStatus(404, err);
+
+        res.status(205).send(user);
+      });
     });
   },
 
-  /**
-   * Returns all users that are part of an organization
-   */
-  getUserByOrganizationId: function(req, res, next) {
-    var organizationId = req.params.organizationId;
-    User.find({
-      organization_list: {
-        $in: organizationId
-      }
-    }, {}, function(err, users) {
-      if (err) return res.status(500).send();
-
-      res.status(200).send(users);
-    });
-  },
-
-  destroyUser: function(req, res, next) {
+  removeUser: function(req, res, next) {
     var username = req.body.username.trim();
     var password = req.body.password.trim();
-    var teamname = req.body.teamname.trim();
 
-    Team.findOne({
-      name: teamname
-    }, function(err, team) {
-      if (!team) return res.status(401).send('Team does not exist');
+    User.findOne({
+      username: username
+    }, function(err, user) {
+      if (!user) return res.status(401).send('Username does not exist');
 
-      User.findOne({
-        username: username
-      }, function(err, user) {
-        if (!user) return res.status(401).send('Username does not exist');
+      user.comparePassword(password, function(match) {
+        if (!match) return res.status(401).send('Password does not match');
 
-        user.comparePassword(password, function(match) {
-          if (!match) return res.status(401).send('Password does not match');
+        user.remove();
+        res.status(200).send(user);
+      });
+    });
+  },
 
-          user.remove();
-          res.status(200).send('Deleted');
+  getTasksForUser: function(req, res, next) {
+    var userId = req.params.userId;
+    User.findOne({
+        _id: userId
+      })
+      .populate('task_list')
+      .exec(function(err, user) {
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(user.task_list);
+      });
+
+  },
+
+  getProjectsForUser: function(req, res, next) {
+    var userId = req.params.userId;
+    User.findOne({
+        _id: userId
+      })
+      .populate('project_list')
+      .exec(function(err, user) {
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(user.project_list);
+      });
+  },
+
+  getOrganizationsForUser: function(req, res, next) {
+    var userId = req.params.userId;
+    User.findOne({
+        _id: userId
+      })
+      .populate('organization')
+      .exec(function(err, user) {
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(user.organization);
+      });
+  },
+
+  addTaskToUser: function(req, res, next) {
+    var userId = req.body.userId;
+    var taskId = req.body.taskId;
+
+    User.findOne({
+      _id: userId
+    }, function(err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      Task.findOne({
+        _id: taskId
+      }, function(err, task) {
+        if (err) {
+          return res.status(500).send();
+        }
+        user.task_list.push(task);
+        user.save(function(err, user) {
+          if (err) {
+            return res.status(500).send();
+          }
+          res.status(200).send(user);
         });
       });
     });
   },
 
-  getTasksForUser: function(req, res, next){
-    var userId = req.params.userId
-    User.findOne({_id: userId})
-    .populate('task_list')
-    .exec(function (err, user) {
-      if (err) {
-        return res.status(500).send();
-      }
-      res.status(200).send(user.task_list);
-    });
-
-  },
-
-  getProjectsforUser: function(req, res, next){
-    var userId = req.params.userId
-    User.findOne({_id: userId})
-    .populate('project_list')
-    .exec(function (err, user) {
-      if (err) {
-        return res.status(500).send();
-      }
-      res.status(200).send(user.project_list);
-    });
-  },
-
-  addTaskToUser: function(req, res, next){
+  addProjectToUser: function(req, res, next) {
     var userId = req.body.userId;
-    var taskId = req.body.taskId;
+    var projectId = req.body.projectId;
 
-    User.findOne({_id: userId}, function (err, user){
+    User.findOne({
+      _id: userId
+    }, function(err, user) {
       if (err) {
         return res.status(500).send();
       }
-      Task.findOne({_id: taskId}, function (err, task){
+      Project.findOne({
+        _id: projectId
+      }, function(err, project) {
         if (err) {
           return res.status(500).send();
         }
-        user.task_list.push(task);
-        res.status(200).send(user);
+        user.project_list.push(project._id);
+        user.save(function(err, user) {
+          if (err) {
+            return res.status(500).send();
+          }
+          res.status(200).send(user);
+        });
       });
     });
   },
 
-  addProjectToUser: function(req, res, next){
+  addOrganizationToUser: function(req, res, next) {
     var userId = req.body.userId;
-    var projectId = req.body.projectId;
+    var organizationId = req.body.organizationId;
 
-    User.findOne({_id: userId}, function (err, user){
+    User.findOne({
+      _id: userId
+    }, function(err, user) {
       if (err) {
         return res.status(500).send();
       }
-      Project.findOne({_id: taskId}, function (err, project){
+      Org.findOne({
+        _id: organizationId
+      }, function(err, org) {
         if (err) {
           return res.status(500).send();
         }
-        user.project_list.push(project);
-        res.status(200).send(user);
+        user.organization.push(org._id);
+        user.save(function(err, user) {
+          if (err) {
+            return res.status(500).send();
+          }
+          res.status(200).send(user);
+        });
       });
     });
   }

@@ -13,6 +13,39 @@ module.exports = {
   },
 
   /**
+   * Returns an organization by id
+   * @return {[object]}        [organization]
+   */
+  getOrganizationById: function(req, res, next) {
+    Org.findById(req.params.id, function(err, org) {
+      if (err) {
+        res.status(500).send();
+      }
+      if (!org) {
+        res.status(404).send();
+      } else {
+        res.status(200).send(org);
+      }
+    });
+  },
+
+  /**
+   * Returns all users that are part of an organization
+   */
+  getUserByOrganizationId: function(req, res, next) {
+    var organizationId = req.params.organizationId;
+    User.find({
+      organization_list: {
+        $in: organizationId
+      }
+    }, {}, function(err, users) {
+      if (err) return res.status(500).send();
+
+      res.status(200).send(users);
+    });
+  },
+
+  /**
    * Creates a new organization
    * @param  {[object]}   req  [{title: ...}]
    */
@@ -68,5 +101,5 @@ module.exports = {
       res.status(200).send(org);
     });
   }
-  
+
 };
