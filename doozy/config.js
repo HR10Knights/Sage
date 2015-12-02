@@ -13,7 +13,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 // Tasks
-var tasksSchema = new Schema ({
+var tasksSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -39,13 +39,21 @@ var tasksSchema = new Schema ({
     required: false,
     unique: false
   },
-  assignee: {type: Schema.ObjectId, ref: 'User'}
+  created_at: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  project_id: {
+    type: Schema.ObjectId,
+    ref: 'Project'
+  }
 });
 
 db.tasksSchema = tasksSchema;
 
 // Projects
-var projectsSchema = new Schema ({
+var projectsSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -66,30 +74,60 @@ var projectsSchema = new Schema ({
       'Description too short'
     ]
   },
-  teamLead: {type: Schema.ObjectId, ref: 'User'}, 
-  teamMembers: [{type: Schema.ObjectId, ref: 'User'}],
-  tasks: [{type: Schema.ObjectId, ref: 'Task'}],
-  deadline: Date
+  teamLead: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  org_id: {
+    type: Schema.ObjectId,
+    ref: 'Org'
+  },
+  tasks: [{
+    type: Schema.ObjectId,
+    ref: 'Task'
+  }],
+  deadline: {
+    type: Date
+  }
 });
 
 db.projectsSchema = projectsSchema;
 
 // Users
-var usersSchema = new Schema ({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  organization: [{ type: Schema.ObjectId, ref: 'Org' }],
-  project_list: [{ type: Schema.ObjectId, ref: 'Project' }],
-  task_list: [{ type: Schema.ObjectId, ref: 'Task' }]
+var usersSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  organization: [{
+    type: Schema.ObjectId,
+    ref: 'Org'
+  }],
+  project_list: [{
+    type: Schema.ObjectId,
+    ref: 'Project'
+  }],
+  task_list: [{
+    type: Schema.ObjectId,
+    ref: 'Task'
+  }]
 });
 
 db.usersSchema = usersSchema;
 
 
 // Organization
-var orgSchema = new Schema ({
-    title: String,
-    projects: [{type: Schema.ObjectId, ref: 'Project'}]
+var orgSchema = new Schema({
+  title: String,
+  projects: [{
+    type: Schema.ObjectId,
+    ref: 'Project'
+  }]
 });
 
 db.orgSchema = orgSchema;

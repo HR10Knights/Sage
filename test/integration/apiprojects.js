@@ -77,14 +77,26 @@ describe('Projects API (api/projects)', function() {
     request(app)
       .post('/api/projects/create')
       .send({
-        orgId: org._id,
-        project: {
-          'name': 'project',
-          'description': 'project'
-        }
+        orgId : org._id,
+        name: 'project',
+        description: 'project'
       })
       .expect(201)
       .end(done);
+  });
+
+  it('should know who is it\'s daddy', function(done) {
+    Project.findOne({
+        name: 'project'
+      })
+      .populate('org_id')
+      .exec(function(err, task) {
+        if (err) {
+          console.log(err);
+        }
+        expect(task.org_id.title).to.equal(org.title);
+        done();
+      });
   });
 
   it('should not add a project to an organization that does not exist', function(done) {
@@ -233,7 +245,7 @@ describe('Projects API (api/projects)', function() {
     it('should get all organizations for a user', function(done) {
       request(app)
         .get('/api/users/orgs/' + user._id)
-        .expect(function(res){
+        .expect(function(res) {
           expect(res.body.length).to.equal(1);
           expect(res.body[0].title).to.equal('org1');
         })
@@ -243,7 +255,7 @@ describe('Projects API (api/projects)', function() {
     it('should get all projects for a user', function(done) {
       request(app)
         .get('/api/users/projects/' + user._id)
-        .expect(function(res){
+        .expect(function(res) {
           expect(res.body.length).to.equal(1);
           expect(res.body[0].name).to.equal('project');
         })
