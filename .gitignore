@@ -25,3 +25,6 @@ doozy/dist/**/*
   .gitignore.orig
 sandbox.html
 
+.floo
+.flooignore
+
