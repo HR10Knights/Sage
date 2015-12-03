@@ -49,16 +49,12 @@ angular.module('app.services', [
     return teamName;
   };
 
-  var goToDash = function(){
-    $location.path('/org');
-  };
 
   return {
     signin: signin,
     signup: signup,
     isAuth: isAuth,
     signout: signout,
-    getTeamName: getTeamName,
-    goToDash: goToDash
+    getTeamName: getTeamName
   };
 });

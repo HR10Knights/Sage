@@ -66,5 +66,5 @@ angular.module('services.OrganizationFactory', [])
       createOrganization: createOrganization,
       updateOrganization: updateOrganization,
       removeOrganization: removeOrganization
-    }
+    };
   });

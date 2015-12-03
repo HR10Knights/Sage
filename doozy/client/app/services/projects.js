@@ -30,7 +30,7 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects/users/' + projectId
       }).then(function (resp){
-        return resp.data
+        return resp.data;
       });
     };
 
@@ -39,7 +39,7 @@ angular.module('services.ProjectFactory', [])
         method: 'DELETE',
         url: 'api/projects/' + projectId
       }).then(function (resp){
-        return resp.data
+        return resp.data;
       });
     };
 
@@ -49,7 +49,7 @@ angular.module('services.ProjectFactory', [])
         url: 'api/projects',
         data: newData
       }).then(function (resp){
-        return resp.data
+        return resp.data;
       });
     };
 
@@ -58,9 +58,9 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects'
       }).then(function (resp){
-        return resp.data
-      })
-    }
+        return resp.data;
+      });
+    };
 
     return {
       createProjectByOrgID: createProjectByOrgID,

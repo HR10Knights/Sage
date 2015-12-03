@@ -5,85 +5,66 @@ angular.module('app.tasks', [])
 	// make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
   $scope.data = {};
-  // retrieve the team name
-  $scope.data.teamname = Auth.getTeamName();
+
   // this gets populated by the updateTask sheet
   $scope.task = {};
 
   // this is a shortcut to the current users tasks
   $scope.tasks = [];
 
-// these are references for data models in the db
-  $scope.data.tasks = [
-    // {
-    //   name, 
-    //   description,
-    //   isCompleted,
-    //   deadline,
-    //   created_at,
-    //   project_id
-    // }
-  ];
-  $scope.data.user = {
-    // username, 
-    // password,
-    // organization, 
-    // project_list [],
-    // task_list []
-  };
-  $scope.data.projects = [
-    // {
-    //   name, 
-    //   description, 
-    //   teamLead,
-    //   org_id,
-    //   tasks [],
-    //   deadline
-    // }
-  ];
-  $scope.data.organization = [
-    // {
-    //   title, 
-    //   projects []
-    // }
-  ];
+  // this is a shortcut to the current users projects 
+  $scope.projects = [];
 
-// populates with a user object 
+// these are references for data models in the db
+  // $scope.data.taskMODEL = [
+  //   // {
+  //   //   name, 
+  //   //   description,
+  //   //   isCompleted,
+  //   //   deadline,
+  //   //   created_at,
+  //   //   project_id
+  //   // }
+  // ];
+  // $scope.data.userMODEL = {
+  //   // username, 
+  //   // password,
+  //   // organization, 
+  //   // project_list [obj],
+  //   // task_list [obj]
+  // };
+  // $scope.data.projectsMODEL = [
+  //   // {
+  //   //   name, 
+  //   //   description, 
+  //   //   teamLead,
+  //   //   org_id,
+  //   //   tasks [id],
+  //   //   deadline
+  //   // }
+  // ];
+  // $scope.data.organizationMODEL = [
+  //   // {
+  //   //   title, 
+  //   //   projects [id]
+  //   // }
+  // ];
+
+// populates scope with a user object 
   $scope.getLoggedInUser = function(){
     Users.getLoggedInUser()
       .then(function(userobj){
         $scope.data.user = userobj;
+        $scope.tasks = userobj.task_list;
+        $scope.projects = userobj.project_list;
       })
       .catch(function(err){
-        console.log(err);
-      })
-  };
-
-  // get tasks specific to user
-  $scope.getTasks = function() {
-    return  $scope.tasks = $scope.data.user.tasks;
-  };
-
-  $scope.getUserByTaskId = function(taskId){
-    // this will return none, one or more user objects
-    // if it returns none task is unassigned
-  };
-
-  $scope.getProjectById = function(projID){
-    // this function will have to be called as we loop through a users assigned projects to populate the dropdown 
-    Project.getProjectById(projID)
-      .then(function(proj){
-        $scope.projectsByName.push(proj.name)
-      })
-      .catch(function(err) {
         console.log(err);
       });
   };
 
-
-  // invoke getTasks so that all of the tasks load when you open the page
+  // invoke getLoggedInUser so that all of the users tasks load when you open the page
 	$scope.getLoggedInUser();
-  $scope.getTasks();
 
   // get all of the User objects from the database and save them
   // these users populate the 'Assignee' dropdown menue of the task form
@@ -98,6 +79,12 @@ angular.module('app.tasks', [])
   };
   $scope.getAll();
   
+// not using this at this point
+  $scope.getUserByTaskId = function(taskId){
+    // this will return none, one or more user objects
+    // if it returns none task is unassigned
+  };
+
   // update a task if it already exists or create a new task if one does not already exist
   // this function is called anytime the task form is submitted
   $scope.updateTask = function(task) {
@@ -118,10 +105,10 @@ angular.module('app.tasks', [])
     var found = false;
 
     // if the task already exists, update it
-    for (var i = 0; i < $scope.data.tasks.length; i++) {
-      var currentTask = $scope.data.tasks[i];
+    for (var i = 0; i < $scope.tasks.length; i++) {
+      var currentTask = $scope.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
-        Tasks.updateTask(task)
+        Tasks.updateTaskById(task)
         .then(function(resp) {
           if (changedUser) {
             $scope.getTasks();
@@ -137,9 +124,9 @@ angular.module('app.tasks', [])
      }
     }
 
-    // if the task does not already exists, create a new task
+    // if the task does not already exist, create a new task
     if ( !found ) {
-      Tasks.createTask(task)
+      Tasks.createTaskByProject(task)
         .then(function(resp) {
           $scope.getTasks();
         })
@@ -150,18 +137,6 @@ angular.module('app.tasks', [])
   };
 
   // delete a task from the database
-  //  old version
-  // $scope.deleteTask = function(task) {
-  //   Tasks.deleteTask(task)
-  //     .then(function() {
-  //       $scope.getTasks();
-  //     })
-  //     .catch(function(err) {
-  //       console.log(err);
-  //     });
-  // };
-
-  // new version
     $scope.removeTask = function(taskId) {
     Task.removeTask(taskId)
       .then(function() {
@@ -170,7 +145,7 @@ angular.module('app.tasks', [])
       .catch(function(err) {
         console.log(err);
       });
-  };
+  }
 
   // load task details into the task form
   // this function is called anytime that you click on a individual task
@@ -224,7 +199,9 @@ angular.module('app.tasks', [])
   };
 
   // function for the go to Dashboard button
-  $scope.goToDash = Auth.goToDash;
+  $scope.goToDash =  function(){
+    $location.path('/org');
+  };
   // function for the signout button
   $scope.signout = Auth.signout;
 });

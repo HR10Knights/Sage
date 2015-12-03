@@ -6,6 +6,11 @@
     <h1 style="text-align:center" class="signheader">
     Sage
       <p id="teamname">{{ data.user.username }}</p>
+      <p id="teamname">{{ data.user.project_list }}</p>
+      <p id="teamname">{{ data.user.task_list}}</p>
+      <p id="teamname">{{ data.user}}</p>
+
+
     </h1>
 
     <!-- Signout button -->
@@ -59,11 +64,16 @@
 
          <md-input-container class="md-block">
            <label>Project</label>
-           <md-select required ng-model="task.project_id">
+       
+
+<!-- add required back in here -->
+
+
+           <md-select ng-model="task.project_id">
            <!-- Can make this link to org page? -->
              <md-option value="">No Projects?! Go to Overview to Create one First</md-option>
-             <md-option ng-repeat="project in data.projects" value="{{user.project_id}}">
-               {{user.project_id}}
+             <md-option ng-repeat="project in projects" value="{{ project._id }}">
+               {{ project.name }}
              </md-option>
            </md-select>
            <div ng-messages="projectForm.description.$error">
@@ -105,7 +115,7 @@
   <!-- Task List -->
     <md-content class="tasklist">
     <!-- todo: build userFilter -->
-      <md-list-item ng-repeat="task in data.tasks | filter : userFilter">
+      <md-list-item ng-repeat="task in tasks">
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
