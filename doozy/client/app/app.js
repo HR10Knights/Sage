@@ -1,8 +1,6 @@
 angular.module('app', [
   'app.services',
   'app.tasks',
-  'services.email',
-  'services.UserFactory',
   'app.auth',
   'ngRoute',
   'ngAnimate',

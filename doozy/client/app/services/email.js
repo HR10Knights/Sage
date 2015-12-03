@@ -1,4 +1,4 @@
-angular.module('services.email', [])
+angular.module('services.EmailFactory', [])
 
 .factory('Email', ['$http', function($http) {
 
