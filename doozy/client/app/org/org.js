@@ -1,6 +1,7 @@
 angular.module('app.org', [])
 
-.controller('OrgController', ['$scope', 'Users', 'Organization', 'Tasks', 'Project', function($scope, Users, Organization, Project, Tasks){
+.controller('OrgController', ['$scope', 'Users', 'Organization', function($scope, Users, Organization){
+
 	$scope.showAddTaskButton = true;
 
 	angular.extend($scope, Users, Organization);
