@@ -1,7 +1,7 @@
 angular.module('app', [
   'directives.organizationCard',
-  'app.services',
   'app.tasks',
+  'app.services',
   'app.auth',
   'app.org',
   'ngRoute',
@@ -18,7 +18,7 @@ angular.module('app', [
     })
     .warnPalette('deep-orange')
     .backgroundPalette('green', {
-      default: '100'
+      default: '50'
     });
  
   $routeProvider

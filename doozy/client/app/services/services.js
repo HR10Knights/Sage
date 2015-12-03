@@ -49,6 +49,7 @@ angular.module('app.services', [
     return teamName;
   };
 
+
   return {
     signin: signin,
     signup: signup,
