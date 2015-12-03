@@ -15,19 +15,14 @@ angular.module('directives.organizationCard', [])
     $scope.showProjectButton = true;
     $scope.project = {};
     $scope.data = {};
-    $scope.org.projects = [{
-      name: 'Project1'
-    }, {
-      name: 'Project2'
-    }];
-
+    
     Organization.getUserByOrganizationId($scope.org._id)
     	.then(function(users){
     		$scope.data.users = users;
     	});
 
     $scope.refreshOrganizationCard = function(){
-    	Organization.getOrganizationById()
+    	Organization.getOrganizationById($scope.org._id)
     		.then(function(org){
     			$scope.org = org;
     		});
