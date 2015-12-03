@@ -1,4 +1,5 @@
 angular.module('app.services', [
+  'services.OrganizationFactory',
   'services.UserFactory',
   'services.TaskFactory',
   'services.EmailFactory'

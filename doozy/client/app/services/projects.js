@@ -56,7 +56,7 @@ angular.module('services.project', [])
     var allProjects = function(){
       return $http({
         method: 'GET',
-        url 'api/projects'
+        url: 'api/projects'
       }).then(function (resp){
         return resp.data
       })
