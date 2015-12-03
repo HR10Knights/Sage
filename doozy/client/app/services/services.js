@@ -1,6 +1,7 @@
 angular.module('app.services', [
 
   'services.UserFactory',
+  'services.TaskFactory',
   'services.email'
   ])
 
