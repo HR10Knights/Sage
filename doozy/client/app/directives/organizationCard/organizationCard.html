@@ -1,0 +1,63 @@
+<div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
+    <h3 class="orgname">Organization: {{org.title}}</h3>
+    
+    <!-- Add Project button -->
+    <section layout="row" layout-sm="column" layout-align="center center" ng-show='showProjectButton'>
+        <md-button class="md-raised md-primary" ng-click="showProjectForm=true; showProjectButton=false">
+            Add Project
+        </md-button>
+    </section>
+
+    <!-- Project Form -->
+    <md-content layout-padding ng-show='showProjectForm' class="fx-zoom-normal fx-speed-500">
+        <md-icon id="closeFormBtn" ng-click="resetProjectDetails()" aria-label="Close" md-svg-icon="/assets/clear_24px.svg">
+        </md-icon>
+        <br>
+        <form name="projectForm">
+            <md-input-container class="md-block">
+                <label>Project Name</label>
+                <input md-maxlength="50" required name="project" ng-model="project.name">
+                <div ng-messages="projectForm.description.$error">
+                    <div ng-message="required">This is required.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Project Members</label>
+                <md-select ng-model="project.users">
+                    <md-option value="">Unassigned</md-option>
+                    <md-option ng-repeat="user in data.users" value="{{user._id}}">
+                        {{user.username}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+                <md-button class="button md-raised md-primary" ng-click="newProject(project);  resetProjectDetails();">
+                    Submit
+                </md-button>
+            </section>
+        </form>
+    </md-content>
+
+
+
+
+    <!-- Projects -->
+    <div layout="row" layout-align="center start">
+        <!-- <div layout="column"> -->
+        <!-- Show Projects -->
+        <md-card ng-repeat="project in org.projects" class="projcard">
+            <!-- ng-repeat="project in org.projects"> -->
+            <md-card-content>
+                <p class="md-project-title" style="text-align:center"><a href="#projectID">{{ project.name }}</a></p>
+            </md-card-content>
+        </md-card class="projcard">
+        <!-- If No Projects -->
+        <md-card ng-show="org.projects.length === 0" class="projcard">
+            <!-- ng-repeat="project in org.projects"> -->
+            <md-card-content>
+                <p class="md-project-title" style="text-align:center">Add Some Projects!</p>
+            </md-card-content>
+        </md-card class="projcard">
+        <!--      </div> -->
+    </div>
+</div>
