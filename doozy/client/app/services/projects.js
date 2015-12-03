@@ -1,4 +1,4 @@
-angular.module('services.project', [])
+angular.module('services.ProjectFactory', [])
 
   .factory('Project', function($http) {
     /**
