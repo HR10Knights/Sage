@@ -131,7 +131,11 @@ module.exports = {
   removeTask: function(req, res, next) {
     Task.findOneAndRemove(req.params.id, function(err, task) {
       if (err) return res.sendStatus(500, err);
-      if (!task) return res.sendStatus(404, err);
+      if (!task) {
+        return res.sendStatus(404, err);
+      } else {
+        task.remove();
+      }
       res.status(200).send(task);
     });
   }
