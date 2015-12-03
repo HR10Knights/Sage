@@ -54,6 +54,7 @@ module.exports = {
 
     Org.findById(req.body.orgId, function(err, org) {
       if (err) {
+        //console.log(err);
         return res.status(500).send(err);
       }
       if (org) {
@@ -65,11 +66,15 @@ module.exports = {
         org.projects.push(project._id);
         project.org_id = org._id;
         org.save(function(err) {
+
           if (err) {
+            //console.log(err);
             return res.status(500).send(err);
           }
           project.save(function(err) {
+
             if (err) {
+              console.log(err);
               return res.status(500).send(err);
             }
             res.status(201).send(org);
