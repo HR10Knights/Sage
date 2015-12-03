@@ -66,13 +66,7 @@ var projectsSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
-    validate: [
-      function(description) {
-        return description.trim().length >= 3;
-      },
-      'Description too short'
-    ]
+    required: false,
   },
   teamLead: {
     type: Schema.ObjectId,

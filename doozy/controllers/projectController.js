@@ -1,5 +1,6 @@
 var Project = require('../models/project');
 var Org = require('../models/org');
+var User = require('../models/user');
 
 module.exports = {
   /**
@@ -36,34 +37,13 @@ module.exports = {
    * Returns all users that are part of a project
    */
   getUserByProjectId: function(req, res, next) {
-    var projectId = req.params.projectId;
     User.find({
-      project_list: {
-        $in: projectId
-      }
-    }, {}, function(err, users) {
+      'project_list': req.params.projectId 
+    }, function(err, users) {
       if (err) return res.status(500).send();
-
       res.status(200).send(users);
     });
   },
-
-  /**
-   * [Gets all projects associated with an organization]
-   * req.params.orgId === organization id
-   * @return {[array]}        [projects array]
-   */
-  getProjectsByOrg: function(req, res, next) {
-    Org.findById(req.params.orgId)
-      .populate('projects')
-      .exec(function(err, org) {
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(org.projects);
-      });
-  },
-
 
   /**
    * [Creates a new project for an organization]

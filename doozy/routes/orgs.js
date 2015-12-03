@@ -10,9 +10,9 @@ router.get('/', orgController.allOrganizations);
 router.get('/:id', orgController.getOrganizationById);
 
 // Get all users for an organization
-router.get('/users/:id', orgController.getUserByOrganizationId);
+router.get('/users/:orgId', orgController.getUserByOrganizationId);
 
-// To add an organization
+// To create an organization
 router.post('/', orgController.createOrganization);
 
 // Update Organization

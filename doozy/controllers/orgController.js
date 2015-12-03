@@ -1,4 +1,5 @@
 var Org = require('../models/org');
+var User = require('../models/user');
 
 module.exports = {
   /**
@@ -19,13 +20,12 @@ module.exports = {
   getOrganizationById: function(req, res, next) {
     Org.findById(req.params.id, function(err, org) {
       if (err) {
-        res.status(500).send();
+        return res.status(500).send();
       }
       if (!org) {
-        res.status(404).send();
-      } else {
-        res.status(200).send(org);
+        return res.status(404).send();
       }
+      res.status(200).send(org);
     });
   },
 
@@ -33,14 +33,12 @@ module.exports = {
    * Returns all users that are part of an organization
    */
   getUserByOrganizationId: function(req, res, next) {
-    var organizationId = req.params.organizationId;
     User.find({
-      organization_list: {
-        $in: organizationId
+      'organization': req.params.orgId
+    }, function(err, users) {
+      if (err) {
+        return res.status(500).send();
       }
-    }, {}, function(err, users) {
-      if (err) return res.status(500).send();
-
       res.status(200).send(users);
     });
   },
@@ -50,6 +48,7 @@ module.exports = {
    * @param  {[object]}   req  [{title: ...}]
    */
   createOrganization: function(req, res, next) {
+
     Org.findOne({
       title: req.body.title
     }, function(err, org) {
@@ -62,7 +61,7 @@ module.exports = {
 
       newOrg.save(function(err, newOrg) {
         if (err) return res.status(400).send(err);
-        res.sendStatus(201);
+        res.status(201).send(newOrg);
       });
     });
   },
@@ -95,7 +94,7 @@ module.exports = {
    * @return {[object]}        [removed organization]
    */
   removeOrganization: function(req, res, next) {
-    Org.findOneAndRemove(req.params.id, function(err, org) {
+    Org.findOneAndRemove(req.params.orgId, function(err, org) {
       if (err) return res.sendStatus(500, err);
       if (!org) return res.sendStatus(404, err);
       res.status(200).send(org);

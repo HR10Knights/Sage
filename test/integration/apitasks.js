@@ -39,7 +39,14 @@ describe('Tasks API (api/tasks)', function() {
     });
   });
 
-  it('should have name, created_at, and isCompleted fields', function(done){
+  after(function(done) {
+    con.db.dropDatabase(function(err, result) {
+      con.close(done);
+    });
+  });
+
+
+  it('should have name, created_at, and isCompleted fields', function(done) {
     expect(task.name).to.not.equal(null);
     expect(task.created_at).to.not.equal(null);
     expect(task.isCompleted).to.not.equal(null);
@@ -69,18 +76,6 @@ describe('Tasks API (api/tasks)', function() {
       .end(done);
   });
 
-  it('should know who is it\'s daddy', function(done){
-    Task.findOne({name: 'new task'})
-      .populate('project_id')
-      .exec(function(err, task) {
-        if (err) {
-          console.log(err);
-        }
-        expect(task.project_id.name).to.equal(project.name);
-        done();
-      });
-  });
-
   it('should not add a task to a project that does not exist', function(done) {
     request(app)
       .post('/api/tasks/create')
@@ -95,9 +90,10 @@ describe('Tasks API (api/tasks)', function() {
 
   it('should list all tasks for a project', function(done) {
     request(app)
-      .get('/api/tasks/project/' + project._id)
+      .get('/api/projects/' + project._id)
       .expect(function(res) {
-        expect(res.body.length).to.equal(1);
+        expect(res.body.tasks.length).to.equal(1);
+        expect(res.body.tasks[0].name).to.equal('new task');
       })
       .end(done);
   });
@@ -156,76 +152,5 @@ describe('Tasks API (api/tasks)', function() {
         });
       });
   });
-
-  after(function(done) {
-    con.db.dropDatabase(function(err, result) {
-      con.close(done);
-    });
-  });
-
-  describe('assign tasks to user', function() {
-    var user, task;
-
-    before(function(done) {
-      request(app)
-        .post('/api/signup')
-        .send({
-          'username': 'auser',
-          'password': 'apass',
-        })
-        .expect(201)
-        .then(function() {
-          User.findOne({
-            username: 'auser'
-          }, function(err, foundUser) {
-            user = foundUser;
-            Task.create({
-              name: 'task'
-            }, function(err, foundTask) {
-              if (err) console.log(err);
-              task = foundTask;
-              done();
-            });
-          });
-        });
-    });
-
-    it('should have a user and a task', function(done) {
-      expect(user.username).to.equal('auser');
-      expect(task.name).to.equal('task');
-      done();
-    });
-
-    it('should add a task to the user', function(done) {
-      request(app)
-        .post('/api/users/tasks')
-        .send({
-          userId: user._id,
-          taskId: task._id
-        })
-        .expect(200)
-        .end(done);
-    });
-
-    it('should get all tasks for a user', function(done) {
-      request(app)
-        .get('/api/users/tasks/' + user._id)
-        .expect(function(res) {
-          expect(res.body.length).to.equal(1);
-          expect(res.body[0].name).to.equal('task');
-        })
-        .end(done);
-    });
-
-
-  });
-
-
-
-
-
-
-
-
 
 });
