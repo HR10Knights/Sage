@@ -1,8 +1,11 @@
+<!-- this is a user focused page that displays all tasks assigned to a user in any project or organization they are part of -->
+<!-- it also allows editing of tasks -->
+
 <div flex layout="column" layout-align="center center">
   <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
     <h1 style="text-align:center" class="signheader">
     Sage
-      <p id="teamname">{{ data.username }}</p>
+      <p id="teamname">{{ data.user.username }}</p>
     </h1>
 
     <!-- Signout button -->
