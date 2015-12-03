@@ -8,6 +8,7 @@ var Org = require('../models/org');
 
 module.exports = {
   allUsers: function(req, res, next) {
+    console.log(req.user);
     // send only _id and username
     User.find({}, '_id username', function(err, users) {
       if (err) return res.status(500).send();
@@ -16,8 +17,20 @@ module.exports = {
     });
   },
 
+  getLoggedInUser: function(req, res, next) {
+    User.findById(req.user._id, {
+      'password': false
+    }, function(err, user) {
+      if (err) return res.sendStatus(500, err);
+      if (!user) return res.sendStatus(404, err);
+      res.status(200).send(user);
+    });
+  },
+
   getUserById: function(req, res, next) {
-    User.findById(req.params.id, {'password':false}, function(err, user) {
+    User.findById(req.params.id, {
+      'password': false
+    }, function(err, user) {
       if (err) return res.sendStatus(500, err);
       if (!user) return res.sendStatus(404, err);
       res.status(200).send(user);
@@ -76,7 +89,7 @@ module.exports = {
         if (err) {
           return res.status(500).send();
         }
-        if(!task){
+        if (!task) {
           return res.status(404).send();
         }
         user.task_list.push(task);
@@ -106,7 +119,7 @@ module.exports = {
         if (err) {
           return res.status(500).send();
         }
-        if(!project){
+        if (!project) {
           return res.status(404).send();
         }
         user.project_list.push(project._id);
@@ -136,7 +149,7 @@ module.exports = {
         if (err) {
           return res.status(500).send();
         }
-        if(!org){
+        if (!org) {
           return res.status(404).send();
         }
         user.organization.push(org._id);
@@ -150,45 +163,54 @@ module.exports = {
     });
   },
 
-  removeUserFromProject: function (req, res, next){
+  removeUserFromProject: function(req, res, next) {
     var projectId = req.body.projectId;
     var userId = req.body.userId
     User.update({
       _id: userId
-      }, {$pull: {project_list: projectId}
-      }, function (err, user){
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(user);
-    });  
+    }, {
+      $pull: {
+        project_list: projectId
+      }
+    }, function(err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user);
+    });
   },
 
-  removeUserFromTask: function (req, res, next){
+  removeUserFromTask: function(req, res, next) {
     var taskId = req.body.taskId;
     var userId = req.body.userId
     User.update({
       _id: userId
-      }, {$pull: {task_list: taskId}
-      }, function (err, user){
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(user);
-    });  
+    }, {
+      $pull: {
+        task_list: taskId
+      }
+    }, function(err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user);
+    });
   },
 
-  removeUserFromOrganization: function (req, res, next){
+  removeUserFromOrganization: function(req, res, next) {
     var organizationId = req.body.organizationId;
     var userId = req.body.userId;
     User.update({
       _id: userId
-      }, {$pull: {organization: organizationId}
-      }, function (err, user){
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(user);
-    });  
+    }, {
+      $pull: {
+        organization: organizationId
+      }
+    }, function(err, user) {
+      if (err) {
+        return res.status(500).send();
+      }
+      res.status(200).send(user);
+    });
   }
 };

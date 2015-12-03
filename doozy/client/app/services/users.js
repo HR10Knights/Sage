@@ -1,7 +1,21 @@
 angular.module('services.UserFactory', [])
-  .factory('Users', function($http) {
+  .factory('Users', function($http, $window) {
 
     return {
+
+      /**
+       * Gets user info for logged in user
+       * @return {[array]} [array of user objects]
+       */
+      getLoggedInUser: function() {
+        return $http({
+            method: 'GET',
+            url: '/api/users/'
+          })
+          .then(function(resp) {
+            return resp.data;
+          });
+      },
       /**
        * Returns all users
        * @return {[array]} [array of user objects]
@@ -9,7 +23,7 @@ angular.module('services.UserFactory', [])
       getAll: function() {
         return $http({
             method: 'GET',
-            url: '/api/users'
+            url: '/api/users/all'
           })
           .then(function(resp) {
             return resp.data;
@@ -23,9 +37,23 @@ angular.module('services.UserFactory', [])
        * @return {[object]}    [userObject]
        */
       getUserById: function(id) {
+        id = id || '';
         return $http({
             method: 'GET',
             url: '/api/users/' + id
+          })
+          .then(function(resp) {
+            return resp.data;
+          });
+      },
+
+      getUserByToken: function() {
+        return $http({
+            method: 'POST',
+            url: '/api/users/',
+            data: {
+              token: $window.localStorage.getItem('auth-token')
+            }
           })
           .then(function(resp) {
             return resp.data;

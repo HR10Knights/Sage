@@ -4,7 +4,10 @@ var router = express.Router();
 var userController = require('../controllers/userController');
 
 // List all Users
-router.get('/', userController.allUsers);
+router.get('/all', userController.allUsers);
+
+// Get logged in user
+router.get('/', userController.getLoggedInUser);
 
 // Get User by Id
 router.get('/:id', userController.getUserById);
