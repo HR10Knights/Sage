@@ -6,11 +6,11 @@ angular.module('services.ProjectFactory', [])
      * @param  {[int]} taskId   [id of the given task]
      * @return {[array]}        [array of user objects]
      */
-    var createProjectByOrgID = function(orgID, project){
+    var createProjectByOrgID = function(data){
       return $http({
         method: 'POST',
         url: 'api/projects/create',
-        data: project
+        data: JSON.stringify(data)
       }).then(function(resp) {
         return resp.data;
       });

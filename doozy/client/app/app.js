@@ -1,4 +1,5 @@
 angular.module('app', [
+  'directives.organizationCard',
   'app.services',
   'app.tasks',
   'app.auth',

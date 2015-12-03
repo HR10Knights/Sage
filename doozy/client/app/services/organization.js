@@ -23,17 +23,18 @@ angular.module('services.OrganizationFactory', [])
     var getUserByOrganizationId = function(orgId){
       return $http({
         method: 'GET',
-        url: 'api/orgs/users' + orgId
+        url: 'api/orgs/users/' + orgId
       }).then(function (resp){
         return resp.data;
       });
     };
 
     var createOrganization = function (newOrg){
+      console.log(newOrg);
       return $http({
         method: 'POST',
-        url: 'api/orgs/',
-        data: newOrg
+        url: '/api/orgs/',
+        data: JSON.stringify(newOrg)
       }).then(function (resp){
         return resp.data;
       });

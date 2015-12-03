@@ -51,7 +51,7 @@ module.exports = {
    * @return {[object]}        [organization object]
    */
   createProjectByOrg: function(req, res, next) {
-
+    console.log(req.body);
     Org.findById(req.body.orgId, function(err, org) {
       if (err) {
         return res.status(500).send(err);
