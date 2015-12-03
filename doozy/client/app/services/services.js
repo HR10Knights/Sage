@@ -58,4 +58,13 @@ angular.module('app.services', [
     signout: signout,
     getTeamName: getTeamName
   };
+})
+// Factory function to change the state which helps in the UI-Router
+.factory('State', function ($stateProvider, $scope) {
+  var changeState = function (state) {
+    $state.go(state);
+  };
+  return {
+    changeState: changeState
+  }
 });

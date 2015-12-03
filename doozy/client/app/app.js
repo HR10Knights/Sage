@@ -12,6 +12,7 @@ angular.module('app', [
   'ngMaterial',
   'ngFx'
 ])
+<<<<<<< 13fe262f6d5e5f42eb4cac5688dbee5abcd11cee
 .config(function($stateProvider, $httpProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
@@ -25,6 +26,11 @@ angular.module('app', [
 
   $stateProvider
     .state('signin', {
+=======
+.config(function($stateProvider, $httpProvider, $locationProvider) {
+  $stateProvider
+    .state('index', {
+>>>>>>> UI routing fix
       url: "/" ,
       controller: 'AuthController',
       templateUrl: '/app/auth/signin.html'
@@ -36,6 +42,7 @@ angular.module('app', [
     })
     .state('user', {
       url: '/user',
+<<<<<<< 13fe262f6d5e5f42eb4cac5688dbee5abcd11cee
       controller: 'TasksController',
       authenticate: true,
     })
@@ -51,10 +58,17 @@ angular.module('app', [
     })
 
     }); // $routeProvider
+=======
+      templateUrl: 'app/tasks/tasks.html',
+      authenticate: true
+    })
+  // $routeProvider
+>>>>>>> UI routing fix
   //   .when('/signin', {
   //     templateUrl: '/app/auth/signin.html',
   //     controller: 'AuthController'
   //   })
+  //
   //   .when('/signup', {
   //     templateUrl: '/app/auth/signup.html',
   //     controller: 'AuthController'
@@ -69,6 +83,10 @@ angular.module('app', [
   //   });
 
   $httpProvider.interceptors.push('AttachTokens');
+  $locationProvider.html5Mode({
+    enabled: true,
+    requireBase: false
+  });
 })
 .factory('AttachTokens', function ($window) {
   // adds web token to headers
@@ -85,10 +103,17 @@ angular.module('app', [
   return attach;
 })
 .run(function ($rootScope, $location, Auth) {
-  // checks if user is logged in with any route change
-  $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-    if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
-      $location.path('/signin');
-    }
+  $rootScope.$on('$stateChangeStart',
+    function(event, toState, toParams, fromState, fromParams){
+      if(toState && toState.data.requireLogin && !Auth.isAuth()) {
+        $location.path('/');
+      }
   });
+// .run(function ($rootScope, $location, Auth) {
+//   // checks if user is logged in with any route change
+//   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
+//     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
+//       $location.path('/signin');
+//     }
+//   });
 });
