@@ -2,6 +2,7 @@ angular.module('app', [
   'app.services',
   'app.tasks',
   'app.auth',
+  'app.org',
   'ngRoute',
   'ngAnimate',
   'ngMaterial',
@@ -40,7 +41,7 @@ angular.module('app', [
     })
     .when('/org', {
       templateUrl: '/app/org/org.html',
-      controller: 'TasksController',
+      controller: 'OrgController',
       authenticate: true,
     })
 
