@@ -51,8 +51,20 @@ angular.module('app.tasks', [])
       console.log(err);
     }); 
   };
+//  old version got all tasks
+ //  $scope.getTasks = function() {
+ //      Tasks.getAll()
+	// 	  .then(function(tasks) {
+	// 	  	$scope.data.tasks = tasks;
+	// 	  })
+	//     .catch(function(err) {
+ //        console.log(err);
+	//     });
+	// };
 
+// new version only gets tasks specific to user
   $scope.getTasks = function() {
+
     //   Tasks.getAll()
 		  // .then(function(tasks) {
 		  // 	$scope.data.tasks = tasks;
@@ -61,8 +73,15 @@ angular.module('app.tasks', [])
     //     console.log(err);
 	   //  });
 	};
+
+    return $scope.data.user.tasks;
+  };
+
+
+
   // invoke getTasks so that all of the tasks load when you open the page
-	$scope.getTasks();
+	$scope.getUserById(userId);
+  $scope.getTasks();
 
   // get all of the User objects from the database and save them
   // these users populate the 'Assignee' dropdown menue of the task form
@@ -129,8 +148,20 @@ angular.module('app.tasks', [])
   };
 
   // delete a task from the database
-  $scope.deleteTask = function(task) {
-    Tasks.deleteTask(task)
+  //  old version
+  // $scope.deleteTask = function(task) {
+  //   Tasks.deleteTask(task)
+  //     .then(function() {
+  //       $scope.getTasks();
+  //     })
+  //     .catch(function(err) {
+  //       console.log(err);
+  //     });
+  // };
+
+  // new version
+    $scope.removeTask = function(taskId) {
+    Task.removeTask(taskId)
       .then(function() {
         $scope.getTasks();
       })
