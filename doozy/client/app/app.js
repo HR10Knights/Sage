@@ -24,6 +24,7 @@ angular.module('app', [
 
   $stateProvider
     .state('signin', {
+      url: '/',
       controller: 'AuthController',
       templateUrl: '/app/auth/signin.html'
     })
@@ -33,7 +34,7 @@ angular.module('app', [
       templateUrl: '/app/auth/signup.html'
     })
     .state('user', {
-      url: '/#/user',
+      url: '/user',
       controller: 'TasksController',
       templateUrl: 'app/tasks/tasks.html',
       authenticate: true,
@@ -44,7 +45,7 @@ angular.module('app', [
       controller: 'TasksController',
       authenticate: true
     })
-    .state('/org', {
+    .state('org', {
       url: '/organization',
       templateUrl: '/app/org/org.html',
       controller: 'OrgController',
@@ -91,13 +92,20 @@ angular.module('app', [
 .run(function ($rootScope, $location, $state, Auth) {
   $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
+      console.log(event);
+      console.log(toState);
+      console.log(toParams);
+      console.log(fromState);
+      console.log(fromParams);
+      console.log(Auth.isAuth())
       if(toState && toState.authenticate && !Auth.isAuth()) {
-        $state.go('signin')
+        $state.go('signin');
       }
-      // if(toState.name === 'signin' && Auth.isAuth()) {
-      //   $state.go('user');
-      //   console.log('hello')
-      // }
+      if(toState.name === 'signin' && Auth.isAuth()) {
+
+        $location.path('/user');
+        $state.go('user');
+      }
   });
 // .run(function ($rootScope, $location, Auth) {
 //   // checks if user is logged in with any route change
