@@ -42,8 +42,18 @@ angular.module('app.tasks', [])
     // }
   ];
 
+  $scope.getLoggedInUser = function(){
+    Users.getLoggedInUser()
+      .then(function(userobj){
+        $scope.data.user = userobj;
+      })
+      .catch(function(err){
+        console.log(err);
+      })
+  };
+
   $scope.getUserById = function(user) {
-    User.getUserById(user)
+    Users.getUserById(user)
     .then(function(userobj) {
       $scope.data.user = userobj;
     })
@@ -72,15 +82,13 @@ angular.module('app.tasks', [])
 	   //  .catch(function(err) {
     //     console.log(err);
 	   //  });
-	};
-
     return $scope.data.user.tasks;
   };
 
 
 
   // invoke getTasks so that all of the tasks load when you open the page
-	$scope.getUserById(userId);
+	$scope.getLoggedInUser();
   $scope.getTasks();
 
   // get all of the User objects from the database and save them

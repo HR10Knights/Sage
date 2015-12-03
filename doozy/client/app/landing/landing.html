@@ -49,9 +49,23 @@
            </div>
           </md-input-container>
   
-          <md-input-container class="md-block">
+<!--           <md-input-container class="md-block">
            <label>Project</label>
            <input md-maxlength="50" required name="project" ng-model="task.project">
+           <div ng-messages="projectForm.description.$error">
+             <div ng-message="required">This is required.</div>
+           </div>
+         </md-input-container> -->
+
+         <md-input-container flex>
+           <label>Project</label>
+           <md-select required ng-model="task.project_id">
+           <!-- Can make this link to org page? -->
+             <md-option value="create"><a href="#/org">Create a Project</a></md-option>
+             <md-option ng-repeat="project in data.projects" value="{{user.project_id}}">
+               {{user.project_id}}
+             </md-option>
+           </md-select>
            <div ng-messages="projectForm.description.$error">
              <div ng-message="required">This is required.</div>
            </div>
