@@ -20,11 +20,9 @@ client/lib
 doozy/client/lib
 npm-debug.log
 doozy/dist/**/*
-  .floo
-  .flooignore
-  .gitignore.orig
 sandbox.html
 
-.floo
-.flooignore
+
+
+test/integration/apitasks.old.js 
 
