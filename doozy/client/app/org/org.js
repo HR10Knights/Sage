@@ -1,14 +1,8 @@
 angular.module('app.org', [])
 
-<<<<<<< HEAD
-.controller('OrgController', ['$scope', 'Users', 'Organization', 'Tasks', 'Project', function($scope, Users, Organization, Project, Tasks){
-
-	$scope.showAddTaskButton = true;
-=======
 .controller('OrgController', ['$scope', 'Users', 'Organization', 'Tasks', 'Project', function($scope, Users, Organization, Project, Tasks) {
   $scope.showAddOrgButton = true;
   $scope.showOrgForm = false;
->>>>>>> (feat) Working on Organization View
 
   $scope.user;
   $scope.data = {};
@@ -57,6 +51,7 @@ angular.module('app.org', [])
         })
       })
       .then(function() {
+        $scope.resetOrgDetails();
         $scope.getUserData();
       });
   };
