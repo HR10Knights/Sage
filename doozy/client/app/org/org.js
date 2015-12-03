@@ -27,7 +27,7 @@ angular.module('app.org', [])
       .then(function(user) {
         $scope.user = user;
       });
-  }
+  };
 
   // Watches for changes in the current user and updates scope
   $scope.$watch('user', function() {
@@ -51,6 +51,7 @@ angular.module('app.org', [])
         })
       })
       .then(function() {
+        $scope.resetOrgDetails();
         $scope.getUserData();
       });
   };
