@@ -112,7 +112,12 @@ module.exports = {
   removeProject: function(req, res, next) {
     Project.findOneAndRemove(req.params.id, function(err, project) {
       if (err) return res.sendStatus(500, err);
-      if (!project) return res.sendStatus(404, err);
+      if (!project) {
+        return res.sendStatus(404, err);
+      } else {
+        project.remove();
+      }
+
       res.status(200).send(project);
     });
   }

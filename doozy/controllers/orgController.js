@@ -96,7 +96,11 @@ module.exports = {
   removeOrganization: function(req, res, next) {
     Org.findOneAndRemove(req.params.orgId, function(err, org) {
       if (err) return res.sendStatus(500, err);
-      if (!org) return res.sendStatus(404, err);
+      if (!org) {
+        return res.sendStatus(404, err);
+      } else {
+        org.remove();
+      }
       res.status(200).send(org);
     });
   }
