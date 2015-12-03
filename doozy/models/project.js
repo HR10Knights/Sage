@@ -30,7 +30,7 @@ db.projectsSchema.pre('remove', function(next, done) {
     }
     for (var i = 0; i < task.length; i++) {
       if (task[i]) {
-        removeTask(task[i]);
+        task[i].remove();
       }
     }
   });

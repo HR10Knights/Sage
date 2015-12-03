@@ -23,7 +23,7 @@ db.orgSchema.pre('remove', function(next, done) {
     }
     for (var i = 0; i < project.length; i++) {
       if (project[i]){
-        removeProject(project[i]);
+        project[i].remove();
       }
     }
   });
