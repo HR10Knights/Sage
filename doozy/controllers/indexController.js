@@ -46,27 +46,21 @@ module.exports = {
   loginUser: function(req, res, next) {
     var username = req.body.username.trim();
     var password = req.body.password.trim();
-    var teamname = req.body.teamname.trim();
-    if (username === '' || teamname === '' || password === '') {
+    if (username === '' || password === '') {
       return res.status(400).send('Username, Password, and Teamname must be present');
     }
 
-    Team.findOne({
-      name: teamname
-    }, function(err, team) {
-      if (!team) return res.status(401).send('Team does not exist');
+    User.findOne({
+      username: username
+    }, function(err, user) {
+      if (!user) return res.status(401).send('Username does not exist');
 
-      User.findOne({
-        username: username
-      }, function(err, user) {
-        if (!user) return res.status(401).send('Username does not exist');
+      user.comparePassword(password, function(match) {
+        if (!match) return res.status(401).send('Password does not match');
 
-        user.comparePassword(password, function(match) {
-          if (!match) return res.status(401).send('Password does not match');
-
-          sendJWT(user, res);
-        });
+        sendJWT(user, res);
       });
     });
+
   }
 };
