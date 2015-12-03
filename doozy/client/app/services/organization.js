@@ -1,4 +1,4 @@
-angular.module('services.organization', [])
+angular.module('services.OrganizationFactory', [])
 
 .factory('Organization', ['$http', function($http) {
 

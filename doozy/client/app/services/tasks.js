@@ -1,6 +1,6 @@
-angular.module('services.TaskFactory')
+angular.module('services.TaskFactory', [])
 
-.factory('Task', ['$http', function($http) {
+.factory('Tasks', ['$http', function($http) {
 
   return {
 

@@ -11,13 +11,13 @@ angular.module('app.tasks', [])
   // retrieve all of the tasks from the database
   $scope.data.tasks = [];
   $scope.getTasks = function() {
-      Tasks.getAll()
-		  .then(function(tasks) {
-		  	$scope.data.tasks = tasks;
-		  })
-	    .catch(function(err) {
-        console.log(err);
-	    });
+    //   Tasks.getAll()
+		  // .then(function(tasks) {
+		  // 	$scope.data.tasks = tasks;
+		  // })
+	   //  .catch(function(err) {
+    //     console.log(err);
+	   //  });
 	};
   // invoke getTasks so that all of the tasks load when you open the page
 	$scope.getTasks();
