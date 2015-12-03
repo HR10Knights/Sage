@@ -25,6 +25,7 @@
       </section>
 
      <!-- Task Form : is visible when addTask is clicked or an existing task is clicked for editing -->
+     <!-- becase this page is showing all of a users tasks from all projects when a task is submitted from this page the project must be specified or created if it does not exist -->
      <md-content layout-padding ng-show='showTaskForm' class="fx-zoom-normal fx-speed-500">
        <md-icon 
          id="closeFormBtn" 
@@ -35,13 +36,28 @@
        <br>
        <form name="taskForm">
 
-         <md-input-container class="md-block">
+          <md-input-container class="md-block">
            <label>Task</label>
            <input md-maxlength="50" required name="task" ng-model="task.name">
            <div ng-messages="projectForm.description.$error">
              <div ng-message="required">This is required.</div>
            </div>
+          </md-input-container>
+  
+          <md-input-container class="md-block">
+           <label>Project</label>
+           <input md-maxlength="50" required name="project" ng-model="task.project">
+           <div ng-messages="projectForm.description.$error">
+             <div ng-message="required">This is required.</div>
+           </div>
          </md-input-container>
+
+         <!-- <md-input-container flex> -->
+       <!--    <label>Due By</label>
+          <input md-maxlength="50" required name="deadline" ng-model="task.deadline"> -->
+          
+          <md-datepicker ng-model="task.deadline" md-placeholder="Deadline"></md-datepicker>
+         <!-- </md-input-container> -->
 
 <!-- // 
 TODO : BUG IN ASSIGNEE DROPDOWN!!!
@@ -84,9 +100,8 @@ TODO : BUG IN ASSIGNEE DROPDOWN!!!
           ng-click="loadTaskDetails(task)"
           md-ink-ripple>
           {{ task.name }}
-
-          {{ task.project.name }}
-          {{ task.organization.name }}
+          <a href="#projectID">PROJECT{{ task.project.name }}</a>
+          <a href="#organizationID">ORG{{ task.organization.name }}</a>
           {{ task.deadline }}
         </p>
         <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>

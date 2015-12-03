@@ -13,13 +13,13 @@ angular.module('app', [
  
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
-    .accentPalette('deep-orange', {
+    .accentPalette('green', {
       default: '800'
+    })
+    .warnPalette('deep-orange')
+    .backgroundPalette('green', {
+      default: '100'
     });
-    // .warnPalette('deep-orange')
-    // .backgroundPalette('green', {
-    //   default: '100'
-    // });
  
   $routeProvider
     .when('/signin', {
@@ -45,7 +45,7 @@ angular.module('app', [
       controller: 'TasksController',
       authenticate: true,
     })
-    
+
     .otherwise({
       redirectTo: '/tasks'
     });
