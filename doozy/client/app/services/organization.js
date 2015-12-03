@@ -51,8 +51,8 @@ angular.module('services.OrganizationFactory', [])
 
     var removeOrganization = function (orgId){
       return $http({
-        method: 'DELETE'
-        url: 'api/orgs' + orgId
+        method: 'DELETE',
+        url: 'api/orgs/' + orgId
       }).then(function (resp) {
         return resp.data;
       });
