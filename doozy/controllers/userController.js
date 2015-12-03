@@ -183,5 +183,47 @@ module.exports = {
         });
       });
     });
+  },
+
+  removeUserFromProject: function (req, res, next){
+    var projectId = req.body.projectId;
+    var userId = req.body.userId
+    User.update({
+      _id: userId
+      }, {$pull: {project_list: projectId}
+      }, function (err, user){
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(user);
+    });  
+  },
+
+  removeUserFromTask: function (req, res, next){
+    var taskId = req.body.taskId;
+    var userId = req.body.userId
+    User.update({
+      _id: userId
+      }, {$pull: {task_list: taskId}
+      }, function (err, user){
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(user);
+    });  
+  },
+
+  removeUserFromOrganization: function (req, res, next){
+    var organizationId = req.body.organizationId;
+    var userId = req.body.userId;
+    User.update({
+      _id: userId
+      }, {$pull: {organization: organizationId}
+      }, function (err, user){
+        if (err) {
+          return res.status(500).send();
+        }
+        res.status(200).send(user);
+    });  
   }
 };
