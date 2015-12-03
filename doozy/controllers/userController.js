@@ -17,7 +17,7 @@ module.exports = {
   },
 
   getUserById: function(req, res, next) {
-    User.findById(req.params.id, function(err, user) {
+    User.findById(req.params.id, {'password':false}, function(err, user) {
       if (err) return res.sendStatus(500, err);
       if (!user) return res.sendStatus(404, err);
       res.status(200).send(user);
