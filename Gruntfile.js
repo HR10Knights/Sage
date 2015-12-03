@@ -68,7 +68,7 @@ module.exports = function(grunt) {
         tasks: [ 'test' ]
       }
     },
-    mocha_istabul: {
+    mocha_istanbul: {
       coverage: {
         src: 'test',
         options: {

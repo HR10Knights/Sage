@@ -9,11 +9,8 @@ router.get('/:id', taskController.getTaskById);
 // Update task
 router.put('/', taskController.updateTaskById);
 
-// View all user tasks
+// View all assigned users
 router.get('/users/:taskId', taskController.getUserByTaskId);
-
-// List all tasks by project
-router.get('/project/:projectId', taskController.getTasksByProject);
 
 // Add a task to a project
 router.post('/create', taskController.createTaskByProject);

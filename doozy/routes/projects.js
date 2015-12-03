@@ -12,9 +12,6 @@ router.get('/:id', projectController.getProjectById);
 // Gets all users for a project
 router.get('/users/:projectId', projectController.getUserByProjectId);
 
-// Gets all projects for an organization
-router.get('/org/:orgId', projectController.getProjectsByOrg);
-
 // To add a project to an organization
 router.post('/create', projectController.createProjectByOrg);
 

@@ -20,7 +20,7 @@ module.exports = {
     User.findById(req.params.id, function(err, user) {
       if (err) return res.sendStatus(500, err);
       if (!user) return res.sendStatus(404, err);
-      res.status(200).sned(user);
+      res.status(200).send(user);
     });
   },
 
@@ -31,14 +31,14 @@ module.exports = {
 
       if (err) return res.sendStatus(404, err);
 
-      username.username = req.body.name;
-      username.email = req.body.email;
+      user.username = req.body.username;
+      user.email = req.body.email;
 
       user.save(function(err, user) {
         if (err) console.log('err: ', err);
         if (err) return res.sendStatus(404, err);
 
-        res.status(205).send(user);
+        res.status(200).send(user);
       });
     });
   },
@@ -61,49 +61,6 @@ module.exports = {
     });
   },
 
-  getTasksForUser: function(req, res, next) {
-    var userId = req.params.userId;
-    User.findOne({
-        _id: userId
-      })
-      .populate('task_list')
-      .exec(function(err, user) {
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(user.task_list);
-      });
-
-  },
-
-  getProjectsForUser: function(req, res, next) {
-    var userId = req.params.userId;
-    User.findOne({
-        _id: userId
-      })
-      .populate('project_list')
-      .exec(function(err, user) {
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(user.project_list);
-      });
-  },
-
-  getOrganizationsForUser: function(req, res, next) {
-    var userId = req.params.userId;
-    User.findOne({
-        _id: userId
-      })
-      .populate('organization')
-      .exec(function(err, user) {
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(user.organization);
-      });
-  },
-
   addTaskToUser: function(req, res, next) {
     var userId = req.body.userId;
     var taskId = req.body.taskId;
@@ -119,6 +76,9 @@ module.exports = {
       }, function(err, task) {
         if (err) {
           return res.status(500).send();
+        }
+        if(!task){
+          return res.status(404).send();
         }
         user.task_list.push(task);
         user.save(function(err, user) {
@@ -147,6 +107,9 @@ module.exports = {
         if (err) {
           return res.status(500).send();
         }
+        if(!project){
+          return res.status(404).send();
+        }
         user.project_list.push(project._id);
         user.save(function(err, user) {
           if (err) {
@@ -173,6 +136,9 @@ module.exports = {
       }, function(err, org) {
         if (err) {
           return res.status(500).send();
+        }
+        if(!org){
+          return res.status(404).send();
         }
         user.organization.push(org._id);
         user.save(function(err, user) {

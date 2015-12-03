@@ -8,31 +8,12 @@ var Project = require('../models/project');
 module.exports = {
 
   /**
-   * [Gets all task for a given project]
-   * @param  {[object]}   req.params.projectId  [project's _id]
-   * @return {[array]}                          [All tasks for the project]
-   */
-  getTasksByProject: function(req, res, next) {
-    Project.findById(req.params.projectId)
-      .populate('tasks')
-      .exec(function(err, project) {
-        if (err) {
-          return res.status(500).send();
-        }
-        res.status(200).send(project.tasks);
-      });
-  },
-
-  /**
    * Returns all users that have given taskId in their task list
    */
   getUserByTaskId: function(req, res, next) {
-    var taskId = req.params.taskId;
     User.find({
-      task_list: {
-        $in: taskId
-      }
-    }, {}, function(err, users) {
+      'task_list': req.params.taskId
+    }, function(err, users) {
       if (err) return res.status(500).send();
 
       res.status(200).send(users);

@@ -9,15 +9,6 @@ router.get('/', userController.allUsers);
 // Get User by Id
 router.get('/:id', userController.getUserById);
 
-// Get all Tasks for a user
-router.get('/tasks/:userId', userController.getTasksForUser);
-
-// Get all Projects for a user
-router.get('/projects/:userId', userController.getProjectsForUser);
-
-// Get all Organizations for a user
-router.get('/orgs/:userId', userController.getOrganizationsForUser);
-
 // Update User
 router.put('/', userController.updateUser);
 
