@@ -34,9 +34,7 @@ angular.module('services.UserFactory', [])
 
       /**
        * Pass in updated user data
-       * Must contain _id field
-       * Can update username/email
-       * @param  {[object]} data [data to update to user]
+       * @param  {[object]} data [{_id:<REQUIRED>, username, email}]
        * @return {[object]}      [updated user object]
        */
       updateUser: function(data) {
@@ -53,8 +51,7 @@ angular.module('services.UserFactory', [])
       /**
        * Add a task to a user
        * Must include taskId and userId in data
-       * {taskId:<task._id>, userId:<user._id>}
-       * @param {[object]} data [taskId and userId]
+       * @param {[object]} data [{taskId:<REQUIRED>, userId:<REQUIRED>}]
        */
       addTaskToUser: function(data) {
         return $http({
@@ -71,7 +68,7 @@ angular.module('services.UserFactory', [])
        * Add a project to a user
        * Must include projectId and userId in data
        * {projectId:<project._id>, userId:<user._id>}
-       * @param {[object]} data [projectId and userId]
+       * @param {[object]} data [{projectId:<REQUIRED>, userId:<REQUIRED>}]
        */
       addProjectToUser: function(data) {
         return $http({
@@ -88,7 +85,7 @@ angular.module('services.UserFactory', [])
        * Add an organization to a user
        * Must include organizationId and userId in data
        * {organizationId:<organization._id>, userId:<user._id>}
-       * @param {[object]} data [organizationId and userId]
+       * @param {[object]} data [{organizationId:<REQUIRED>, userId:<REQUIRED>}]
        */
       addOrganizationToUser: function(data) {
         return $http({
