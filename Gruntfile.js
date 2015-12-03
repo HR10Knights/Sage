@@ -72,7 +72,7 @@ module.exports = function(grunt) {
       coverage: {
         src: 'test',
         options: {
-          
+
         }
       }
     },
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
     // Injects between <!-- bower:css / js --><!-- endbower -->
     wiredep: {
       task :{
-        src: ['doozy/client/index.html']
+        src: ['doozy/index.html']
       }
     },
 
@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 
   });
 
-  // Runs jshint, concats and minifies js and css to dist folder. 
+  // Runs jshint, concats and minifies js and css to dist folder.
   // jsHint removed bc error in tasks.js
   grunt.registerTask('build', [
     'clean',
@@ -134,7 +134,7 @@ module.exports = function(grunt) {
   grunt.registerTask('hint', [
     'jshint'
     ]);
-  
+
   grunt.registerTask('test', [
     'mochaTest'
   ]);

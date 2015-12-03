@@ -1,0 +1,88 @@
+<div flex layout="column" layout-align="center center">
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
+    <h1 style="text-align:center" class="signheader">
+    Sage
+      <p id="teamname">{{ data.username }}</p>
+    </h1>
+    <!-- Signout button -->
+    <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
+  <!-- All Task Related Content -->
+    <md-content id="taskdisplay" ng-cloak>
+      <!-- Search/Filter Box -->
+
+      <!-- Add Task button -->
+      <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddTaskButton'>
+        <md-button
+          class="md-raised md-primary"
+          ng-click="showTaskForm=true; showAddTaskButton=false">
+          Add Task
+        </md-button>
+      </section>
+     <!-- Task Form : is visible when addTask is clicked or an existing task is clicked for editing -->
+     <md-content layout-padding ng-show='showTaskForm' class="fx-zoom-normal fx-speed-500">
+       <md-icon
+         id="closeFormBtn"
+         ng-click="resetTaskDetails()"
+         aria-label="Close"
+         md-svg-icon="/assets/clear_24px.svg">
+       </md-icon>
+       <br>
+       <form name="taskForm">
+         <md-input-container class="md-block">
+           <label>Task</label>
+           <input md-maxlength="50" required name="task" ng-model="task.name">
+           <div ng-messages="projectForm.description.$error">
+             <div ng-message="required">This is required.</div>
+           </div>
+         </md-input-container>
+<!-- //
+TODO : BUG IN ASSIGNEE DROPDOWN!!!
+// -->
+         <md-input-container flex>
+           <label>Assignee</label>
+           <md-select ng-model="task.assigned">
+             <md-option value="">Unassigned</md-option>
+             <md-option ng-repeat="user in data.users" value="{{user._id}}">
+               {{user.username}}
+             </md-option>
+           </md-select>
+         </md-input-container>
+         <md-input-container class="md-block">
+           <label>Description</label>
+           <textarea ng-model="task.description" rows="3" columns="1" md-maxlength="150" rows="5"></textarea>
+         </md-input-container>
+         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+           <md-button
+             class="button md-raised md-primary"
+             ng-click="updateTask(task);  resetTaskDetails();">
+             Submit
+           </md-button>
+         </section>
+       </form>
+     </md-content>
+  <!-- Task List -->
+    <md-content class="tasklist">
+    <!-- todo: build userFilter -->
+      <md-list-item ng-repeat="task in data.tasks | filter : userFilter">
+        <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
+        <div ng-repeat='n in [0]'>
+          <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>
+        </div>
+        <p
+          class="taskListItem fx-fade-normal"
+          ng-click="loadTaskDetails(task)"
+          md-ink-ripple>
+          {{ task.name }}
+          {{ task.project.name }}
+          {{ task.organization.name }}
+          {{ task.deadline }}
+        </p>
+        <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
+      <md-divider  ng-if="!$last"></md-divider>
+      </md-list-item>
+    </md-content>
+  </md-content>
+</div>
+
+  <!-- closes the container div -->
+</div>
