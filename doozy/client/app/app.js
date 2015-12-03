@@ -15,7 +15,7 @@ angular.module('app', [
     .primaryPalette('green')
     .accentPalette('deep-orange', {
       default: '800'
-    })
+    });
     // .warnPalette('deep-orange')
     // .backgroundPalette('green', {
     //   default: '100'
@@ -40,7 +40,12 @@ angular.module('app', [
       controller: 'TasksController',
       authenticate: true,
     })
-
+    .when('/org', {
+      templateUrl: '/app/org/org.html',
+      controller: 'TasksController',
+      authenticate: true,
+    })
+    
     .otherwise({
       redirectTo: '/tasks'
     });
