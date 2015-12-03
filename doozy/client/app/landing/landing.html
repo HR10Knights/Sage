@@ -11,7 +11,7 @@
     <!-- Signout button -->
     <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
     <!-- Go To LandingPage button -->
-    <md-button class="md-raised md-primary gotolandingbtn" ng-click="">Go to Tasks</md-button>
+    <md-button class="md-raised md-primary gotolandingbtn" ng-click="goToDash()">Go to Dashboard</md-button>
 
   <!-- All Task Related Content -->
     <md-content id="taskdisplay" ng-cloak>
@@ -57,11 +57,11 @@
            </div>
          </md-input-container> -->
 
-         <md-input-container flex>
+         <md-input-container class="md-block">
            <label>Project</label>
            <md-select required ng-model="task.project_id">
            <!-- Can make this link to org page? -->
-             <md-option value="create"><a href="#/org">Create a Project</a></md-option>
+             <md-option value="">No Projects?! Go to Overview to Create one First</md-option>
              <md-option ng-repeat="project in data.projects" value="{{user.project_id}}">
                {{user.project_id}}
              </md-option>
@@ -77,10 +77,6 @@
           
           <md-datepicker ng-model="task.deadline" md-placeholder="Deadline"></md-datepicker>
          <!-- </md-input-container> -->
-
-<!-- // 
-TODO : BUG IN ASSIGNEE DROPDOWN!!!
-// -->
 
          <md-input-container flex>
            <label>Assignee</label>

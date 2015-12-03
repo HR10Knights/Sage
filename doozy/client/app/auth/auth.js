@@ -14,7 +14,7 @@ angular.module('app.auth', [])
       .then(function (token) {
         // stores valid jwt on client
         $window.localStorage.setItem('auth-token', token);
-        $location.path('/tasks');
+        $location.path('/landing');
       })
       .catch(function (error) {
         alert(error.data);
@@ -28,11 +28,12 @@ angular.module('app.auth', [])
       .then(function (token) {
         // stores valid jwt on client
         $window.localStorage.setItem('auth-token', token);
-        $location.path('/tasks');
+        $location.path('/landing');
       })
       .catch(function (error) {
         alert(error.data);
         console.error(error);
-      });
+      });  
+
   };
 });

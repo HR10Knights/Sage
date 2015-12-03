@@ -18,7 +18,7 @@ angular.module('app', [
     })
     .warnPalette('deep-orange')
     .backgroundPalette('green', {
-      default: '100'
+      default: '50'
     });
  
   $routeProvider
