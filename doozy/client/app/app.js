@@ -1,12 +1,26 @@
 angular.module('app', [
   'app.services',
   'app.tasks',
+  'services.email',
+  'services.UserFactory',
   'app.auth',
   'ngRoute',
   'ngAnimate',
+  'ngMaterial',
   'ngFx'
 ])
-.config(function($routeProvider, $httpProvider) {
+.config(function($routeProvider, $httpProvider, $mdThemingProvider) {
+ 
+  $mdThemingProvider.theme('default')
+    .primaryPalette('green')
+    .accentPalette('green', {
+      default: '800'
+    })
+    .warnPalette('deep-orange')
+    .backgroundPalette('green', {
+      default: '100'
+    });
+ 
   $routeProvider
     .when('/signin', {
       templateUrl: '/app/auth/signin.html',
@@ -21,6 +35,17 @@ angular.module('app', [
       controller: 'TasksController',
       authenticate: true,
     })
+    .when('/landing', {
+      templateUrl: '/app/landing/landing.html',
+      controller: 'TasksController',
+      authenticate: true,
+    })
+    .when('/org', {
+      templateUrl: '/app/org/org.html',
+      controller: 'TasksController',
+      authenticate: true,
+    })
+
     .otherwise({
       redirectTo: '/tasks'
     });

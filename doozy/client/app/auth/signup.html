@@ -16,6 +16,11 @@
             <label>Password:</label>
             <input type="password" ng-model="user.password" required>
           </md-input-container><br>
+          <md-input-container>
+            <label>Email:</label>
+          <!-- TODO: add required back to email -->
+            <input ng-model="user.email">
+          </md-input-container><br>
           <md-button type="submit" class="md-accent" id="signInBtn"
             ng-class="{'md-raised md-accent': (loginForm.$dirty && loginForm.$valid) }"
             aria-label="Sign Up">Sign Up</md-button>

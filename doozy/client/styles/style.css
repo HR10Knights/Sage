@@ -11,6 +11,10 @@ body {
   background: #F6F7F9;
 }
 
+.tasklist {
+  margin-top: 80px;
+}
+
 .taskListItem:focus {
   outline: none;
   border: 0;
@@ -38,6 +42,11 @@ body {
   top: 50px;
   right: 15%;
 }
+.gotolandingbtn {
+  position: absolute;
+  top: 50px;
+  left: 15%;
+}
 
  .taskListItem:focus {
     outline: none;
@@ -53,6 +62,7 @@ body {
   margin-top: 75px;
   border-radius: 25px;
 }
+
 
 #closeFormBtn {
   position: absolute;
@@ -77,6 +87,12 @@ body {
 #maincontainer {
   width: 80%;
 }
+#orgcontainer {
+  width: 80%;
+}
+.orgname {
+  margin-left: 10%;
+}
 
 #taskdisplay {
   padding-top: 20px;
@@ -97,3 +113,4 @@ body {
 #signInBtn {
   margin-left: 25%;
 }
+

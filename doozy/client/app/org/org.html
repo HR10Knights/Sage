@@ -1,0 +1,172 @@
+<!-- this view allows the user an overview of orgs and projects and allows user to create and delete projects and orgs -->
+<!-- this page does not have the ability to manipulate specific tasks -->
+
+<div flex layout="column" layout-align="center center">
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
+    <h1 style="text-align:center" class="signheader">Sage
+      <p id="teamname">{{ data.username }}</p>
+    </h1>
+  </div>
+  <br>
+  <!-- Button Land -->
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
+    <!-- Signout button -->
+    <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
+    <!-- Go To LandingPage button -->
+    <md-button class="md-raised md-primary gotolandingbtn" ng-click="">Go to Tasks</md-button>
+
+
+
+
+        <!-- Add Task button -->
+        <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddTaskButton'>
+          <md-button 
+            class="md-raised md-primary" 
+            ng-click="showTaskForm=true; showAddTaskButton=false">
+            Create
+          </md-button>
+        </section>
+  </div>
+
+       <!-- Task Form : is visible when addTask is clicked or an existing task is clicked for editing -->
+       <!-- becase this page is showing all of a users tasks from all projects when a task is submitted from this page the project must be specified or created if it does not exist -->
+       <md-content layout-padding ng-show='showTaskForm' class="fx-zoom-normal fx-speed-500">
+         <md-icon 
+           id="closeFormBtn" 
+           ng-click="resetTaskDetails()" 
+           aria-label="Close" 
+           md-svg-icon="/assets/clear_24px.svg">
+         </md-icon>
+         <br>
+         <form name="taskForm">
+
+            <md-input-container class="md-block">
+             <label>Organization</label>
+             <input md-maxlength="50" required name="task" ng-model="task.name">
+             <div ng-messages="projectForm.description.$error">
+               <div ng-message="required">This is required.</div>
+             </div>
+            </md-input-container>
+    
+            <md-input-container class="md-block">
+             <label>Project</label>
+             <input md-maxlength="50" required name="project" ng-model="task.project">
+           </md-input-container>
+
+           <!-- <md-input-container flex> -->
+         <!--    <label>Due By</label>
+            <input md-maxlength="50" required name="deadline" ng-model="task.deadline"> -->
+            
+            <md-datepicker ng-model="task.deadline" md-placeholder="Deadline"></md-datepicker>
+           <!-- </md-input-container> -->
+
+
+
+           <md-input-container class="md-block">
+             <label>Description</label>
+             <textarea ng-model="task.description" rows="3" columns="1" md-maxlength="150" rows="5"></textarea>
+           </md-input-container>
+           <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+             <md-button
+               class="button md-raised md-primary" 
+               ng-click="updateTask(task);  resetTaskDetails();">
+               Submit
+             </md-button>
+           </section>
+         </form>
+       </md-content>
+
+
+
+
+
+
+<br>  
+  <!-- All Organization and Projects -->
+  <!-- for every organization a user is a member of this area shows boiled down stats about projects -->
+  <!-- every Org has a piece of paper, every project has a card -->
+
+<div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
+ <!-- ng-repeat="org in organizations"> -->
+  <h3 class="orgname">Organization</h3>
+    <div layout="row" layout-align="center start">
+      <div layout="column">
+        <md-card class="projcard">
+         <!-- ng-repeat="project in org.projects"> -->
+         <md-card-content>
+          <p class="md-project-title" style="text-align:center">Project1<a href="#projectID">{{ project.title }}</a></p>
+          <p class="md-project-deadline" style="text-align:center">Due: Deadline{{ project.deadline }}</p>
+          <p class="md-project-teamlead">TeamLead: {{ project.teamlead }}</p>
+          <!-- metrics should all display numbers only-->
+          <p class="md-project-completed-today">Tasks Completed Today:</p>
+          <!-- {{ function getTasksbyProject | completed | date today }} -->
+          <p class="md-project-pending-tasks">Tasks Pending and Assigned: </p>
+          <!-- {{ function getTasksbyProject | !completed }} -->
+          <p class="md-project-overdue-tasks">Tasks Overdue: </p>
+          <!-- {{ function getTasksbyProject | !completed | function deadline | Date.now() }} -->
+        </md-card-content>
+
+        </md-card class="projcard">
+
+        <md-card class="projcard">
+          <span>project 2</span>
+        </md-card class="projcard">
+      </div>
+      <div layout="column">
+        <md-card class="projcard">
+          <span>project  3</span>
+          project deadline
+        </md-card class="projcard">
+        <md-card class="projcard">
+          <span>project 4</span>
+        </md-card class="projcard">
+      </div>
+    </div>
+  </div>
+    <br>
+
+
+  <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
+ <!-- ng-repeat="org in organizations"> -->
+  <h3 class="orgname">Organization</h3>
+    <div layout="row" layout-align="center start">
+      <div layout="column">
+        <md-card class="projcard">
+         <!-- ng-repeat="project in org.projects"> -->
+         <md-card-content>
+          <p class="md-project-title" style="text-align:center">Project1<a href="#projectID">{{ project.title }}</a></p>
+          <p class="md-project-deadline" style="text-align:center">Due: Deadline{{ project.deadline }}</p>
+          <p class="md-project-teamlead">TeamLead: {{ project.teamlead }}</p>
+          <!-- metrics should all display numbers only-->
+          <p class="md-project-completed-today">Tasks Completed Today:</p>
+          <!-- {{ function getTasksbyProject | completed | date today }} -->
+          <p class="md-project-pending-tasks">Tasks Pending and Assigned: </p>
+          <!-- {{ function getTasksbyProject | !completed }} -->
+          <p class="md-project-overdue-tasks">Tasks Overdue: </p>
+          <!-- {{ function getTasksbyProject | !completed | function deadline | Date.now() }} -->
+        </md-card-content>
+
+        </md-card class="projcard">
+
+        <md-card class="projcard">
+          <span>project 2</span>
+        </md-card class="projcard">
+      </div>
+      <div layout="column">
+        <md-card class="projcard">
+          <span>project  3</span>
+          project deadline
+        </md-card class="projcard">
+        <md-card class="projcard">
+          <span>project 4</span>
+        </md-card class="projcard">
+      </div>
+    </div>
+  </div>
+
+
+    </md-content>
+  </div> -->
+ 
+</div>  
+
