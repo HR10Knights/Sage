@@ -78,7 +78,7 @@ describe('Authentication', function() {
       });
       it('should give a list of users', function(done) {
         request(app)
-          .get('/api/users')
+          .get('/api/users/all')
           .expect(200)
           .end(done);
       });
@@ -129,7 +129,7 @@ describe('Authentication', function() {
             'username': 'testuser',
             'password': 'fakepass',
           })
-          .expect(401)
+          .expect(404)
           .end(done);
       });
 
