@@ -1,7 +1,7 @@
-/* 
-  Allow angular.js to be loaded in body, hiding cloaked elements until 
-  templates compile.  The !important is important given that there may be 
-  other selectors that are more specific or come later and might alter display.  
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
  */
 [ng\:cloak], [ng-cloak], .ng-cloak {
   display: none !important;
@@ -42,6 +42,14 @@ body {
   top: 50px;
   right: 15%;
 }
+
+.dashboardbtn {
+  position: absolute;
+  top: 50px;
+  right: 15%;
+  display: inline-block;
+}
+
 .gotolandingbtn {
   position: absolute;
   top: 50px;
@@ -54,7 +62,7 @@ body {
  }
 
 .inputdemoErrors .inputErrorsApp {
-  min-height: 48px; 
+  min-height: 48px;
 }
 
 .taskForm {

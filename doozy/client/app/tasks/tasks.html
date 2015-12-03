@@ -6,14 +6,15 @@
   </h1>
 
   <!-- Signout button -->
+  <md-button class="md-raised md-primary dashboardbtn" ui-sref="landing">Dashboard</md-button>
   <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
 
     <md-content id="taskdisplay" ng-cloak>
 
       <!-- Add Task button -->
       <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddTaskButton'>
-        <md-button 
-          class="md-raised md-primary" 
+        <md-button
+          class="md-raised md-primary"
           ng-click="showTaskForm=true; showAddTaskButton=false">
           Add Task
         </md-button>
@@ -21,10 +22,10 @@
 
       <!-- Task Form -->
       <md-content layout-padding ng-show='showTaskForm' class="fx-zoom-normal fx-speed-500">
-        <md-icon 
-          id="closeFormBtn" 
-          ng-click="resetTaskDetails()" 
-          aria-label="Close" 
+        <md-icon
+          id="closeFormBtn"
+          ng-click="resetTaskDetails()"
+          aria-label="Close"
           md-svg-icon="/assets/clear_24px.svg">
         </md-icon>
         <br>
@@ -53,8 +54,8 @@
           </md-input-container>
           <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
             <md-button
-              class="button md-raised md-primary" 
-              ng-click="createTask(task);  resetTaskDetails();">
+              class="button md-raised md-primary"
+              ng-click="updateTask(task);  resetTaskDetails();">
               Submit
             </md-button>
           </section>
@@ -116,10 +117,10 @@
             <span class="userdisplay"> {{ task.users[0].username }} </span>
           </p>
           <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
-        </md-list-item> 
+        </md-list-item>
       </md-content>
 
     </md-content>
-    
+
   </div>
 </div>

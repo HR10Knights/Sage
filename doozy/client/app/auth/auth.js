@@ -1,6 +1,6 @@
-angular.module('app.auth', [])
+angular.module('app.auth', ['ui.router'])
 
-.controller('AuthController', function ($scope, $window, $location, Auth) {
+.controller('AuthController', function ($scope, $window, $location, $state, Auth) {
   // binding for user login input
   $scope.user = {
     username: '',

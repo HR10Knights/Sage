@@ -7,7 +7,9 @@ angular.module('app.tasks', [])
   $scope.showAddTaskButton = true;
   $scope.data = {};
 
+  $scope.data.teamname = Auth.getTeamName();
   // this gets populated by the updateTask sheet
+  $scope.data.tasks = [];
   $scope.task = {};
 
   // this is a shortcut to the current users tasks
@@ -163,7 +165,7 @@ angular.module('app.tasks', [])
 
   $scope.deleteTask = function(task) {
     console.log("in deleteTask", task)
-    Tasks.removeTask(task._id)
+    Tasks.removeTask(task)
       .then(function() {
         $scope.getProjectInfo();
       })

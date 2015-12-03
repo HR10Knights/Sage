@@ -24,27 +24,28 @@ angular.module('app', [
 
   $stateProvider
     .state('signin', {
-      url: "/" ,
       controller: 'AuthController',
-      templateUrl: '/client/app/auth/signin.html'
+      templateUrl: '/app/auth/signin.html'
     })
     .state('signup', {
       url: "/signup" ,
       controller: 'AuthController',
-      templateUrl: '/client/app/auth/signup.html'
+      templateUrl: '/app/auth/signup.html'
     })
     .state('user', {
-      url: '/user',
+      url: '/#/user',
       controller: 'TasksController',
       templateUrl: 'app/tasks/tasks.html',
       authenticate: true,
     })
-    .state('/landing', {
-      templateUrl: '/client/app/tasks/landing.html',
+    .state('landing', {
+      url: '/dashboard',
+      templateUrl: '/app/tasks/landing.html',
       controller: 'TasksController',
       authenticate: true
     })
     .state('/org', {
+      url: '/organization',
       templateUrl: '/app/org/org.html',
       controller: 'OrgController',
       authenticate: true,
@@ -87,12 +88,16 @@ angular.module('app', [
   };
   return attach;
 })
-.run(function ($rootScope, $location, Auth) {
+.run(function ($rootScope, $location, $state, Auth) {
   $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
       if(toState && toState.authenticate && !Auth.isAuth()) {
-        $location.path('/');
+        $state.go('signin')
       }
+      // if(toState.name === 'signin' && Auth.isAuth()) {
+      //   $state.go('user');
+      //   console.log('hello')
+      // }
   });
 // .run(function ($rootScope, $location, Auth) {
 //   // checks if user is logged in with any route change
