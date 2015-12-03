@@ -5,14 +5,14 @@ angular.module('app', [
   'app.tasks',
   'app.services',
   'app.auth',
+  'ui-route',
   'app.org',
   'ngRoute',
   'ngAnimate',
   'ngMaterial',
   'ngFx'
 ])
-.config(function($routeProvider, $httpProvider, $mdThemingProvider) {
- 
+.config(function($stateProvider, $httpProvider, $mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('green', {
@@ -22,35 +22,51 @@ angular.module('app', [
     .backgroundPalette('green', {
       default: '50'
     });
- 
-  $routeProvider
-    .when('/signin', {
-      templateUrl: '/app/auth/signin.html',
-      controller: 'AuthController'
+
+  $stateProvider
+    .state('signin', {
+      url: "/" ,
+      controller: 'AuthController',
+      templateUrl: '/app/auth/signin.html'
     })
-    .when('/signup', {
-      templateUrl: '/app/auth/signup.html',
-      controller: 'AuthController'
+    .state('signup', {
+      url: "/signup" ,
+      controller: 'AuthController',
+      templateUrl: '/app/auth/signup.html'
     })
-    .when('/tasks', {
-      templateUrl: '/app/tasks/tasks.html',
+    .state('user', {
+      url: '/user',
       controller: 'TasksController',
       authenticate: true,
     })
-    .when('/landing', {
-      templateUrl: '/app/landing/landing.html',
+    .state('/landing', {
+      templateUrl: 'app/tasks/tasks.html'
       controller: 'TasksController',
-      authenticate: true,
+      authenticate: true
     })
-    .when('/org', {
+    .state('/org', {
       templateUrl: '/app/org/org.html',
       controller: 'OrgController',
       authenticate: true,
     })
 
-    .otherwise({
-      redirectTo: '/tasks'
-    });
+  // $routeProvider
+  //   .when('/signin', {
+  //     templateUrl: '/app/auth/signin.html',
+  //     controller: 'AuthController'
+  //   })
+  //   .when('/signup', {
+  //     templateUrl: '/app/auth/signup.html',
+  //     controller: 'AuthController'
+  //   })
+  //   .when('/tasks', {
+  //     templateUrl: '/app/tasks/tasks.html',
+  //     controller: 'TasksController',
+  //     authenticate: true,
+  //   })
+  //   .otherwise({
+  //     redirectTo: '/tasks'
+  //   });
 
   $httpProvider.interceptors.push('AttachTokens');
 })
