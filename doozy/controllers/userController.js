@@ -46,7 +46,6 @@ module.exports = {
   removeUser: function(req, res, next) {
     var username = req.body.username.trim();
     var password = req.body.password.trim();
-
     User.findOne({
       username: username
     }, function(err, user) {
