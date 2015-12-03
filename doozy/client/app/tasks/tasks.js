@@ -2,14 +2,56 @@ angular.module('app.tasks', [])
 
 .controller('TasksController', function($scope, Tasks, Users, Auth) {
 
-
 	// make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
   $scope.data = {};
   // retrieve the team name
   $scope.data.teamname = Auth.getTeamName();
   // retrieve all of the tasks from the database
-  $scope.data.tasks = [];
+  $scope.data.tasks = [
+    // {
+    //   name, 
+    //   description,
+    //   isCompleted,
+    //   deadline,
+    //   created_at,
+    //   project_id
+    // }
+  ];
+  $scope.data.user = {
+    // username, 
+    // password,
+    // organization, 
+    // project_list [],
+    // task_list []
+  };
+  $scope.data.projects = [
+    // {
+    //   name, 
+    //   description, 
+    //   teamLead,
+    //   org_id,
+    //   tasks [],
+    //   deadline
+    // }
+  ];
+  $scope.data.organization = [
+    // {
+    //   title, 
+    //   projects []
+    // }
+  ];
+
+  $scope.getUserById = function(user) {
+    User.getUserById(user)
+    .then(function(userobj) {
+      $scope.data.user = userobj;
+    })
+    .catch(function(err) {
+      console.log(err);
+    }); 
+  };
+
   $scope.getTasks = function() {
     //   Tasks.getAll()
 		  // .then(function(tasks) {
@@ -55,17 +97,6 @@ angular.module('app.tasks', [])
     var found = false;
 
     // if the task already exists, update it
-
-// these next two functions are called by the promise inside the loop below. They are named and written outside the loop to please jshint
-    // but...did not work under actual use
-    // var checkChangedUser = function(resp){
-    //   if (changedUser) {
-    //     $scope.getTasks();
-    //   }
-    // };
-    // var catchError = function(err){ console.log(err);};
-
-
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
@@ -78,17 +109,6 @@ angular.module('app.tasks', [])
         .catch(function(err) {
           console.log(err);
         });
-
-
-
-/*  this solution to pass jsHINT did not work in production
-        .then(checkChangedUser(resp)
-          )
-          .catch(
-            catchError(err)
-          );*/
-
-
 
         found = true;
 
@@ -153,6 +173,7 @@ angular.module('app.tasks', [])
     // show the 'Add Task' button
     $scope.showAddTaskButton = true;
 	};
+
 
   // if a task is not completed and does not have any users, it belongs in the Staging area
   $scope.stagingFilter = function(task) {
