@@ -8,7 +8,6 @@ var Org = require('../models/org');
 
 module.exports = {
   allUsers: function(req, res, next) {
-    console.log(req.user);
     // send only _id and username
     User.find({}, '_id username', function(err, users) {
       if (err) return res.status(500).send();
