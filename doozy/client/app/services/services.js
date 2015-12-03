@@ -1,9 +1,6 @@
 angular.module('app.services', [
   'services.OrganizationFactory',
-<<<<<<< HEAD
   'services.ProjectFactory',
-=======
->>>>>>> (fix) Squashed some Bugs in teh factories
   'services.UserFactory',
   'services.TaskFactory',
   'services.EmailFactory'
