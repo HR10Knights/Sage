@@ -11,8 +11,9 @@ module.exports = {
    * Returns all users that have given taskId in their task list
    */
   getUserByTaskId: function(req, res, next) {
+    console.log("in server", req.params.taskId);
     User.find({
-      'task_list': req.params.taskId
+      task_list: req.params.taskId
     }, function(err, users) {
       if (err) return res.status(500).send();
 
@@ -26,13 +27,11 @@ module.exports = {
    * @return {[object]}              [Updated Project]
    */
   createTaskByProject: function(req, res, next) {
-    console.log(req.body);
     Project.findById(req.body.projectId, function(err, project) {
       if (err) {
         return res.status(500).send(err);
       }
       if (project) {
-        console.log("found project");
         var task = new Task({
           name: req.body.name,
           description: req.body.description,
@@ -76,7 +75,6 @@ module.exports = {
    * @return {[object]}             [Updated task]
    */
   updateTaskById: function(req, res, next) {
-    console.log(req.body);
     Task.findOne({
       _id: req.body._id
     }, function(err, task) {
@@ -140,12 +138,13 @@ module.exports = {
    * @return {[object]}                  [removed task]
    */
   removeTask: function(req, res, next) {
-    Task.findOneAndRemove(req.params.id, function(err, task) {
+    console.log("params", req.params.id);
+    Task.findOneAndRemove({_id: req.params.id}, function(err, task) {
       if (err) return res.sendStatus(500, err);
       if (!task) {
         return res.sendStatus(404, err);
       } else {
-        task.remove();
+        //task.remove();
       }
       res.status(200).send(task);
     });

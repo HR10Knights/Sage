@@ -85,6 +85,7 @@ angular.module('services.TaskFactory', [])
      * @return {[object]}        [removed task]
      */
     removeTask: function(task) {
+      console.log("in factory", task)
       return $http({
           method: 'DELETE',
           url: '/api/tasks/' + task

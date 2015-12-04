@@ -1,20 +1,31 @@
 angular.module('app.projectAndTask', [])
 
-.controller('ProjectAndTaskController', ['$scope', 'Users', 'Tasks', 'Project', {function($scope, Tasks, Users, Project, Auth) {
+.controller('ProjectAndTaskController', function($scope, Tasks, Users, Project, Auth) {
 
   // make sure the 'Add Task' button is showing when the page loads
-  angular.extend($scope, Project)
-  console.log($scope.currentProject);
+  console.log("project" , Project);
+  console.log("in controller", Project.currentProjectId);
   $scope.showAddTaskButton = true;
   $scope.data = {};
   // retrieve the team name and tasks
-  $scope.data.projectName = $scope.currentUser.name;
+  $scope.getProjectId = Project.getCurrentProject();
+  //$scope.data.projectName = $scope.currentUser.name;
   $scope.data.tasks = [];
 
+ 
+  $scope.getProjectInfo = function (){
+    Project.getProjectById($scope.getProjectId)
+    .then(function (project){
+     $scope.data.projectName = project.name;
+      $scope.data.tasks = project.tasks;
+    })
+  };
+
+  $scope.getProjectInfo();
   // get all of the User objects from the database and save them
   // these users populate the 'Assignee' dropdown menue of the task form
   $scope.getProjectUsers = function() {
-    Users.getAll()
+    Project.getUserByProjectId($scope.getProjectId)
     .then(function(users) {
       $scope.data.users = users;
     })
@@ -22,40 +33,25 @@ angular.module('app.projectAndTask', [])
       console.log(err);
     });
   };
-  //$scope.getAll();
+  $scope.getProjectUsers();
   
-// not using this at this point
-  $scope.getUserByTaskId = function(taskId){
-    // this will return none, one or more user objects
-    // if it returns none task is unassigned
-  };
-
   // update a task if it already exists or create a new task if one does not already exist
   // this function is called anytime the task form is submitted
   $scope.createTask = function(task) {
     // check for a blank form
+    var found = false;
     task.isAssigned = false;
+    task.projectId = $scope.getProjectId;
     var assigned = task.assigned;
     if (assigned) {
         task.isAssigned = true;
       }  else {
         task.isAssigned = false;
       }
-    task.projectId = '5660b839bbf82e540bab3488'; 
     //task.assignee
     var changedUser = false;
-    var found = false;
-    if (!task) {
-      return;
-    }
 
     // modify the users property of the task object so that is correctly formatted for the api request
-    if (task.assigned) {
-      task.users = [task.assigned];
-      changedUser = true;
-    } else {
-      task.users = [];
-    }
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
@@ -71,25 +67,12 @@ angular.module('app.projectAndTask', [])
         .catch(function(err) {
           console.log(err);
         });
-
-
-
-/*  this solution to pass jsHINT did not work in production
-        .then(checkChangedUser(resp)
-          )
-          .catch(
-            catchError(err)
-          );*/
-
-
-
-        found = true;
-
-        break;
      }
     }
 
     if (!found){
+      console.log("didn't find task");
+      console.log(task);
       Tasks.createTaskByProject(task)
         .then(function(resp) {
           if (assigned){
@@ -110,7 +93,7 @@ angular.module('app.projectAndTask', [])
 
   $scope.deleteTask = function(task) {
     console.log("in deleteTask", task)
-    Tasks.removeTask(task)
+    Tasks.removeTask(task._id)
       .then(function() {
         $scope.getProjectInfo();
       })
@@ -132,7 +115,11 @@ angular.module('app.projectAndTask', [])
     $scope.task._id = task._id;
     $scope.task.name = task.name;
     // only load the first user from the users array
-    $scope.task.users = task.users.length > 0 ? task.users[0].username : null;
+    $scope.task.users = "";
+    Tasks.getUserByTaskId(task_.id).then(function (resp) {
+      console.log("getting user by Task Id", resp.data);
+      $scope.task.users = resp.data;
+    })
     $scope.task.description = task.description;
   };
 

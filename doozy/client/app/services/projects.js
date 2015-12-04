@@ -7,7 +7,7 @@ angular.module('services.ProjectFactory', [])
      * @return {[array]}        [array of user objects]
      */
 
-    var currentProject;
+    var currentProjectId = 0;
 
     var createProjectByOrgID = function(data){
       return $http({
@@ -19,24 +19,31 @@ angular.module('services.ProjectFactory', [])
       });
     };
 
+    var setCurrentProject = function(projectId) {
+      console.log("setting project", projectId);
+      currentProjectId = projectId;
+    };
+
+    var getCurrentProject = function(){
+      return currentProjectId;
+    }
+
     var getProjectById = function(projectId) {
       return $http({
         method: 'GET',
         url: 'api/projects/' + projectId
       }).then(function (resp){
-        currentProject = resp.data;
         return resp.data;
       });
     };
 
     var getUserByProjectId = function (projectId) {
+      console.log("getting triggered");
       return $http({
         method: 'GET',
         url: 'api/projects/users/' + projectId
-      }).then(function (resp){
-        currentProject = resp;
-        console.log(currentProject);
-        //return resp.data;
+        }).then(function (resp){
+        return resp.data;
       });
     };
 
@@ -70,7 +77,9 @@ angular.module('services.ProjectFactory', [])
 
 
     return {
-      currentProject: currentProject,
+      getCurrentProject: getCurrentProject,
+      setCurrentProject: setCurrentProject,
+      currentProjectId: currentProjectId,
       createProjectByOrgID: createProjectByOrgID,
       getProjectById: getProjectById,
       getUserByProjectId: getUserByProjectId,

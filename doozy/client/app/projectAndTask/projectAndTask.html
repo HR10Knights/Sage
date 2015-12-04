@@ -3,7 +3,7 @@
   <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
   <h1 style="text-align:center" class="signheader">
   Sage
-  <p id="teamname"> {{currentProject.name}} </p>
+  <p id="teamname"> {{data.projectName}} </p>
   </h1>
 
   <!-- Signout button -->
@@ -57,7 +57,7 @@
           <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
             <md-button
               class="button md-raised md-primary"
-              ng-click="updateTask(task);  resetTaskDetails();">
+              ng-click="createTask(task);  resetTaskDetails();">
               Submit
             </md-button>
           </section>
@@ -97,7 +97,8 @@
             ng-click="loadTaskDetails(task)"
             md-ink-ripple>
             {{ task.name }}
-            <span class="userdisplay"> {{ task.users[0].username }} </span>
+            <span><b>Description: </b>{{task.description}}</span>
+            <span class="userdisplay">Assigned To {{ task.users[0].username }} </span>
           </p>
           <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
         </md-list-item>

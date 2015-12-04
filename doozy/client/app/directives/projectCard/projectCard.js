@@ -39,6 +39,10 @@ angular.module('directives.projectCard', [])
       }
     };
 
+    $scope.goToProject = function(projectId){
+      Project.setCurrentProject(projectId)
+    }
+
     $scope.updateUserList();
 
   }]);
