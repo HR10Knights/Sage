@@ -3,15 +3,16 @@ angular.module('app', [
   'directives.projectCard',
   'app.services',
   'app.tasks',
+  'app.services',
   'app.auth',
-  'ui.router',
   'app.org',
   'ngRoute',
   'ngAnimate',
   'ngMaterial',
   'ngFx'
 ])
-.config(function($stateProvider, $httpProvider, $mdThemingProvider, $locationProvider) {
+.config(function($routeProvider, $httpProvider, $mdThemingProvider) {
+ 
   $mdThemingProvider.theme('default')
     .primaryPalette('green')
     .accentPalette('green', {
@@ -21,59 +22,37 @@ angular.module('app', [
     .backgroundPalette('green', {
       default: '50'
     });
-
-  $stateProvider
-    .state('signin', {
-      url: '/',
-      controller: 'AuthController',
-      templateUrl: '/app/auth/signin.html'
+ 
+  $routeProvider
+    .when('/signin', {
+      templateUrl: '/app/auth/signin.html',
+      controller: 'AuthController'
     })
-    .state('signup', {
-      url: "/signup" ,
-      controller: 'AuthController',
-      templateUrl: '/app/auth/signup.html'
+    .when('/signup', {
+      templateUrl: '/app/auth/signup.html',
+      controller: 'AuthController'
     })
-    .state('user', {
-      url: '/user',
+    .when('/tasks', {
+      templateUrl: '/app/tasks/tasks.html',
       controller: 'TasksController',
-      templateUrl: 'app/tasks/tasks.html',
       authenticate: true,
     })
-    .state('landing', {
-      url: '/landing',
-      templateUrl: '/app/tasks/landing.html',
+    .when('/landing', {
+      templateUrl: '/app/landing/landing.html',
       controller: 'TasksController',
-      authenticate: true
+      authenticate: true,
     })
-    .state('org', {
-      url: '/organization',
+    .when('/org', {
       templateUrl: '/app/org/org.html',
       controller: 'OrgController',
       authenticate: true,
+    })
+
+    .otherwise({
+      redirectTo: '/tasks'
     });
-  //   .when('/signin', {
-  //     templateUrl: '/app/auth/signin.html',
-  //     controller: 'AuthController'
-  //   })
-  //
-  //   .when('/signup', {
-  //     templateUrl: '/app/auth/signup.html',
-  //     controller: 'AuthController'
-  //   })
-  //   .when('/tasks', {
-  //     templateUrl: '/app/tasks/tasks.html',
-  //     controller: 'TasksController',
-  //     authenticate: true,
-  //   })
-  //   .otherwise({
-  //     redirectTo: '/tasks'
-  //   });
 
   $httpProvider.interceptors.push('AttachTokens');
-  $locationProvider.html5Mode({
-    enabled: true,
-    requireBase: false
-  });
 })
 .factory('AttachTokens', function ($window) {
   // adds web token to headers
@@ -89,23 +68,11 @@ angular.module('app', [
   };
   return attach;
 })
-.run(function ($rootScope, $location, $state, Auth) {
-  $rootScope.$on('$stateChangeStart',
-    function(event, toState, toParams, fromState, fromParams){
-      if(toState && toState.authenticate && !Auth.isAuth()) {
-        $state.go('signin');
-      }
-      if(toState.name === 'signin' && Auth.isAuth()) {
-
-        $location.path('/landing');
-        $state.go('landing');
-      }
+.run(function ($rootScope, $location, Auth) {
+  // checks if user is logged in with any route change
+  $rootScope.$on('$routeChangeStart', function (evt, next, current) {
+    if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
+      $location.path('/signin');
+    }
   });
-// .run(function ($rootScope, $location, Auth) {
-//   // checks if user is logged in with any route change
-//   $rootScope.$on('$routeChangeStart', function (evt, next, current) {
-//     if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
-//       $location.path('/signin');
-//     }
-//   });
 });
