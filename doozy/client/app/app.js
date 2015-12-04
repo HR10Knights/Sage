@@ -41,7 +41,7 @@ angular.module('app', [
       authenticate: true,
     })
     .state('project', {
-      url: '/project',
+      url: '/project/:projectId',
       templateUrl: '/app/projectAndTask/projectAndTask.html',
       controller: 'ProjectAndTaskController',
       authenticate: true

@@ -1,9 +1,9 @@
 <md-card class="projcard">
     <!-- ng-repeat="project in org.projects"> -->
-    <md-card-title ui-sref="project" ng-click="goToProject(project._id)">
+    <md-card-title>
         <md-card-title-text>
-            <span class="md-headline">{{ project.name }}</span>
-            <span class="md-subhead">{{ project.description }}</span>
+            <span ui-sref="project({projectId: project._id})"><span class="md-headline">{{ project.name }}</span>
+                <span class="md-subhead">{{ project.description }}</span></span>
         </md-card-title-text>
     </md-card-title>
     <md-card-content>
