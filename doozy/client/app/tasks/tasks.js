@@ -95,6 +95,13 @@ angular.module('app.tasks', [])
   // this function is called anytime the task form is submitted
   $scope.createTask = function(task) {
     // check for a blank form
+    task.isAssigned = false;
+    var assigned = task.assigned;
+    if (assigned) {
+        task.isAssigned = true;
+      }  else {
+        task.isAssigned = false;
+      }
     task.projectId = '5660b839bbf82e540bab3488'; 
     //task.assignee
     var changedUser = false;
@@ -114,8 +121,9 @@ angular.module('app.tasks', [])
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
         found = true;
-        //var currentUser = User
-        Tasks.updateTaskById(task._id)
+        //var currentUser = 
+        console.log("in update", task)
+        Tasks.updateTaskById(task)
         .then(function(resp) {
           // if (changedUser) {
           //   $scope.getTasks();
@@ -143,8 +151,6 @@ angular.module('app.tasks', [])
     }
 
     if (!found){
-      var assigned = task.assigned;
-      console.log("what is this" , assigned);
       Tasks.createTaskByProject(task)
         .then(function(resp) {
           if (assigned){
@@ -213,12 +219,12 @@ angular.module('app.tasks', [])
   // if a task is not completed and does not have any users, it belongs in the Staging area
   //&& !Tasks.isTaskAssigned({id: task._id});
   $scope.stagingFilter = function(task) {
-    return !task.isCompleted
+    return !task.isCompleted && task.isAssigned === false;
   };
 
   // if a task is not completed but has been assigned to a user, it belongs in the Assigned area
   $scope.assignedFilter = function(task) {
-  	//return !task.isCompleted
+  	return !task.isCompleted && task.isAssigned === true;
   };
 
   // if a task has been completed, it belongs in the Completed area

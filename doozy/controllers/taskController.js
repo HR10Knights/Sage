@@ -36,7 +36,8 @@ module.exports = {
         var task = new Task({
           name: req.body.name,
           description: req.body.description,
-          project_id: project._id
+          project_id: project._id,
+          isAssigned: req.body.isAssigned
         });
         project.tasks.push(task._id);
         project.save(function(err) {
@@ -75,7 +76,7 @@ module.exports = {
    * @return {[object]}             [Updated task]
    */
   updateTaskById: function(req, res, next) {
-
+    console.log(req.body);
     Task.findOne({
       _id: req.body._id
     }, function(err, task) {
@@ -139,7 +140,6 @@ module.exports = {
    * @return {[object]}                  [removed task]
    */
   removeTask: function(req, res, next) {
-    console.log(req.params);
     Task.findOneAndRemove(req.params.id, function(err, task) {
       if (err) return res.sendStatus(500, err);
       if (!task) {

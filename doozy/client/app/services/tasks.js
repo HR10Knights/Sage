@@ -28,7 +28,7 @@ angular.module('services.TaskFactory', [])
       return $http({
           method: 'PUT',
           url: '/api/tasks/',
-          data: data
+          data: JSON.stringify(data)
         })
         .then(function(resp) {
           return resp.data;

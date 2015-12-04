@@ -34,6 +34,10 @@ var tasksSchema = new Schema({
     type: Boolean,
     default: false
   },
+  isAssigned: {
+    type: Boolean,
+    default: false
+  },
   deadline: {
     type: Date,
     required: false,
