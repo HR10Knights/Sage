@@ -82,10 +82,11 @@ angular.module('services.UserFactory', [])
        * @param {[object]} data [{taskId:<REQUIRED>, userId:<REQUIRED>}]
        */
       addTaskToUser: function(data) {
+        console.log("in factory", data)
         return $http({
             method: 'POST',
             url: '/api/users/tasks',
-            data: data
+            data: JSON.stringify(data)
           })
           .then(function(resp) {
             return resp.data;
@@ -119,7 +120,7 @@ angular.module('services.UserFactory', [])
         return $http({
             method: 'POST',
             url: '/api/users/orgs',
-            data: data
+            data: JSON.stringify(data)
           })
           .then(function(resp) {
             return resp.data;

@@ -8,7 +8,6 @@ var Org = require('../models/org');
 
 module.exports = {
   allUsers: function(req, res, next) {
-    console.log(req.user);
     // send only _id and username
     User.find({}, '_id username', function(err, users) {
       if (err) return res.status(500).send();
@@ -74,6 +73,7 @@ module.exports = {
   },
 
   addTaskToUser: function(req, res, next) {
+    console.log(req.body);
     var userId = req.body.userId;
     var taskId = req.body.taskId;
 
@@ -94,6 +94,7 @@ module.exports = {
         }
         user.task_list.push(task);
         user.save(function(err, user) {
+          console.log("user is, ", user);
           if (err) {
             return res.status(500).send();
           }
@@ -135,7 +136,7 @@ module.exports = {
 
   addOrganizationToUser: function(req, res, next) {
     var userId = req.body.userId;
-    var organizationId = req.body.organizationId;
+    var orgId = req.body.orgId;
 
     User.findOne({
       _id: userId
@@ -144,12 +145,13 @@ module.exports = {
         return res.status(500).send();
       }
       Org.findOne({
-        _id: organizationId
+        _id: orgId
       }, function(err, org) {
         if (err) {
           return res.status(500).send();
         }
         if (!org) {
+          console.log(org);
           return res.status(404).send();
         }
         user.organization.push(org._id);
@@ -165,7 +167,7 @@ module.exports = {
 
   removeUserFromProject: function(req, res, next) {
     var projectId = req.body.projectId;
-    var userId = req.body.userId
+    var userId = req.body.userId;
     User.update({
       _id: userId
     }, {
@@ -182,7 +184,7 @@ module.exports = {
 
   removeUserFromTask: function(req, res, next) {
     var taskId = req.body.taskId;
-    var userId = req.body.userId
+    var userId = req.body.userId;
     User.update({
       _id: userId
     }, {

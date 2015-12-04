@@ -30,7 +30,6 @@ angular.module('services.OrganizationFactory', [])
     };
 
     var createOrganization = function (newOrg){
-      console.log(newOrg);
       return $http({
         method: 'POST',
         url: '/api/orgs/',
@@ -66,5 +65,5 @@ angular.module('services.OrganizationFactory', [])
       createOrganization: createOrganization,
       updateOrganization: updateOrganization,
       removeOrganization: removeOrganization
-    }
+    };
   });

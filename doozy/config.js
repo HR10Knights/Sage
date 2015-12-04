@@ -34,6 +34,10 @@ var tasksSchema = new Schema({
     type: Boolean,
     default: false
   },
+  isAssigned: {
+    type: Boolean,
+    default: false
+  },
   deadline: {
     type: Date,
     required: false,
@@ -47,7 +51,11 @@ var tasksSchema = new Schema({
   project_id: {
     type: Schema.ObjectId,
     ref: 'Project'
-  }
+  },
+  users: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }]
 });
 
 db.tasksSchema = tasksSchema;
@@ -82,7 +90,11 @@ var projectsSchema = new Schema({
   }],
   deadline: {
     type: Date
-  }
+  },
+  users: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }]
 });
 
 db.projectsSchema = projectsSchema;
@@ -117,7 +129,10 @@ db.usersSchema = usersSchema;
 
 // Organization
 var orgSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   projects: [{
     type: Schema.ObjectId,
     ref: 'Project'

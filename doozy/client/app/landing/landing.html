@@ -1,12 +1,23 @@
+<!-- this is a user focused page that displays all tasks assigned to a user in any project or organization they are part of -->
+<!-- it also allows editing of tasks -->
+
 <div flex layout="column" layout-align="center center">
   <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
     <h1 style="text-align:center" class="signheader">
     Sage
-      <p id="teamname">{{ data.username }}</p>
+
+      <!-- debugging -->
+<!--       <p id="teamname">{{ data.user.project_list }}</p>
+      <p id="teamname">{{ data.user.task_list}}</p>
+      <p id="teamname">{{ data.user}}</p> -->
+
+
     </h1>
 
     <!-- Signout button -->
     <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
+    <!-- Go To LandingPage button -->
+    <md-button class="md-raised md-primary gotolandingbtn" ng-click="goToDash()">Go to Dashboard</md-button>
 
   <!-- All Task Related Content -->
     <md-content id="taskdisplay" ng-cloak>
@@ -44,9 +55,28 @@
            </div>
           </md-input-container>
   
-          <md-input-container class="md-block">
+<!--           <md-input-container class="md-block">
            <label>Project</label>
            <input md-maxlength="50" required name="project" ng-model="task.project">
+           <div ng-messages="projectForm.description.$error">
+             <div ng-message="required">This is required.</div>
+           </div>
+         </md-input-container> -->
+
+         <md-input-container class="md-block">
+           <label>Project</label>
+       
+
+<!-- add required back in here -->
+
+
+           <md-select ng-model="task.project_id">
+           <!-- Can make this link to org page? -->
+             <md-option value="">No Projects?! Go to the Dashboard and Create one!</md-option>
+             <md-option ng-repeat="project in projects" value="{{ project._id }}">
+               {{ project.name }}
+             </md-option>
+           </md-select>
            <div ng-messages="projectForm.description.$error">
              <div ng-message="required">This is required.</div>
            </div>
@@ -58,10 +88,6 @@
           
           <md-datepicker ng-model="task.deadline" md-placeholder="Deadline"></md-datepicker>
          <!-- </md-input-container> -->
-
-<!-- // 
-TODO : BUG IN ASSIGNEE DROPDOWN!!!
-// -->
 
          <md-input-container flex>
            <label>Assignee</label>
@@ -90,7 +116,7 @@ TODO : BUG IN ASSIGNEE DROPDOWN!!!
   <!-- Task List -->
     <md-content class="tasklist">
     <!-- todo: build userFilter -->
-      <md-list-item ng-repeat="task in data.tasks | filter : userFilter">
+      <md-list-item ng-repeat="task in tasks">
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
         <div ng-repeat='n in [0]'>
           <md-checkbox ng-model="task.isCompleted" ng-change="updateTask(task)"></md-checkbox>

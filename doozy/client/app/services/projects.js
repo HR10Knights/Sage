@@ -6,6 +6,9 @@ angular.module('services.ProjectFactory', [])
      * @param  {[int]} taskId   [id of the given task]
      * @return {[array]}        [array of user objects]
      */
+
+    var currentProjectId = 0;
+
     var createProjectByOrgID = function(data){
       return $http({
         method: 'POST',
@@ -16,10 +19,19 @@ angular.module('services.ProjectFactory', [])
       });
     };
 
+    var setCurrentProject = function(projectId) {
+      console.log("setting project", projectId);
+      currentProjectId = projectId;
+    };
+
+    var getCurrentProject = function(){
+      return currentProjectId;
+    }
+
     var getProjectById = function(projectId) {
       return $http({
         method: 'GET',
-        url: 'api/projects/' + projectID
+        url: 'api/projects/' + projectId
       }).then(function (resp){
         return resp.data;
       });
@@ -29,8 +41,8 @@ angular.module('services.ProjectFactory', [])
       return $http({
         method: 'GET',
         url: 'api/projects/users/' + projectId
-      }).then(function (resp){
-        return resp.data
+        }).then(function (resp){
+        return resp.data;
       });
     };
 
@@ -39,7 +51,7 @@ angular.module('services.ProjectFactory', [])
         method: 'DELETE',
         url: 'api/projects/' + projectId
       }).then(function (resp){
-        return resp.data
+        return resp.data;
       });
     };
 
@@ -49,7 +61,7 @@ angular.module('services.ProjectFactory', [])
         url: 'api/projects',
         data: newData
       }).then(function (resp){
-        return resp.data
+        return resp.data;
       });
     };
 
@@ -58,11 +70,15 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects'
       }).then(function (resp){
-        return resp.data
-      })
-    }
+        return resp.data;
+      });
+    };
+
 
     return {
+      getCurrentProject: getCurrentProject,
+      setCurrentProject: setCurrentProject,
+      currentProjectId: currentProjectId,
       createProjectByOrgID: createProjectByOrgID,
       getProjectById: getProjectById,
       getUserByProjectId: getUserByProjectId,

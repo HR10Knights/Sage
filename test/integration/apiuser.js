@@ -42,7 +42,7 @@ describe('User API (api/projects) ', function() {
 
   it('should find all users', function(done) {
     request(app)
-      .get('/api/users')
+      .get('/api/users/all')
       .expect(function(res) {
         expect(res.body.length).to.equal(1);
       })

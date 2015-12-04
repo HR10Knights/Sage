@@ -11,8 +11,9 @@ module.exports = {
    * Returns all users that have given taskId in their task list
    */
   getUserByTaskId: function(req, res, next) {
+    console.log("in server", req.params.taskId);
     User.find({
-      'task_list': req.params.taskId
+      task_list: req.params.taskId
     }, function(err, users) {
       if (err) return res.status(500).send();
 
@@ -26,34 +27,38 @@ module.exports = {
    * @return {[object]}              [Updated Project]
    */
   createTaskByProject: function(req, res, next) {
-
-    Project.findById(req.body.projectId, function(err, project) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-      if (project) {
-        var task = new Task({
-          name: req.body.name,
-          description: req.body.description,
-          project_id: project._id
-        });
-        project.tasks.push(task._id);
-        project.save(function(err) {
+        Project.findById(req.body.projectId, function(err, project) {
           if (err) {
             return res.status(500).send(err);
           }
-          task.save(function(err) {
-            if (err) {
-              return res.status(500).send(err);
-            }
-            res.status(201).send(project);
-          });
+          if (project) {
+             var task = new Task({
+                name: req.body.name,
+                description: req.body.description,
+                project_id: project._id,
+                isAssigned: req.body.isAssigned,
+              });
+             if (req.body.assigned){
+               task.users.push(req.body.assigned);
+              }
+            project.tasks.push(task._id);
+            project.save(function(err) {
+              if (err) {
+                return res.status(500).send(err);
+              }
+              task.save(function(err) {
+                if (err) {
+                  return res.status(500).send(err);
+                }
+                res.status(201).send(task);
+              });
+            });
+          } else {
+            res.status(404).send();
+          }
         });
-      } else {
-        res.status(404).send();
-      }
-    });
-  },
+},
+  
 
   /**
    * [Gets a task by id]
@@ -74,16 +79,21 @@ module.exports = {
    * @return {[object]}             [Updated task]
    */
   updateTaskById: function(req, res, next) {
-
+    console.log("in server", req.body);
     Task.findOne({
       _id: req.body._id
     }, function(err, task) {
 
       if (err) return res.sendStatus(404, err);
-
+        
       task.name = req.body.name;
       task.description = req.body.description;
+      task.isAssigned = req.body.isAssigned
       task.isCompleted = req.body.isCompleted;
+      
+      if (req.body.assigned){
+        task.users.push(req.body.assigned);
+      }
 
       task.save(function(err, task) {
         if (err) console.log('err: ', err);
@@ -94,6 +104,15 @@ module.exports = {
     });
   },
 
+  isTaskAssigned: function(req, res, next){
+    taskId = req.body.id;
+    User.find({}, {task_list: {$in: taskId}}, function(err, user) {
+      if (!user) {
+         return res.status(205).send(false);
+      } 
+      res.status(205).send(true);
+    })
+  },
 
   assignTask: function(req, res, next) {
     var user = req.body.user;
@@ -129,12 +148,13 @@ module.exports = {
    * @return {[object]}                  [removed task]
    */
   removeTask: function(req, res, next) {
-    Task.findOneAndRemove(req.params.id, function(err, task) {
+    console.log("params", req.params.id);
+    Task.findOneAndRemove({_id: req.params.id}, function(err, task) {
       if (err) return res.sendStatus(500, err);
       if (!task) {
         return res.sendStatus(404, err);
       } else {
-        task.remove();
+        //task.remove();
       }
       res.status(200).send(task);
     });
