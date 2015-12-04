@@ -1,0 +1,26 @@
+<md-card class="projcard">
+    <!-- ng-repeat="project in org.projects"> -->
+    <md-card-content>
+        <p class="md-project-title" style="text-align:center">{{ project.name }}</p>
+        <p style="text-align:left">{{ project.description }}</p>
+        <ul>
+        	<li ng-repeat="user in data.projectUsers">{{user.username}}</li>
+        </ul>
+        <form name="userForm">
+            <md-input-container flex>
+                <label>Project Members</label>
+                <md-select ng-model="data.newUser">
+                    <md-option value="">Unassigned</md-option>
+                    <md-option ng-repeat="user in data.orgUsers" value="{{user._id}}">
+                        {{user.username}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
+                <md-button class="button md-raised md-primary" ng-click="addUser(data.newUser);  resetUserDetails();">
+                    Add User
+                </md-button>
+            </section>
+        </form>
+    </md-card-content>
+</md-card class="projcard">
