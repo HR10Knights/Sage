@@ -129,7 +129,10 @@ db.usersSchema = usersSchema;
 
 // Organization
 var orgSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   projects: [{
     type: Schema.ObjectId,
     ref: 'Project'
