@@ -5,6 +5,7 @@ angular.module('app.projectAndTask', [])
   // make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
   $scope.user = {};
+  $scope.task = {};
   $scope.data = {};
   $scope.data.tasks = [];
 
@@ -38,17 +39,35 @@ angular.module('app.projectAndTask', [])
       });
   };
 
+  $scope.submitTask = function(data){
+    if(data._id){
+      if(data.userId){
+        $scope.assignUserToTask(data.userId, data._id);
+      }
+      $scope.updateTask(data);
+    } else {
+      $scope.createTask(data);
+    }
+  }
+
   $scope.createNewTask = function(data) {
     data.projectId = $scope.data.project._id;
     Tasks.createTaskByProject(data)
-      .then(function(project) {
-        console.log(project);
+      .then(function(task) {
+        if(data.userId){
+          $scope.assignUserToTask(data.userId, task._id);
+        }
         $scope.getProjectInfo();
       });
   };
 
-  $scope.refreshProjectData = function(){
-
+  $scope.assignUserToTask = function(userId, taskId){
+    Users.addTaskToUser({
+      userId: userId,
+      taskId: taskId
+    }).then(function(){
+      $scope.getProjectInfo();
+    });
   };
 
   // update a task if it already exists or create a new task if one does not already exist
@@ -107,7 +126,7 @@ angular.module('app.projectAndTask', [])
   };
 
   // delete a task from the database
-  $scope.updatetask = function(task) {
+  $scope.updateTask = function(task) {
     Tasks.updateTaskById(task).then(function(resp) {
         $scope.getProjectInfo()
       })
