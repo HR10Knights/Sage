@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Client Route
-app.use(express.static(path.join(__dirname, '/client')));
+app.use(express.static(path.join(__dirname + '/client')));
 // app.use(expressJwt({ secret: 'secret' }));
 
 // Routing

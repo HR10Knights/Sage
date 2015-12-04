@@ -44,7 +44,8 @@ angular.module('app.services', [
   // clears web token and redirect to signin
   var signout = function () {
     $window.localStorage.removeItem('auth-token');
-    $location.path('/signin');
+    $location.path('/');
+    $state.go('signin');
   };
   var getTeamName = function () {
     return teamName;
@@ -58,4 +59,13 @@ angular.module('app.services', [
     signout: signout,
     getTeamName: getTeamName
   };
+})
+// Factory function to change the state which helps in the UI-Router
+.factory('State', function ($stateProvider, $scope) {
+  var changeState = function (state) {
+    $state.go(state);
+  };
+  return {
+    changeState: changeState
+  }
 });
