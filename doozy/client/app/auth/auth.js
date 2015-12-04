@@ -1,6 +1,6 @@
-angular.module('app.auth', ['ui.router'])
+angular.module('app.auth', [])
 
-.controller('AuthController', function ($scope, $window, $location, $state, Auth) {
+.controller('AuthController', function ($scope, $window, $location, Auth) {
   // binding for user login input
   $scope.user = {
     username: '',
@@ -15,7 +15,6 @@ angular.module('app.auth', ['ui.router'])
         // stores valid jwt on client
         $window.localStorage.setItem('auth-token', token);
         $location.path('/landing');
-        $state.go('landing');
       })
       .catch(function (error) {
         alert(error.data);
@@ -30,13 +29,11 @@ angular.module('app.auth', ['ui.router'])
         // stores valid jwt on client
         $window.localStorage.setItem('auth-token', token);
         $location.path('/landing');
-        $state.go('landing');
-
       })
       .catch(function (error) {
         alert(error.data);
         console.error(error);
-      });
+      });  
 
   };
 });

@@ -9,12 +9,10 @@
     <br>
     <!-- Button Land -->
     <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
-         <!-- Go To LandingPage button -->
-        <md-button class="md-raised md-primary dashboardbtn" ui-sref="landing">Dasbhoard</md-button>
-        <md-button class="md-raised md-primary dashboardbtn1" ui-sref="user">Tasks</md-button>
         <!-- Signout button -->
         <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
-
+        <!-- Go To LandingPage button -->
+        <md-button class="md-raised md-primary gotolandingbtn" ng-click="">Go to Tasks</md-button>
         <!-- Add Organization button -->
         <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddOrgButton'>
             <md-button class="md-raised md-primary" ng-click="showOrgForm=true; showAddOrgButton=false">
@@ -43,7 +41,7 @@
             </section>
         </form>
     </md-content>
-
+    
     <br>
     <!-- All Organization and Projects -->
     <!-- for every organization a user is a member of this area shows boiled down stats about projects -->
