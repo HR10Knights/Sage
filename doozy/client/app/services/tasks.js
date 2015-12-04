@@ -52,6 +52,7 @@ angular.module('services.TaskFactory', [])
      * @return {[array]}         [array of user objects]
      */
     getUserByTaskId: function(taskId) {
+      console.log("in factory", taskId);
       return $http({
           method: 'GET',
           url: '/api/tasks/users/' + taskId
@@ -68,7 +69,6 @@ angular.module('services.TaskFactory', [])
      * @return {[object]}      [updated project]
      */
     createTaskByProject: function(data) {
-      console.log("in factory", data)
       return $http({
           method: 'POST',
           url: '/api/tasks/create',
@@ -85,7 +85,6 @@ angular.module('services.TaskFactory', [])
      * @return {[object]}        [removed task]
      */
     removeTask: function(task) {
-      console.log("in factory", task)
       return $http({
           method: 'DELETE',
           url: '/api/tasks/' + task

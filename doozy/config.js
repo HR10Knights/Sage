@@ -51,7 +51,11 @@ var tasksSchema = new Schema({
   project_id: {
     type: Schema.ObjectId,
     ref: 'Project'
-  }
+  },
+  users: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }]
 });
 
 db.tasksSchema = tasksSchema;
@@ -86,7 +90,11 @@ var projectsSchema = new Schema({
   }],
   deadline: {
     type: Date
-  }
+  },
+  users: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }]
 });
 
 db.projectsSchema = projectsSchema;

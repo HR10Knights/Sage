@@ -3,12 +3,12 @@ var mongoose = require('mongoose');
 var User = require('./user');
 var Project = require('./project');
 
-// db.tasksSchema.pre('init', function(next, data) {
-//   Task.populate(data, {
-//     path: 'project_id'
-//   }, function(err, task) {
-//     data = task;
-//     next();
+//  db.tasksSchema.pre('init', function(next, data) {
+//    Task.populate(data, {
+//      path: 'users'
+//    }, function(err, task) {
+//      data = task;
+//      next();
 //   });
 // });
 

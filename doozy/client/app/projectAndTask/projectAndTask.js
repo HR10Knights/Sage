@@ -3,8 +3,6 @@ angular.module('app.projectAndTask', [])
 .controller('ProjectAndTaskController', function($scope, Tasks, Users, Project, Auth) {
 
   // make sure the 'Add Task' button is showing when the page loads
-  console.log("project" , Project);
-  console.log("in controller", Project.currentProjectId);
   $scope.showAddTaskButton = true;
   $scope.data = {};
   // retrieve the team name and tasks
@@ -42,8 +40,8 @@ angular.module('app.projectAndTask', [])
     var found = false;
     task.isAssigned = false;
     task.projectId = $scope.getProjectId;
-    var assigned = task.assigned;
-    if (assigned) {
+    task.username = task.assigned;
+    if (task.username) {
         task.isAssigned = true;
       }  else {
         task.isAssigned = false;
@@ -56,13 +54,10 @@ angular.module('app.projectAndTask', [])
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
         found = true;
-        //var currentUser = 
         console.log("in update", task)
         Tasks.updateTaskById(task)
         .then(function(resp) {
-          // if (changedUser) {
-          //   $scope.getTasks();
-          // }
+          $scope.getProjectInfo();
         })
         .catch(function(err) {
           console.log(err);
@@ -71,17 +66,18 @@ angular.module('app.projectAndTask', [])
     }
 
     if (!found){
-      console.log("didn't find task");
-      console.log(task);
       Tasks.createTaskByProject(task)
         .then(function(resp) {
-          if (assigned){
-            Users.addTaskToUser({userId: assigned, taskId: resp._id})
+          if (task.username){
+            Users.addTaskToUser({userId: task.username, taskId: resp._id})
               .then(function(resp){
+                $scope.getProjectInfo();
               })
+              .catch(function(err) {
+              console.log(err);
+              });
           }
           
-          $scope.getProjectInfo();
         })
         .catch(function(err) {
           console.log(err);
@@ -90,11 +86,17 @@ angular.module('app.projectAndTask', [])
   };
 
   // delete a task from the database
-
+  $scope.updatetask = function (task) {
+    Tasks.updateTaskById(task).then( function (resp){
+      $scope.getProjectInfo()
+    })
+      .catch(function(err) {
+        console.log(err);
+    });
+  }
   $scope.deleteTask = function(task) {
-    console.log("in deleteTask", task)
     Tasks.removeTask(task._id)
-      .then(function() {
+      .then (function() {
         $scope.getProjectInfo();
       })
       .catch(function(err) {
@@ -105,6 +107,7 @@ angular.module('app.projectAndTask', [])
   // load task details into the task form
   // this function is called anytime that you click on a individual task
   $scope.loadTaskDetails = function(task) {
+    console.log("in loading", task);
     // hide the 'Add Task' button
     $scope.showAddTaskButton=false;
     // show the task form
@@ -115,11 +118,7 @@ angular.module('app.projectAndTask', [])
     $scope.task._id = task._id;
     $scope.task.name = task.name;
     // only load the first user from the users array
-    $scope.task.users = "";
-    Tasks.getUserByTaskId(task_.id).then(function (resp) {
-      console.log("getting user by Task Id", resp.data);
-      $scope.task.users = resp.data;
-    })
+    $scope.task.users = task.users;
     $scope.task.description = task.description;
   };
 

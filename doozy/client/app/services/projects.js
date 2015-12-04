@@ -38,7 +38,6 @@ angular.module('services.ProjectFactory', [])
     };
 
     var getUserByProjectId = function (projectId) {
-      console.log("getting triggered");
       return $http({
         method: 'GET',
         url: 'api/projects/users/' + projectId
