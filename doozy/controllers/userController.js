@@ -136,7 +136,7 @@ module.exports = {
 
   addOrganizationToUser: function(req, res, next) {
     var userId = req.body.userId;
-    var organizationId = req.body.organizationId;
+    var orgId = req.body.orgId;
 
     User.findOne({
       _id: userId
@@ -145,12 +145,13 @@ module.exports = {
         return res.status(500).send();
       }
       Org.findOne({
-        _id: organizationId
+        _id: orgId
       }, function(err, org) {
         if (err) {
           return res.status(500).send();
         }
         if (!org) {
+          console.log(org);
           return res.status(404).send();
         }
         user.organization.push(org._id);

@@ -120,7 +120,7 @@ angular.module('services.UserFactory', [])
         return $http({
             method: 'POST',
             url: '/api/users/orgs',
-            data: data
+            data: JSON.stringify(data)
           })
           .then(function(resp) {
             return resp.data;
