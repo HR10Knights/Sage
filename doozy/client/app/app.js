@@ -40,7 +40,7 @@ angular.module('app', [
       authenticate: true,
     })
     .state('landing', {
-      url: '/dashboard',
+      url: '/landing',
       templateUrl: '/app/tasks/landing.html',
       controller: 'TasksController',
       authenticate: true
@@ -92,19 +92,13 @@ angular.module('app', [
 .run(function ($rootScope, $location, $state, Auth) {
   $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
-      console.log(event);
-      console.log(toState);
-      console.log(toParams);
-      console.log(fromState);
-      console.log(fromParams);
-      console.log(Auth.isAuth())
       if(toState && toState.authenticate && !Auth.isAuth()) {
         $state.go('signin');
       }
       if(toState.name === 'signin' && Auth.isAuth()) {
 
-        $location.path('/user');
-        $state.go('user');
+        $location.path('/landing');
+        $state.go('landing');
       }
   });
 // .run(function ($rootScope, $location, Auth) {
