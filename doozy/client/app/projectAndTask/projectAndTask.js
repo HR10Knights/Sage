@@ -1,38 +1,56 @@
 angular.module('app.projectAndTask', [])
 
-.controller('ProjectAndTaskController', function($scope, Tasks, Users, Project, Auth) {
-
+.controller('ProjectAndTaskController', function($scope, $state, $stateParams, Tasks, Users, Project, Auth) {
+  console.log($stateParams.projectId);
   // make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
+  $scope.user = {};
   $scope.data = {};
-  // retrieve the team name and tasks
-  $scope.getProjectId = Project.getCurrentProject();
-  //$scope.data.projectName = $scope.currentUser.name;
   $scope.data.tasks = [];
 
- 
-  $scope.getProjectInfo = function (){
-    Project.getProjectById($scope.getProjectId)
-    .then(function (project){
-     $scope.data.projectName = project.name;
-      $scope.data.tasks = project.tasks;
-    })
+
+  Users.getLoggedInUser()
+    .then(function(user){
+      $scope.user = user;
+    });
+
+  // Current Project Id is passed on through $stateParams
+  $scope.getProjectInfo = function() {
+    Project.getProjectById($stateParams.projectId)
+      .then(function(project) {
+        console.log(project);
+        $scope.data.project = project;
+        $scope.data.tasks = project.tasks;
+        $scope.getProjectUsers();
+      })
   };
 
   $scope.getProjectInfo();
   // get all of the User objects from the database and save them
   // these users populate the 'Assignee' dropdown menue of the task form
   $scope.getProjectUsers = function() {
-    Project.getUserByProjectId($scope.getProjectId)
-    .then(function(users) {
-      $scope.data.users = users;
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
+    Project.getUserByProjectId($scope.data.project._id)
+      .then(function(users) {
+        $scope.data.projectUsers = users;
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   };
-  $scope.getProjectUsers();
-  
+
+  $scope.createNewTask = function(data) {
+    data.projectId = $scope.data.project._id;
+    Tasks.createTaskByProject(data)
+      .then(function(project) {
+        console.log(project);
+        $scope.getProjectInfo();
+      });
+  };
+
+  $scope.refreshProjectData = function(){
+
+  };
+
   // update a task if it already exists or create a new task if one does not already exist
   // this function is called anytime the task form is submitted
   $scope.createTask = function(task) {
@@ -42,42 +60,45 @@ angular.module('app.projectAndTask', [])
     task.projectId = $scope.getProjectId;
     task.username = task.assigned;
     if (task.username) {
-        task.isAssigned = true;
-      }  else {
-        task.isAssigned = false;
-      }
+      task.isAssigned = true;
+    } else {
+      task.isAssigned = false;
+    }
     //task.assignee
     var changedUser = false;
 
     // modify the users property of the task object so that is correctly formatted for the api request
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
-      if ( task._id && task._id === currentTask._id ) {
+      if (task._id && task._id === currentTask._id) {
         found = true;
         console.log("in update", task)
         Tasks.updateTaskById(task)
-        .then(function(resp) {
-          $scope.getProjectInfo();
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-     }
+          .then(function(resp) {
+            $scope.getProjectInfo();
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
     }
 
-    if (!found){
+    if (!found) {
       Tasks.createTaskByProject(task)
         .then(function(resp) {
-          if (task.username){
-            Users.addTaskToUser({userId: task.username, taskId: resp._id})
-              .then(function(resp){
+          if (task.username) {
+            Users.addTaskToUser({
+                userId: task.username,
+                taskId: resp._id
+              })
+              .then(function(resp) {
                 $scope.getProjectInfo();
               })
               .catch(function(err) {
-              console.log(err);
+                console.log(err);
               });
           }
-          
+
         })
         .catch(function(err) {
           console.log(err);
@@ -86,17 +107,17 @@ angular.module('app.projectAndTask', [])
   };
 
   // delete a task from the database
-  $scope.updatetask = function (task) {
-    Tasks.updateTaskById(task).then( function (resp){
-      $scope.getProjectInfo()
-    })
+  $scope.updatetask = function(task) {
+    Tasks.updateTaskById(task).then(function(resp) {
+        $scope.getProjectInfo()
+      })
       .catch(function(err) {
         console.log(err);
-    });
+      });
   }
   $scope.deleteTask = function(task) {
     Tasks.removeTask(task._id)
-      .then (function() {
+      .then(function() {
         $scope.getProjectInfo();
       })
       .catch(function(err) {
@@ -109,7 +130,7 @@ angular.module('app.projectAndTask', [])
   $scope.loadTaskDetails = function(task) {
     console.log("in loading", task);
     // hide the 'Add Task' button
-    $scope.showAddTaskButton=false;
+    $scope.showAddTaskButton = false;
     // show the task form
     $scope.showTaskForm = true;
 
@@ -126,7 +147,7 @@ angular.module('app.projectAndTask', [])
   // this function is called anytime the task form is submitted or closed
   $scope.resetTaskDetails = function() {
     // reset the task form if it was dirty
-    if ( $scope.task ) {
+    if ($scope.task) {
       $scope.task.name = null;
       $scope.task.assigned = null;
       $scope.task.description = null;
@@ -158,7 +179,7 @@ angular.module('app.projectAndTask', [])
   };
 
   // function for the go to Dashboard button
-  $scope.goToDash =  function(){
+  $scope.goToDash = function() {
     $location.path('/org');
   };
   // function for the signout button
@@ -175,29 +196,29 @@ angular.module('app.projectAndTask', [])
 
 
 
-     //    found = true;
+//    found = true;
 
-     //    break;
-     // }
+//    break;
+// }
 // these next two functions are called by the promise inside the loop below. They are named and written outside the loop to please jshint
-    // but...did not work under actual use
-    // var checkChangedUser = function(resp){
-    //   if (changedUser) {
-    //     $scope.getTasks();
-    //   }
-    // };
-    // var catchError = function(err){ console.log(err);};
+// but...did not work under actual use
+// var checkChangedUser = function(resp){
+//   if (changedUser) {
+//     $scope.getTasks();
+//   }
+// };
+// var catchError = function(err){ console.log(err);};
 
 
-    // for (var i = 0; i < $scope.data.tasks.length; i++) {
-    //   var currentTask = $scope.data.tasks[i];
-    //   if ( task._id && task._id === currentTask._id ) {
-    //     Tasks.updateTask(task)
-    //     .then(function(resp) {
-    //       if (changedUser) {
-    //         $scope.getTasks();
-    //       }
-    //     })
-    //     .catch(function(err) {
-    //       console.log(err);
-    //     });
+// for (var i = 0; i < $scope.data.tasks.length; i++) {
+//   var currentTask = $scope.data.tasks[i];
+//   if ( task._id && task._id === currentTask._id ) {
+//     Tasks.updateTask(task)
+//     .then(function(resp) {
+//       if (changedUser) {
+//         $scope.getTasks();
+//       }
+//     })
+//     .catch(function(err) {
+//       console.log(err);
+//     });

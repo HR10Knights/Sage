@@ -17,7 +17,10 @@
     <!-- todo: build userFilter -->
       <md-list-item layout="column" ng-repeat="project in data.projects | filter : userFilter">
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
-         <md-button class="md-raised md-primary dashboardbtn" ui-sref="project" ng-click="goToProject(project._id)">Go To Project</md-button>
+
+         <md-button class="md-raised md-primary dashboardbtn" ui-sref="project({projectId: project._id})">Go To Project</md-button>
+
+
         <div layout="column">
           <h1 class="md-primary"> Project: {{project.name}} </h1> 
           <h3> {{project.description}} </h3>
