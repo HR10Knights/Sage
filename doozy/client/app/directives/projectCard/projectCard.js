@@ -27,12 +27,14 @@ angular.module('directives.projectCard', [])
       });
 
     $scope.addUser = function(userId) {
-      Users.addProjectToUser({
-        userId: userId,
-        projectId: $scope.project._id
-      }).then(function() {
-        $scope.updateUserList();
-      });
+      if ($scope.data.newUser) {
+        Users.addProjectToUser({
+          userId: userId,
+          projectId: $scope.project._id
+        }).then(function() {
+          $scope.updateUserList();
+        });
+      }
     };
 
     $scope.updateUserList();
