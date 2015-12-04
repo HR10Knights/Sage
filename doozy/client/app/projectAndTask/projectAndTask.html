@@ -71,7 +71,7 @@
                     <p class="taskListItem" ng-click="loadTaskDetails(task)" md-ink-ripple>
                         {{ task.name }}
                         <span><b>Description: </b>{{task.description}}</span>
-                        <span class="userdisplay">Assigned To {{ task.users[0].username }} </span>
+                        <span class="userdisplay">Assigned To <span ng-repeat="user in task.users">{{ user.username }} | </span></span>
                     </p>
                     <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
                 </md-list-item>
@@ -85,7 +85,7 @@
                     </div>
                     <p class="taskListItem" ng-click="loadTaskDetails(task)" md-ink-ripple>
                         {{ task.name }}
-                        <span class="userdisplay"> {{ task.users[0].username }} </span>
+                        <span class="userdisplay">Assigned To <span ng-repeat="user in task.users">{{ user.username }} | </span></span>
                     </p>
                     <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
                 </md-list-item>

@@ -33,10 +33,26 @@ angular.module('app.projectAndTask', [])
     Project.getUserByProjectId($scope.data.project._id)
       .then(function(users) {
         $scope.data.projectUsers = users;
+        $scope.getTaskUsers();
+        console.log($scope.data.tasks);
       })
       .catch(function(err) {
         console.log(err);
       });
+  };
+
+  $scope.getTaskUsers = function(){
+    $scope.data.tasks = $scope.data.tasks.map(function(task){
+      task.users = [];
+      $scope.data.projectUsers.forEach(function(user){
+        user.task_list.forEach(function(userTask){
+          if(task._id === userTask._id){
+            task.users.push(user);
+          }
+        });
+      });
+      return task;
+    });
   };
 
   $scope.submitTask = function(data){
@@ -184,12 +200,12 @@ angular.module('app.projectAndTask', [])
   // if a task is not completed and does not have any users, it belongs in the Staging area
   //&& !Tasks.isTaskAssigned({id: task._id});
   $scope.stagingFilter = function(task) {
-    return !task.isCompleted && task.isAssigned === false;
+    return !task.isCompleted && task.users.length === 0;
   };
 
   // if a task is not completed but has been assigned to a user, it belongs in the Assigned area
   $scope.assignedFilter = function(task) {
-    return !task.isCompleted && task.isAssigned === true;
+    return !task.isCompleted && task.users.length > 0;
   };
 
   // if a task has been completed, it belongs in the Completed area
