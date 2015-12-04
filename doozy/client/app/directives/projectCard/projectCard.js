@@ -12,7 +12,9 @@ angular.module('directives.projectCard', [])
     };
   })
   .controller('ProjectCardController', ['$scope', 'Users', 'Project', 'Organization', function($scope, Users, Project, Organization) {
-    $scope.data = {};
+    $scope.data = {
+      projectUsers: []
+    };
 
     $scope.updateUserList = function() {
       Project.getUserByProjectId($scope.project._id)
