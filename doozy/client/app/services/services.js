@@ -3,7 +3,8 @@ angular.module('app.services', [
   'services.ProjectFactory',
   'services.UserFactory',
   'services.TaskFactory',
-  'services.EmailFactory'
+  'services.EmailFactory',
+  'services.OrganizationFactory'
   ])
 
 .factory('Auth', function ($http, $location, $window) {

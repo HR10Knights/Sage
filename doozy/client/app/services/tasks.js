@@ -35,6 +35,17 @@ angular.module('services.TaskFactory', [])
         });
     },
 
+    isTaskAssigned: function(data) {
+      return $http({
+        method: 'POST',
+        url: '/api/tasks/assign',
+        data: JSON.stringify(data)
+      })
+      .then(function(resp){
+        return resp.data
+      });
+    },
+
     /**
      * Get all users assigned to a task
      * @param  {[string]} taskId [task._id]
@@ -57,10 +68,11 @@ angular.module('services.TaskFactory', [])
      * @return {[object]}      [updated project]
      */
     createTaskByProject: function(data) {
+      console.log("in factory", data)
       return $http({
           method: 'POST',
           url: '/api/tasks/create',
-          data: data
+          data: JSON.stringify(data)
         })
         .then(function(resp) {
           return resp.data;
@@ -72,10 +84,10 @@ angular.module('services.TaskFactory', [])
      * @param  {[string]} taskId [description]
      * @return {[object]}        [removed task]
      */
-    removeTask: function(taskId) {
+    removeTask: function(task) {
       return $http({
           method: 'DELETE',
-          url: '/api/tasks/' + taskId
+          url: '/api/tasks/' + task
         })
         .then(function(resp) {
           return resp.data;

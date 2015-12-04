@@ -73,6 +73,7 @@ module.exports = {
   },
 
   addTaskToUser: function(req, res, next) {
+    console.log(req.body);
     var userId = req.body.userId;
     var taskId = req.body.taskId;
 
@@ -93,6 +94,7 @@ module.exports = {
         }
         user.task_list.push(task);
         user.save(function(err, user) {
+          console.log("user is, ", user);
           if (err) {
             return res.status(500).send();
           }
