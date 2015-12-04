@@ -6,6 +6,9 @@ angular.module('services.ProjectFactory', [])
      * @param  {[int]} taskId   [id of the given task]
      * @return {[array]}        [array of user objects]
      */
+
+    var currentProject;
+
     var createProjectByOrgID = function(data){
       return $http({
         method: 'POST',
@@ -21,6 +24,7 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects/' + projectId
       }).then(function (resp){
+        currentProject = resp.data;
         return resp.data;
       });
     };
@@ -30,7 +34,8 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects/users/' + projectId
       }).then(function (resp){
-        return resp.data;
+        currentProject = resp;
+        //return resp.data;
       });
     };
 
