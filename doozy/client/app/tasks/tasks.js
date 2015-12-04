@@ -6,8 +6,6 @@ angular.module('app.tasks', [])
 	// make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
   $scope.data = {};
-
-  $scope.data.teamname = Auth.getTeamName();
   // this gets populated by the updateTask sheet
   $scope.data.tasks = [];
   $scope.task = {};
@@ -18,52 +16,34 @@ angular.module('app.tasks', [])
   // this is a shortcut to the current users projects 
   $scope.projects = [];
 
-// these are references for data models in the db
-  // $scope.data.taskMODEL = [
-  //   // {
-  //   //   name, 
-  //   //   description,
-  //   //   isCompleted,
-  //   //   deadline,
-  //   //   created_at,
-  //   //   project_id
-  //   // }
-  // ];
-  // $scope.data.userMODEL = {
-  //   // username, 
-  //   // password,
-  //   // organization, 
-  //   // project_list [obj],
-  //   // task_list [obj]
-  // };
-  // $scope.data.projectsMODEL = [
-  //   // {
-  //   //   name, 
-  //   //   description, 
-  //   //   teamLead,
-  //   //   org_id,
-  //   //   tasks [id],
-  //   //   deadline
-  //   // }
-  // ];
-  // $scope.data.organizationMODEL = [
-  //   // {
-  //   //   title, 
-  //   //   projects [id]
-  //   // }
-  // ];
-
 // populates scope with a user object 
   $scope.getLoggedInUser = function(){
     Users.getLoggedInUser()
       .then(function(userobj){
+        console.log(userobj);
         $scope.data.user = userobj;
-        $scope.tasks = userobj.task_list;
-        $scope.projects = userobj.project_list;
-      })
+        $scope.data.tasks = userobj.task_list;
+        $scope.data.projects = userobj.project_list;
+
+      for (var i = 0; i < $scope.data.projects.length; i++) {
+        for (var x = 0; x < $scope.data.tasks.length; x++) {
+          if ($scope.data.projects[i]._id === $scope.data.tasks[x].project_id) {
+            if (Array.isArray($scope.data.projects[i].getTasks)){
+              $scope.data.projects[i].getTasks.push($scope.data.tasks[x]);
+            } else {
+              $scope.data.projects[i].getTasks = [$scope.data.tasks[x]];
+            }
+          }
+        }
+      }
+
+      console.log($scope.data.projects);
+    })
       .catch(function(err){
         console.log(err);
       });
+
+    
   };
 
   // invoke getLoggedInUser so that all of the users tasks load when you open the page
