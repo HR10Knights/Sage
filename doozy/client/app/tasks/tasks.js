@@ -7,7 +7,9 @@ angular.module('app.tasks', [])
   $scope.showAddTaskButton = true;
   $scope.data = {};
 
+  $scope.data.teamname = Auth.getTeamName();
   // this gets populated by the updateTask sheet
+  $scope.data.tasks = [];
   $scope.task = {};
 
   // this is a shortcut to the current users tasks
@@ -70,17 +72,6 @@ angular.module('app.tasks', [])
   $scope.data.projectName = "";
   $scope.data.tasks = [];
 
-  $scope.getProjectInfo = function (){
-    Project.getProjectById('5660b839bbf82e540bab3488')
-    .then(function (project){
-      //console.log(project.name);
-      $scope.data.projectName = project.name;
-      $scope.data.tasks = project.tasks;
-    })
-  };
-
-  $scope.getProjectInfo();
-
   // get all of the User objects from the database and save them
   // these users populate the 'Assignee' dropdown menue of the task form
   $scope.getAll = function() {
@@ -111,6 +102,14 @@ angular.module('app.tasks', [])
     if (!task) {
       return;
     }
+
+    // modify the users property of the task object so that is correctly formatted for the api request
+    if (task.assigned) {
+      task.users = [task.assigned];
+      changedUser = true;
+    } else {
+      task.users = [];
+    }
     for (var i = 0; i < $scope.data.tasks.length; i++) {
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
@@ -125,6 +124,21 @@ angular.module('app.tasks', [])
         .catch(function(err) {
           console.log(err);
         });
+
+
+
+/*  this solution to pass jsHINT did not work in production
+        .then(checkChangedUser(resp)
+          )
+          .catch(
+            catchError(err)
+          );*/
+
+
+
+        found = true;
+
+        break;
      }
     }
 
@@ -151,7 +165,7 @@ angular.module('app.tasks', [])
 
   $scope.deleteTask = function(task) {
     console.log("in deleteTask", task)
-    Tasks.removeTask(task._id)
+    Tasks.removeTask(task)
       .then(function() {
         $scope.getProjectInfo();
       })
@@ -167,13 +181,13 @@ angular.module('app.tasks', [])
 		$scope.showAddTaskButton=false;
     // show the task form
     $scope.showTaskForm = true;
-    
+
     // load the task details into the form
     $scope.task = {};
     $scope.task._id = task._id;
 		$scope.task.name = task.name;
     // only load the first user from the users array
-		//$scope.task.users = Tasks.getUserByTaskId(task._id);
+		$scope.task.users = task.users.length > 0 ? task.users[0].username : null;
 		$scope.task.description = task.description;
 	};
 
@@ -188,7 +202,7 @@ angular.module('app.tasks', [])
       // reset the form validation
       $scope.taskForm.$setUntouched();
     }
-    
+
     // hide the task form
     $scope.showTaskForm = false;
     // show the 'Add Task' button
