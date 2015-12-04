@@ -130,9 +130,10 @@ angular.module('app.tasks', [])
 
     if (!found){
       var assigned = task.assigned;
+      console.log("what is this" , assigned);
       Tasks.createTaskByProject(task)
         .then(function(resp) {
-          if (assigned !== ""){
+          if (assigned){
             Users.addTaskToUser({userId: assigned, taskId: resp._id})
               .then(function(resp){
               })

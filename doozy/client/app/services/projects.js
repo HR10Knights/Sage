@@ -58,15 +58,10 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects'
       }).then(function (resp){
-<<<<<<< 4988598b3462f31f217149c36b67d7a251440752
         return resp.data;
       });
     };
-=======
-        return resp.data
-      });
-    }
->>>>>>> (fix) attempting to fix tasks page
+
 
     return {
       createProjectByOrgID: createProjectByOrgID,

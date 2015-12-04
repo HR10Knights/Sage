@@ -4,7 +4,6 @@ angular.module('app.services', [
   'services.UserFactory',
   'services.TaskFactory',
   'services.EmailFactory',
-  'services.project',
   'services.OrganizationFactory'
   ])
 
