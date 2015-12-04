@@ -82,7 +82,7 @@ module.exports = function(grunt) {
     // Injects between <!-- bower:css / js --><!-- endbower -->
     wiredep: {
       task :{
-        src: ['doozy/index.html']
+        src: ['doozy/client/index.html']
       }
     },
 
