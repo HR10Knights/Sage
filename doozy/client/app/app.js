@@ -6,6 +6,7 @@ angular.module('app', [
   'app.auth',
   'ui.router',
   'app.org',
+  'app.projectAndTask',
   'ngRoute',
   'ngAnimate',
   'ngMaterial',
@@ -38,6 +39,12 @@ angular.module('app', [
       controller: 'TasksController',
       templateUrl: 'app/tasks/tasks.html',
       authenticate: true,
+    })
+    .state('project', {
+      url: '/project',
+      templateUrl: '/app/projectAndTask/projectAndTask.html',
+      controller: 'ProjectAndTaskController',
+      authenticate: true
     })
     .state('landing', {
       url: '/landing',

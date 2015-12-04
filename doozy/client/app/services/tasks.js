@@ -28,7 +28,7 @@ angular.module('services.TaskFactory', [])
       return $http({
           method: 'PUT',
           url: '/api/tasks/',
-          data: data
+          data: JSON.stringify(data)
         })
         .then(function(resp) {
           return resp.data;
@@ -52,6 +52,7 @@ angular.module('services.TaskFactory', [])
      * @return {[array]}         [array of user objects]
      */
     getUserByTaskId: function(taskId) {
+      console.log("in factory", taskId);
       return $http({
           method: 'GET',
           url: '/api/tasks/users/' + taskId
@@ -68,7 +69,6 @@ angular.module('services.TaskFactory', [])
      * @return {[object]}      [updated project]
      */
     createTaskByProject: function(data) {
-      console.log("in factory", data)
       return $http({
           method: 'POST',
           url: '/api/tasks/create',

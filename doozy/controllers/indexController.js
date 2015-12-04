@@ -17,7 +17,7 @@ module.exports = {
     var username = req.body.username.trim();
     var password = req.body.password.trim();
     if (username === '' || password === '') {
-      return res.status(400).send('Username, Password, and Teamname must be present');
+      return res.status(400).send('Username and Password must be present');
     }
 
     User.findOne({

@@ -6,6 +6,9 @@ angular.module('services.ProjectFactory', [])
      * @param  {[int]} taskId   [id of the given task]
      * @return {[array]}        [array of user objects]
      */
+
+    var currentProjectId = 0;
+
     var createProjectByOrgID = function(data){
       return $http({
         method: 'POST',
@@ -15,6 +18,15 @@ angular.module('services.ProjectFactory', [])
         return resp.data;
       });
     };
+
+    var setCurrentProject = function(projectId) {
+      console.log("setting project", projectId);
+      currentProjectId = projectId;
+    };
+
+    var getCurrentProject = function(){
+      return currentProjectId;
+    }
 
     var getProjectById = function(projectId) {
       return $http({
@@ -29,7 +41,7 @@ angular.module('services.ProjectFactory', [])
       return $http({
         method: 'GET',
         url: 'api/projects/users/' + projectId
-      }).then(function (resp){
+        }).then(function (resp){
         return resp.data;
       });
     };
@@ -64,6 +76,9 @@ angular.module('services.ProjectFactory', [])
 
 
     return {
+      getCurrentProject: getCurrentProject,
+      setCurrentProject: setCurrentProject,
+      currentProjectId: currentProjectId,
       createProjectByOrgID: createProjectByOrgID,
       getProjectById: getProjectById,
       getUserByProjectId: getUserByProjectId,

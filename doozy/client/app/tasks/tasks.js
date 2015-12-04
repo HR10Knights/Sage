@@ -6,8 +6,6 @@ angular.module('app.tasks', [])
 	// make sure the 'Add Task' button is showing when the page loads
   $scope.showAddTaskButton = true;
   $scope.data = {};
-
-  $scope.data.teamname = Auth.getTeamName();
   // this gets populated by the updateTask sheet
   $scope.data.tasks = [];
   $scope.task = {};
@@ -18,52 +16,34 @@ angular.module('app.tasks', [])
   // this is a shortcut to the current users projects 
   $scope.projects = [];
 
-// these are references for data models in the db
-  // $scope.data.taskMODEL = [
-  //   // {
-  //   //   name, 
-  //   //   description,
-  //   //   isCompleted,
-  //   //   deadline,
-  //   //   created_at,
-  //   //   project_id
-  //   // }
-  // ];
-  // $scope.data.userMODEL = {
-  //   // username, 
-  //   // password,
-  //   // organization, 
-  //   // project_list [obj],
-  //   // task_list [obj]
-  // };
-  // $scope.data.projectsMODEL = [
-  //   // {
-  //   //   name, 
-  //   //   description, 
-  //   //   teamLead,
-  //   //   org_id,
-  //   //   tasks [id],
-  //   //   deadline
-  //   // }
-  // ];
-  // $scope.data.organizationMODEL = [
-  //   // {
-  //   //   title, 
-  //   //   projects [id]
-  //   // }
-  // ];
-
 // populates scope with a user object 
   $scope.getLoggedInUser = function(){
     Users.getLoggedInUser()
       .then(function(userobj){
+        console.log(userobj);
         $scope.data.user = userobj;
-        $scope.tasks = userobj.task_list;
-        $scope.projects = userobj.project_list;
-      })
+        $scope.data.tasks = userobj.task_list;
+        $scope.data.projects = userobj.project_list;
+
+      for (var i = 0; i < $scope.data.projects.length; i++) {
+        for (var x = 0; x < $scope.data.tasks.length; x++) {
+          if ($scope.data.projects[i]._id === $scope.data.tasks[x].project_id) {
+            if (Array.isArray($scope.data.projects[i].getTasks)){
+              $scope.data.projects[i].getTasks.push($scope.data.tasks[x]);
+            } else {
+              $scope.data.projects[i].getTasks = [$scope.data.tasks[x]];
+            }
+          }
+        }
+      }
+
+      console.log($scope.data.projects);
+    })
       .catch(function(err){
         console.log(err);
       });
+
+    
   };
 
   // invoke getLoggedInUser so that all of the users tasks load when you open the page
@@ -95,6 +75,13 @@ angular.module('app.tasks', [])
   // this function is called anytime the task form is submitted
   $scope.createTask = function(task) {
     // check for a blank form
+    task.isAssigned = false;
+    var assigned = task.assigned;
+    if (assigned) {
+        task.isAssigned = true;
+      }  else {
+        task.isAssigned = false;
+      }
     task.projectId = '5660b839bbf82e540bab3488'; 
     //task.assignee
     var changedUser = false;
@@ -114,8 +101,9 @@ angular.module('app.tasks', [])
       var currentTask = $scope.data.tasks[i];
       if ( task._id && task._id === currentTask._id ) {
         found = true;
-        //var currentUser = User
-        Tasks.updateTaskById(task._id)
+        //var currentUser = 
+        console.log("in update", task)
+        Tasks.updateTaskById(task)
         .then(function(resp) {
           // if (changedUser) {
           //   $scope.getTasks();
@@ -143,8 +131,6 @@ angular.module('app.tasks', [])
     }
 
     if (!found){
-      var assigned = task.assigned;
-      console.log("what is this" , assigned);
       Tasks.createTaskByProject(task)
         .then(function(resp) {
           if (assigned){
@@ -213,12 +199,12 @@ angular.module('app.tasks', [])
   // if a task is not completed and does not have any users, it belongs in the Staging area
   //&& !Tasks.isTaskAssigned({id: task._id});
   $scope.stagingFilter = function(task) {
-    return !task.isCompleted
+    return !task.isCompleted && task.isAssigned === false;
   };
 
   // if a task is not completed but has been assigned to a user, it belongs in the Assigned area
   $scope.assignedFilter = function(task) {
-  	//return !task.isCompleted
+  	return !task.isCompleted && task.isAssigned === true;
   };
 
   // if a task has been completed, it belongs in the Completed area

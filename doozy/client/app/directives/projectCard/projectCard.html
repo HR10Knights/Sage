@@ -1,6 +1,6 @@
 <md-card class="projcard">
     <!-- ng-repeat="project in org.projects"> -->
-    <md-card-title>
+    <md-card-title ui-sref="project" ng-click="goToProject(project._id)">
         <md-card-title-text>
             <span class="md-headline">{{ project.name }}</span>
             <span class="md-subhead">{{ project.description }}</span>
@@ -8,7 +8,9 @@
     </md-card-title>
     <md-card-content>
         <md-chips>
-            <md-chip ng-repeat="user in data.projectUsers">{{user.username}}</md-chip>
+            <md-chip>{{data.projectUsers.length}} team members</md-chip>
+            <br>
+            <md-chip>{{project.tasks.length}} tasks</md-chip>
         </md-chips>
         <form name="userForm">
             <md-input-container flex>
