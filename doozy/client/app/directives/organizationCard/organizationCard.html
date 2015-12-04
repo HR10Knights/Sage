@@ -2,6 +2,7 @@
     <md-card-title>
         <md-card-title-text>
             <span class="md-headline">{{org.title}}</span>
+            <span class="md-subhead"><span ng-repeat="user in data.orgUsers">{{user.username}} | </span></span>
         </md-card-title-text>
     </md-card-title>
     <md-card-content>
