@@ -35,6 +35,7 @@ angular.module('services.ProjectFactory', [])
         url: 'api/projects/users/' + projectId
       }).then(function (resp){
         currentProject = resp;
+        console.log(currentProject);
         //return resp.data;
       });
     };
@@ -69,6 +70,7 @@ angular.module('services.ProjectFactory', [])
 
 
     return {
+      currentProject: currentProject,
       createProjectByOrgID: createProjectByOrgID,
       getProjectById: getProjectById,
       getUserByProjectId: getUserByProjectId,
