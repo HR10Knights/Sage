@@ -52,7 +52,11 @@ angular.module('services.OrganizationFactory', [])
     var removeOrganization = function (orgId){
       return $http({
         method: 'DELETE',
+<<<<<<< 4988598b3462f31f217149c36b67d7a251440752
         url: 'api/orgs/' + orgId
+=======
+        url: 'api/orgs' + orgId
+>>>>>>> (fix) attempting to fix tasks page
       }).then(function (resp) {
         return resp.data;
       });

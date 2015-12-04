@@ -26,12 +26,13 @@ module.exports = {
    * @return {[object]}              [Updated Project]
    */
   createTaskByProject: function(req, res, next) {
-
+    console.log(req.body);
     Project.findById(req.body.projectId, function(err, project) {
       if (err) {
         return res.status(500).send(err);
       }
       if (project) {
+        console.log("found project");
         var task = new Task({
           name: req.body.name,
           description: req.body.description,
@@ -46,7 +47,7 @@ module.exports = {
             if (err) {
               return res.status(500).send(err);
             }
-            res.status(201).send(project);
+            res.status(201).send(task);
           });
         });
       } else {
@@ -94,6 +95,15 @@ module.exports = {
     });
   },
 
+  isTaskAssigned: function(req, res, next){
+    taskId = req.body.id;
+    User.find({}, {task_list: {$in: taskId}}, function(err, user) {
+      if (!user) {
+         return res.status(205).send(false);
+      } 
+      res.status(205).send(true);
+    })
+  },
 
   assignTask: function(req, res, next) {
     var user = req.body.user;
@@ -129,6 +139,7 @@ module.exports = {
    * @return {[object]}                  [removed task]
    */
   removeTask: function(req, res, next) {
+    console.log(req.params);
     Task.findOneAndRemove(req.params.id, function(err, task) {
       if (err) return res.sendStatus(500, err);
       if (!task) {

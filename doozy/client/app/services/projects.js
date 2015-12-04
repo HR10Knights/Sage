@@ -19,7 +19,7 @@ angular.module('services.ProjectFactory', [])
     var getProjectById = function(projectId) {
       return $http({
         method: 'GET',
-        url: 'api/projects/' + projectID
+        url: 'api/projects/' + projectId
       }).then(function (resp){
         return resp.data;
       });
@@ -58,9 +58,15 @@ angular.module('services.ProjectFactory', [])
         method: 'GET',
         url: 'api/projects'
       }).then(function (resp){
+<<<<<<< 4988598b3462f31f217149c36b67d7a251440752
         return resp.data;
       });
     };
+=======
+        return resp.data
+      });
+    }
+>>>>>>> (fix) attempting to fix tasks page
 
     return {
       createProjectByOrgID: createProjectByOrgID,
