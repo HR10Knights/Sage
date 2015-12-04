@@ -46,7 +46,7 @@ angular.module('app.org', [])
       .then(function(org) {
         $scope.newOrg = {};
         return Users.addOrganizationToUser({
-          organizationId: org._id,
+          orgId: org._id,
           userId: $scope.user._id
         })
       })
