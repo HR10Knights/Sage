@@ -19,10 +19,10 @@
         <!-- this <div ng-repeat> is a workaround that prevents the check box from being selected when the user clicks on the list item -->
          <md-button class="md-raised md-primary dashboardbtn" ui-sref="project" ng-click="goToProject(project._id)">Go To Project</md-button>
         <div layout="column">
-          <h1 class="md-primary"> {{project.name}} </h1> 
+          <h1 class="md-primary"> Project: {{project.name}} </h1> 
           <h3> {{project.description}} </h3>
          <md-list-item layout="column" ng-repeat="task in project.getTasks | filter : userFilter">
-          <h5> {{ task.name }} <h5>
+          <h5> Task: {{ task.name }} <h5>
           <h5> {{task.description}} </h5>
           <md-icon class="md-secondary" ng-click="deleteTask(task)" aria-label="Delete" md-svg-icon="/assets/clear_24px.svg"></md-icon>
           <md-divider  ng-if="!$last"></md-divider>
