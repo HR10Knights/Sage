@@ -1,5 +1,5 @@
 # Doozy
-[![Build Status](https://travis-ci.org/HR10Knights/HR10Knights.svg?branch=master)](https://travis-ci.org/HR10Knights/HR10Knights)
+[![Build Status](https://travis-ci.org/HR10Knights/Sage.svg?branch=master)](https://travis-ci.org/HR10Knights/Sage)
 
 > Project management 
 
