@@ -1,7 +1,7 @@
 # Doozy
 [![Build Status](https://travis-ci.org/HR10Knights/Sage.svg?branch=master)](https://travis-ci.org/HR10Knights/Sage)
 
-> Project management 
+> A simple, intuitive task management web application for teams.
 
 ## Team
 
