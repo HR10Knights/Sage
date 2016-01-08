@@ -2,7 +2,7 @@ var db = require('../config');
 var mongoose = require('mongoose');
 var User = require('./user');
 var Org = require('./org');
-var Task = require('./Task');
+var Task = require('./task');
 
 
 db.projectsSchema.pre('init', function(next, data) {
