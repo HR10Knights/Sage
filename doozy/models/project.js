@@ -1,7 +1,7 @@
 var db = require('../config');
 var mongoose = require('mongoose');
 var User = require('./user');
-var Org = require('./Org');
+var Org = require('./org');
 var Task = require('./Task');
 
 
