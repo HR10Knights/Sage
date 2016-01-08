@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+console.log("=============");
+console.log(process.env.MONGOLAB_URI);
+console.log(process.env);
 if (process.env.MONGOLAB_URI) {
   mongoose.connect(process.env.MONGOLAB_URI);
 } else if (process.env.NODE_ENV === 'test') {
