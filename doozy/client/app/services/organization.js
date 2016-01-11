@@ -29,6 +29,7 @@ angular.module('services.OrganizationFactory', [])
       });
     };
 
+    // {title: ... }
     var createOrganization = function (newOrg){
       return $http({
         method: 'POST',

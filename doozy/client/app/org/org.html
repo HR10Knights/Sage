@@ -1,57 +1,15 @@
-<!-- this view allows the user an overview of orgs and projects and allows user to create and delete projects and orgs -->
-<!-- this page does not have the ability to manipulate specific tasks -->
-<div flex layout="column" layout-align="center center">
-    <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="maincontainer" class="md-whiteframe-z2">
-        <h1 style="text-align:center" class="signheader">Sage
-      <p id="teamname">{{ user.username }}</p>
-    </h1>
-    </div>
-    <br>
-    <!-- Button Land -->
-    <div flex-sm="100" flex-gt-sm="100" flex-gt-md="80" flex-gt-lg="80" id="orgcontainer" class="md-whiteframe-z2">
-         <!-- Go To LandingPage button -->
-        <md-button class="md-raised md-primary dashboardbtn" ui-sref="landing">Dasbhoard</md-button>
-        <md-button class="md-raised md-primary dashboardbtn1" ui-sref="user">Tasks</md-button>
-        <!-- Signout button -->
-        <md-button class="md-raised md-primary logoutbtn" ng-click="signout()">Sign Out</md-button>
+<nav-bar></nav-bar>
+<h1>Org</h1>
 
-        <!-- Add Organization button -->
-        <section layout="row" layout-sm="column" layout-align="center center" ng-show='showAddOrgButton'>
-            <md-button class="md-raised md-primary" ng-click="showOrgForm=true; showAddOrgButton=false">
-                Create New Organization
-            </md-button>
-        </section>
-    </div>
-    <!-- Task Form : is visible when addTask is clicked or an existing task is clicked for editing -->
-    <!-- becase this page is showing all of a users tasks from all projects when a task is submitted from this page the project must be specified or created if it does not exist -->
-    <md-content layout-padding ng-show='showOrgForm' class="fx-zoom-normal fx-speed-500">
-        <md-icon id="closeFormBtn" ng-click="resetOrgDetails()" aria-label="Close" md-svg-icon="/assets/clear_24px.svg">
-        </md-icon>
-        <br>
-        <form name="orgForm">
-            <md-input-container class="md-block">
-                <label>Organization</label>
-                <input md-maxlength="50" required name="org" ng-model="newOrg.title">
-                <div ng-messages="projectForm.description.$error">
-                    <div ng-message="required">This is required.</div>
-                </div>
-            </md-input-container>
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-                <md-button class="button md-raised md-primary" ng-click="newOrganization(newOrg);">
-                    Submit
-                </md-button>
-            </section>
-        </form>
-    </md-content>
-
-    <br>
-    <!-- All Organization and Projects -->
-    <!-- for every organization a user is a member of this area shows boiled down stats about projects -->
-    <!-- every Org has a piece of paper, every project has a card -->
-    <section class="md-whiteframe-z2" layout="row">
-        <organization-card ng-repeat="org in data.organization" org="org"></organization-card>
-    </section>
-    <br>
-    </md-content>
+<div>
+	<h3>Create New Organization</h3>
+	<form ng-submit="newOrganization(newOrg)">
+		<input ng-model="newOrg.title" type="text">
+		<input type="submit">
+	</form>
 </div>
+
+<div>
+	<h3>Your Organizations</h3>
+	<organization-card ng-repeat="org in data.organization" org="org"></organization-card>
 </div>

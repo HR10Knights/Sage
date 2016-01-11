@@ -1,32 +1,12 @@
-<md-card class="projcard">
-    <!-- ng-repeat="project in org.projects"> -->
-    <md-card-title>
-        <md-card-title-text>
-            <span ui-sref="project({projectId: project._id})"><span class="md-headline">{{ project.name }}</span>
-                <span class="md-subhead">{{ project.description }}</span></span>
-        </md-card-title-text>
-    </md-card-title>
-    <md-card-content>
-        <md-chips>
-            <md-chip>{{data.projectUsers.length}} team members</md-chip>
-            <br>
-            <md-chip>{{project.tasks.length}} tasks</md-chip>
-        </md-chips>
-        <form name="userForm">
-            <md-input-container flex>
-                <label>Project Members</label>
-                <md-select ng-model="data.newUser">
-                    <md-option value="">Unassigned</md-option>
-                    <md-option ng-repeat="user in data.orgUsers" value="{{user._id}}">
-                        {{user.username}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap="">
-                <md-button class="button md-raised md-primary" ng-click="addUser(data.newUser);  resetUserDetails();">
-                    Add User
-                </md-button>
-            </section>
-        </form>
-    </md-card-content>
-</md-card class="projcard">
+<div>
+	<a ui-sref="project({projectId: project._id})"><p>{{project.name}}</p></a>
+	<p>{{project.description}}</p>
+	<p>Users</p>
+	<ul>
+		<li ng-repeat="user in project.users">{{user.username}}</li>
+	</ul>
+	<p>Tasks</p>
+	<ul>
+		<li ng-repeat="task in project.tasks">{{task.name}}</li>
+	</ul>
+</div>

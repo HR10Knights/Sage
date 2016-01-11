@@ -13,7 +13,7 @@ angular.module('app.org', [])
     if ($scope.newOrg) {
       $scope.newOrg.title = null;
       // reset the form validation
-      $scope.orgForm.$setUntouched();
+      //$scope.orgForm.$setUntouched();
     }
 
     // hide the task form

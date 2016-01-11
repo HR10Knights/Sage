@@ -1,6 +1,7 @@
 angular.module('app', [
   'directives.organizationCard',
   'directives.projectCard',
+  'directives.navBar',
   'app.services',
   'app.tasks',
   'app.auth',
@@ -9,19 +10,9 @@ angular.module('app', [
   'app.projectAndTask',
   'ngRoute',
   'ngAnimate',
-  'ngMaterial',
   'ngFx'
 ])
-.config(function($stateProvider, $httpProvider, $mdThemingProvider, $locationProvider) {
-  $mdThemingProvider.theme('default')
-    .primaryPalette('green')
-    .accentPalette('green', {
-      default: '800'
-    })
-    .warnPalette('deep-orange')
-    .backgroundPalette('green', {
-      default: '50'
-    });
+.config(function($stateProvider, $httpProvider, $locationProvider) {
 
   $stateProvider
     .state('signin', {
@@ -34,8 +25,8 @@ angular.module('app', [
       controller: 'AuthController',
       templateUrl: '/app/auth/signup.html'
     })
-    .state('user', {
-      url: '/user',
+    .state('tasks', {
+      url: '/tasks',
       controller: 'TasksController',
       templateUrl: 'app/tasks/tasks.html',
       authenticate: true,
@@ -100,10 +91,9 @@ angular.module('app', [
   $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
       if(toState && toState.authenticate && !Auth.isAuth()) {
-        $state.go('signin');
+        $location.path('/');
       }
-      if(toState.name === 'signin' && Auth.isAuth()) {
-
+      else if(toState.name === 'signin' && Auth.isAuth()) {
         $location.path('/landing');
         $state.go('landing');
       }

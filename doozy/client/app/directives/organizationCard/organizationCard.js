@@ -23,7 +23,7 @@ angular.module('directives.organizationCard', [])
         $scope.data.users = users;
       });
 
-    $scope.getOrganizationUsers = function(){
+    $scope.getOrganizationUsers = function() {
       Organization.getUserByOrganizationId($scope.org._id)
         .then(function(users) {
           $scope.data.orgUsers = users;
@@ -35,18 +35,33 @@ angular.module('directives.organizationCard', [])
     $scope.refreshOrganizationCard = function() {
       Organization.getOrganizationById($scope.org._id)
         .then(function(org) {
+          console.log(org);
           $scope.org = org;
         });
     };
 
-    $scope.addUser = function(userId){
-      Users.addOrganizationToUser({
-        userId: userId,
-        orgId: $scope.org._id
-      })
-      .then(function(){
-        $scope.getOrganizationUsers();
-      });
+    $scope.addUserToOrganization = function(userId) {
+      if (userId) {
+        Users.addOrganizationToUser({
+            userId: userId,
+            orgId: $scope.org._id
+          })
+          .then(function() {
+            $scope.getOrganizationUsers();
+          });
+      }
+    };
+
+    $scope.removeUserFromOrganization = function(userId) {
+      if (userId) {
+        Users.removeOrganizationToUser({
+            userId: userId,
+            orgId: $scope.org._id
+          })
+          .then(function() {
+            $scope.getOrganizationUsers();
+          });
+      }
     };
 
     $scope.newProject = function(data) {

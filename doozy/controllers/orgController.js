@@ -53,7 +53,6 @@ module.exports = {
       title: req.body.title
     }, function(err, org) {
       if (err) return res.status(500).send(err);
-      if (org) return res.status(400).send('Organziation already exists');
 
       var newOrg = new Org({
         title: req.body.title

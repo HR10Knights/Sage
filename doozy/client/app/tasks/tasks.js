@@ -20,7 +20,7 @@ angular.module('app.tasks', [])
   $scope.getLoggedInUser = function(){
     Users.getLoggedInUser()
       .then(function(userobj){
-        console.log(userobj);
+
         $scope.data.user = userobj;
         $scope.data.tasks = userobj.task_list;
         $scope.data.projects = userobj.project_list;

@@ -144,24 +144,32 @@ module.exports = {
       if (err) {
         return res.status(500).send();
       }
-      Org.findOne({
-        _id: orgId
-      }, function(err, org) {
-        if (err) {
-          return res.status(500).send();
-        }
-        if (!org) {
-          console.log(org);
-          return res.status(404).send();
-        }
-        user.organization.push(org._id);
-        user.save(function(err, user) {
+      // Check if organization already exists
+      var newOrg = user.organization.reduce(function(memo, org) {
+        if (!memo) return memo;
+        return org._id.toString() !== orgId;
+      }, true);
+
+      if (newOrg) {
+        Org.findOne({
+          _id: orgId
+        }, function(err, org) {
           if (err) {
             return res.status(500).send();
           }
-          res.status(200).send(user);
+          if (!org) {
+            console.log(org);
+            return res.status(404).send();
+          }
+          user.organization.push(org._id);
+          user.save(function(err, user) {
+            if (err) {
+              return res.status(500).send();
+            }
+            res.status(200).send(user);
+          });
         });
-      });
+      }
     });
   },
 
@@ -200,8 +208,9 @@ module.exports = {
   },
 
   removeUserFromOrganization: function(req, res, next) {
-    var organizationId = req.body.organizationId;
+    var organizationId = req.body.orgId;
     var userId = req.body.userId;
+
     User.update({
       _id: userId
     }, {

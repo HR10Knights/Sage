@@ -7,7 +7,7 @@ angular.module('app.services', [
   'services.OrganizationFactory'
   ])
 
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location, $state, $window) {
   var teamName = '';
 
   // sends user login input to db
@@ -44,7 +44,6 @@ angular.module('app.services', [
   // clears web token and redirect to signin
   var signout = function () {
     $window.localStorage.removeItem('auth-token');
-    $location.path('/');
     $state.go('signin');
   };
   var getTeamName = function () {
