@@ -3,9 +3,9 @@
 
 A project managment application that enables teams to collaborate on group to-do lists.
 
-![Sage Login](http://i.imgur.com/X9Ee6Iq.png)
 ![Sage Task List](http://i.imgur.com/9deiWIk.png)
 ![Sage Create Task](http://i.imgur.com/anu6jJg.png)
+![Sage Login](http://i.imgur.com/X9Ee6Iq.png)
 
 ## Team
 
