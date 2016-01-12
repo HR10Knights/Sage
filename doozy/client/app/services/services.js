@@ -46,6 +46,7 @@ angular.module('app.services', [
     $window.localStorage.removeItem('auth-token');
     $state.go('signin');
   };
+  
   var getTeamName = function () {
     return teamName;
   };

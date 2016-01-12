@@ -81,13 +81,13 @@ angular.module('services.TaskFactory', [])
 
     /**
      * Deletes a task by id
-     * @param  {[string]} taskId [description]
+     * @param  {[object]} task [description]
      * @return {[object]}        [removed task]
      */
     removeTask: function(task) {
       return $http({
           method: 'DELETE',
-          url: '/api/tasks/' + task
+          url: '/api/tasks/' + task._id
         })
         .then(function(resp) {
           return resp.data;

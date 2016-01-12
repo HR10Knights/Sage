@@ -1,9 +1,9 @@
-<div ng-controller="NavBarCtrl as ctrl">
-	<span>Sage</span>
-	<ul>
-		<li ng-repeat="link in ctrl.navLinks">
-			<a ui-sref="{{link.state}}">{{link.name}}</a>
-		</li>
-	</ul>
-	<button ng-click="ctrl.signout()">Log Out</button>
-</div>
+<ul class="nav nav-pills">
+    <li><a href="">Sage</a></li>
+    <li ng-repeat="link in ctrl.navLinks">
+        <a ui-sref="{{link.state}}">{{link.name}}</a>
+    </li>
+    <li>
+        <a href="#" ng-click="ctrl.signout()">Log Out</a>
+    </li>
+</ul>

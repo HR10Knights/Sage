@@ -24,6 +24,8 @@ angular.module('directives.navBar', [])
     return {
       replace: true,
       templateUrl: 'app/directives/navBar/navBar.html',
+      controller: 'NavBarCtrl',
+      controllerAs: 'ctrl'
     }
   })
   .controller('NavBarCtrl', ['Auth', NavBarCtrl]);

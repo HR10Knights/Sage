@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="form-group">
+        <form ng-submit="handleSubmit(data.newUser)">
+            <label for="user-select">Add User To Project</label>
+                <select
+                class="form-control"
+                id="user-select" 
+                ng-model="data.newUser">
+                    <option ng-repeat="user in userList" value="{{user._id}}">{{user.username}}</option>
+                </select>
+            <input class="form-control" type="submit">
+        </form>
+    </div>
+    <h4>Current Project Users</h4>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="user in currentUsers" ng-click="handleRemove(user._id)">
+            {{user.username}}
+        </li>
+    </ul>
+</div>

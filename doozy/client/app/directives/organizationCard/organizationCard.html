@@ -1,16 +1,14 @@
 <div>
 	<h3>{{org.title}}</h3>
 	<p>Organization Members</p>
-	<ul>
-		<li ng-repeat="user in data.orgUsers" ng-click="removeUserFromOrganization(user._id)">{{user.username}}</li>
-	</ul>
-
-	<form ng-submit="addUserToOrganization(data.newUser)">
-		<select ng-model="data.newUser">
-			<option ng-repeat="user in data.users" value="{{user._id}}">{{user.username}}</option>
-		</select>
-		<input type="submit">
-	</form>
+	
+	<!-- User Manager Directive -->
+	<user-manager 
+		user-list="data.users" 
+		current-users="data.orgUsers" 
+		handle-submit="addUserToOrganization" 
+		handle-remove="removeUserFromOrganization">
+	</user-manager>
 	
 	<p>Projects</p>
 	<div>

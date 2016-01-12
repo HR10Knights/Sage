@@ -27,38 +27,39 @@ module.exports = {
    * @return {[object]}              [Updated Project]
    */
   createTaskByProject: function(req, res, next) {
-        Project.findById(req.body.projectId, function(err, project) {
+    console.log(req.body);
+    Project.findById(req.body.projectId, function(err, project) {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      if (project) {
+        var task = new Task({
+          name: req.body.name,
+          description: req.body.description,
+          project_id: project._id,
+          isAssigned: req.body.isAssigned,
+        });
+        if (req.body.assigned) {
+          task.users.push(req.body.assigned);
+        }
+        project.tasks.push(task._id);
+        project.save(function(err) {
           if (err) {
             return res.status(500).send(err);
           }
-          if (project) {
-             var task = new Task({
-                name: req.body.name,
-                description: req.body.description,
-                project_id: project._id,
-                isAssigned: req.body.isAssigned,
-              });
-             if (req.body.assigned){
-               task.users.push(req.body.assigned);
-              }
-            project.tasks.push(task._id);
-            project.save(function(err) {
-              if (err) {
-                return res.status(500).send(err);
-              }
-              task.save(function(err) {
-                if (err) {
-                  return res.status(500).send(err);
-                }
-                res.status(201).send(task);
-              });
-            });
-          } else {
-            res.status(404).send();
-          }
+          task.save(function(err) {
+            if (err) {
+              return res.status(500).send(err);
+            }
+            res.status(201).send(task);
+          });
         });
-},
-  
+      } else {
+        res.status(404).send();
+      }
+    });
+  },
+
 
   /**
    * [Gets a task by id]
@@ -85,13 +86,13 @@ module.exports = {
     }, function(err, task) {
 
       if (err) return res.sendStatus(404, err);
-        
+
       task.name = req.body.name;
       task.description = req.body.description;
       task.isAssigned = req.body.isAssigned
       task.isCompleted = req.body.isCompleted;
-      
-      if (req.body.assigned){
+
+      if (req.body.assigned) {
         task.users.push(req.body.assigned);
       }
 
@@ -104,12 +105,16 @@ module.exports = {
     });
   },
 
-  isTaskAssigned: function(req, res, next){
+  isTaskAssigned: function(req, res, next) {
     taskId = req.body.id;
-    User.find({}, {task_list: {$in: taskId}}, function(err, user) {
+    User.find({}, {
+      task_list: {
+        $in: taskId
+      }
+    }, function(err, user) {
       if (!user) {
-         return res.status(205).send(false);
-      } 
+        return res.status(205).send(false);
+      }
       res.status(205).send(true);
     })
   },
@@ -149,7 +154,9 @@ module.exports = {
    */
   removeTask: function(req, res, next) {
     console.log("params", req.params.id);
-    Task.findOneAndRemove({_id: req.params.id}, function(err, task) {
+    Task.findOneAndRemove({
+      _id: req.params.id
+    }, function(err, task) {
       if (err) return res.sendStatus(500, err);
       if (!task) {
         return res.sendStatus(404, err);

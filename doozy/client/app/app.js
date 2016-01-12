@@ -2,6 +2,9 @@ angular.module('app', [
   'directives.organizationCard',
   'directives.projectCard',
   'directives.navBar',
+  'directives.userManager',
+  'directives.taskManager',
+  'directives.taskDetail',
   'app.services',
   'app.tasks',
   'app.auth',
@@ -90,6 +93,7 @@ angular.module('app', [
 .run(function ($rootScope, $location, $state, Auth) {
   $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
+      console.log('auth', Auth.isAuth());
       if(toState && toState.authenticate && !Auth.isAuth()) {
         $location.path('/');
       }
