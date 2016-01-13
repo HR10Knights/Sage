@@ -13,11 +13,19 @@ angular.module('directives.taskDetail', [])
       }
     }
   })
-  .controller('TaskDetailCtrl', ['$scope', function($scope) {
+  .controller('TaskDetailCtrl', ['$scope', 'Tasks', function($scope, Tasks) {
 
     $scope.$watch('taskList', function(newList) {
       $scope.taskList = newList;
     });
+
+    // delete a task from the database
+    $scope.updateTask = function(task) {
+      return Tasks.updateTaskById(task)
+        .catch(function(err) {
+          console.log(err);
+        });
+    };
 
     // if a task is not completed and does not have any users, it belongs in the Staging area
     //&& !Tasks.isTaskAssigned({id: task._id});

@@ -1,12 +1,18 @@
 angular.module('app', [
-  'directives.organizationCard',
-  'directives.projectCard',
   'directives.navBar',
-  'directives.userManager',
-  'directives.taskManager',
+  'directives.organizationCard',
+  'directives.organizationDashboard',
+  'directives.projectCard',
+  'directives.projectDashboard',
+  'directives.taskDashboard',
+  'directives.taskDashboardItem',
   'directives.taskDetail',
+  'directives.taskDetailItem',
+  'directives.taskManager',
+  'directives.userManager',
   'app.services',
   'app.tasks',
+  'app.landingCtrl',
   'app.auth',
   'ui.router',
   'app.org',
@@ -35,15 +41,16 @@ angular.module('app', [
       authenticate: true,
     })
     .state('project', {
-      url: '/project/:projectId',
+      url: '/project',
       templateUrl: '/app/projectAndTask/projectAndTask.html',
       controller: 'ProjectAndTaskController',
+      params: {projectId: null, taskId: null},
       authenticate: true
     })
     .state('landing', {
       url: '/landing',
-      templateUrl: '/app/tasks/landing.html',
-      controller: 'TasksController',
+      templateUrl: '/app/landing/landing.html',
+      controller: 'LandingCtrl',
       authenticate: true
     })
     .state('org', {

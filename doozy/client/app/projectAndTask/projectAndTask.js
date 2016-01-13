@@ -11,11 +11,12 @@ angular.module('app.projectAndTask', [])
     });
 
   var initialize = function() {
+    $scope.data.task = {};
     $scope.getProjectInfo()
       .then($scope.getOrganizationUsers)
       .then($scope.getProjectUsers)
       .then($scope.getTaskUsers)
-    $scope.data.task = {};
+      .then($scope.loadTaskDetails);
   };
 
   // Current Project Id is passed on through $stateParams
@@ -112,14 +113,13 @@ angular.module('app.projectAndTask', [])
 
   // delete a task from the database
   $scope.updateTask = function(task) {
-    console.log('Update');
     return Tasks.updateTaskById(task)
       .catch(function(err) {
         console.log(err);
       });
   };
 
-  $scope.removeTask = function(task){
+  $scope.removeTask = function(task) {
     Tasks.removeTask(task)
       .then(initialize);
   };
@@ -127,9 +127,19 @@ angular.module('app.projectAndTask', [])
 
   // load task details into the task form
   // this function is called anytime that you click on a individual task
+  // Optionally checks if a taskId paramter is being passed in through state
   $scope.loadTaskDetails = function(task) {
     // load the task details into the form
-    $scope.data.task = task;
+    if (task) {
+      $scope.data.task = task;
+    } else if ($stateParams.taskId) {
+      var taskToLoad = $scope.data.tasks.filter(function(task){
+        return task._id === $stateParams.taskId;
+      })[0];
+      $scope.loadTaskDetails(taskToLoad);
+    } else {
+      $scope.resetTaskDetails();
+    }
   };
 
   // reset the task form
@@ -138,22 +148,6 @@ angular.module('app.projectAndTask', [])
     $scope.data.task = {};
   };
 
-
-  // if a task is not completed and does not have any users, it belongs in the Staging area
-  //&& !Tasks.isTaskAssigned({id: task._id});
-  $scope.stagingFilter = function(task) {
-    return !task.isCompleted && task.users.length === 0;
-  };
-
-  // if a task is not completed but has been assigned to a user, it belongs in the Assigned area
-  $scope.assignedFilter = function(task) {
-    return !task.isCompleted && task.users.length > 0;
-  };
-
-  // if a task has been completed, it belongs in the Completed area
-  $scope.completedFilter = function(task) {
-    return task.isCompleted ? true : false;
-  };
-
+  // Initialize controller data
   initialize();
 });

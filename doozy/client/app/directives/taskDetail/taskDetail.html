@@ -3,11 +3,11 @@
     <ul class="list-group">
         <li 
         class="list-group-item" 
-        ng-repeat="task in taskList | filter : stagingFilter">
+        ng-repeat="task in taskList | filter: stagingFilter">
           <span>
 		        <input 
 		        ng-model="task.isCompleted" 
-		        ng-change="handleTaskUpdate(task)" 
+		        ng-change="updateTask(task)" 
 		        type="checkbox">
 		      </span>
           <span>{{task.name}} | {{task.description}}</span>
@@ -20,11 +20,11 @@
     <ul class="list-group">
         <li 
         class="list-group-item" 
-        ng-repeat="task in taskList | filter : assignedFilter">
+        ng-repeat="task in taskList | filter: assignedFilter">
           <span>
 		        <input 
 		        ng-model="task.isCompleted" 
-		        ng-change="handleTaskUpdate(task)"
+		        ng-change="updateTask(task)"
 		        type="checkbox">
 		      </span>
           <span>{{task.name}} | {{task.description}}</span>
@@ -37,11 +37,11 @@
     <ul class="list-group">
         <li 
         class="list-group-item" 
-        ng-repeat="task in taskList | filter : completedFilter">
+        ng-repeat="task in taskList | filter: completedFilter">
           <span>
 		        <input 
 		        ng-model="task.isCompleted" 
-		        ng-change="handleTaskUpdate(task)"
+		        ng-change="updateTask(task)"
 		        type="checkbox">
 		      </span>
           <span>{{task.name}} | {{task.description}}</span>
