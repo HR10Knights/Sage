@@ -1,0 +1,26 @@
+<div>
+    <form>
+        <div class="form-group">
+            <label>Task Name</label>
+            <input class="form-control" ng-model="task.name" type="text">
+        </div>
+        <div class="form-group">
+            <label>Task Description</label>
+            <input class="form-control" ng-model="task.description" type="text">
+        </div>
+        <label>Assigned Users</label>
+        <ul class="list-inline">
+            <li ng-repeat="user in task.users" ng-click="removeUser(user._id)">
+                {{user.username}}
+            </li>
+        </ul>
+        <div class="form-group">
+            <label>Assign a User</label>
+            <select class="form-control" ng-model="task.userId">
+                <option ng-repeat="user in projectUsers" value="{{user._id}}">{{user.username}}</option>
+            </select>
+        </div>
+    </form>
+    <button ng-click="handleSubmit(task)" class="btn btn-default">Submit</button>
+    <button ng-click="handleRemove(task)" class="btn btn-danger">Delete Task</button>
+</div>

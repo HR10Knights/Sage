@@ -1,0 +1,14 @@
+<div>
+	<a ui-sref="project({projectId: project._id})"><h5>{{project.name}}</h5></a>
+	<p>{{project.description}}</p>
+	<h6>Users</h6>
+	<ul class="list-unstyled">
+		<li ng-repeat="user in data.projectUsers">{{user.username}}</li>
+	</ul>
+	<h6>Tasks</h6>
+	<ul class="list-unstyled">
+		<li ng-repeat="task in project.tasks">
+			{{task.name}}
+		</li>
+	</ul>
+</div>

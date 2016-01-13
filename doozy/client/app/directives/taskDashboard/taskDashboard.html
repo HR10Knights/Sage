@@ -1,0 +1,23 @@
+<div>
+    <h6>Pending</h6>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="task in taskList | filter: assignedFilter">
+            <task-dashboard-item
+            task="task"
+            handle-change="handleChange"
+            ></task-dashboard-item>
+
+        </li>
+    </ul>
+    <h6>Completed</h6>
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="task in taskList | filter: completedFilter">
+            
+            <task-dashboard-item
+            task="task"
+            handle-change="handleChange"
+            ></task-dashboard-item>
+
+        </li>
+    </ul>
+</div>

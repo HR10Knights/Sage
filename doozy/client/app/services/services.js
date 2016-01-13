@@ -1,78 +1,13 @@
-angular.module('app.services', [])
+angular.module('app.services', [
+  'services.OrganizationFactory',
+  'services.ProjectFactory',
+  'services.UserFactory',
+  'services.TaskFactory',
+  'services.EmailFactory',
+  'services.OrganizationFactory'
+  ])
 
-.factory('Tasks', function($http) {
-
-/*
-API format for a task object (all requests types):
-taskObj = {
-  name: 'task name',
-  users: [userObj, userObj],
-  description: 'bla bla bla',
-  isCompleted: false
-}
-
-required properties: name, isCompleted
-optional properties: users, description
-*/
-
-  var getAll = function() {
-    return $http({
-      method: 'GET',
-      url: '/api/tasks'
-    })
-    .then(function (resp) {
-      return resp.data;
-    });
-  };
-
-  var createTask = function(task) {
-    return $http({
-      method: 'POST',
-      url: '/api/tasks',
-      data: JSON.stringify(task)
-    });
-  };
-
-  var updateTask = function(task) {
-    return $http({
-      method: 'PUT',
-      url: '/api/tasks/' + task._id,
-      data: JSON.stringify(task)
-    });
-  };
-
-  var deleteTask = function(task) {
-    return $http({
-      method: 'DELETE',
-      url: '/api/tasks/' + task._id,
-      data: JSON.stringify(task)
-    });
-  };
-
-
-  return {
-    getAll: getAll,
-    createTask: createTask,
-    updateTask: updateTask,
-    deleteTask: deleteTask
-  };
-})
-.factory('Users', function ($http) {
-  var getAll = function () {
-    return $http({
-      method: 'GET',
-      url: '/api/users'
-    })
-    .then(function (resp) {
-      return resp.data;
-    });
-  };
-  return {
-    getAll: getAll
-  };
-})
-
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location, $state, $window) {
   var teamName = '';
 
   // sends user login input to db
@@ -84,7 +19,6 @@ optional properties: users, description
     })
     // if successful, send encoded token back to auth.js
     .then(function (resp) {
-      teamName = user.teamname;
       return resp.data.token;
     });
   };
@@ -97,7 +31,6 @@ optional properties: users, description
     })
     // if successful, send encoded token back to auth.js
     .then(function (resp) {
-      teamName = user.teamname;
       return resp.data.token;
     });
   };
@@ -111,11 +44,13 @@ optional properties: users, description
   // clears web token and redirect to signin
   var signout = function () {
     $window.localStorage.removeItem('auth-token');
-    $location.path('/signin');
+    $state.go('signin');
   };
+  
   var getTeamName = function () {
     return teamName;
   };
+
 
   return {
     signin: signin,
@@ -123,5 +58,14 @@ optional properties: users, description
     isAuth: isAuth,
     signout: signout,
     getTeamName: getTeamName
+  };
+})
+// Factory function to change the state which helps in the UI-Router
+.factory('State', function ($stateProvider, $scope) {
+  var changeState = function (state) {
+    $state.go(state);
+  };
+  return {
+    changeState: changeState
   };
 });

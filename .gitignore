@@ -19,3 +19,10 @@ node_modules/
 client/lib
 doozy/client/lib
 npm-debug.log
+doozy/dist/**/*
+sandbox.html
+
+
+
+test/integration/apitasks.old.js 
+

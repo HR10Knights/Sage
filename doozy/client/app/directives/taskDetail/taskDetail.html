@@ -1,0 +1,41 @@
+<div>
+		<h6>Staging</h6>
+    <ul class="list-group">
+        <li 
+        class="list-group-item" 
+        ng-repeat="task in taskList | filter: stagingFilter">
+          
+          <task-detail-item
+          task="task"
+          handle-task-edit="handleTaskEdit"
+          ></task-detail-item>
+
+        </li>
+    </ul>
+    <h6>Assigned</h6>
+    <ul class="list-group">
+        <li 
+        class="list-group-item" 
+        ng-repeat="task in taskList | filter: assignedFilter">
+          
+          <task-detail-item
+          task="task"
+          handle-task-edit="handleTaskEdit"
+          ></task-detail-item>
+
+        </li>
+    </ul>
+    <h6>Completed</h6>
+    <ul class="list-group">
+        <li 
+        class="list-group-item" 
+        ng-repeat="task in taskList | filter: completedFilter">
+          
+          <task-detail-item
+          task="task"
+          handle-task-edit="handleTaskEdit"
+          ></task-detail-item>
+          
+        </li>
+    </ul>
+</div>

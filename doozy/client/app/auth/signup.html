@@ -1,27 +1,9 @@
-<div data-ng-controller="AuthController" flex layout="column" layout-align="center center" ng-cloak>
-  <h1 style="text-align:center" class="signheader">Sage</h1>
-  <p class="subheader">Sign Up</p>
-  <div flex-sm="100" flex-gt-sm="90" flex-gt-md="70" flex-gt-lg="50" class="md-whiteframe-z2">
-    <md-content class="md-padding">
-        <form name="loginForm" ng-submit="signup(user)">
-          <md-input-container>
-            <label>Team name:</label>
-            <input ng-model="user.teamname" required>
-          </md-input-container><br>
-          <md-input-container>
-            <label>Name:</label>
-            <input ng-model="user.username" required>
-          </md-input-container><br>
-          <md-input-container>
-            <label>Password:</label>
-            <input type="password" ng-model="user.password" required>
-          </md-input-container><br>
-          <md-button type="submit" class="md-accent" id="signInBtn"
-            ng-class="{'md-raised md-accent': (loginForm.$dirty && loginForm.$valid) }"
-            aria-label="Sign Up">Sign Up</md-button>
-        </form>
-    </md-content>
-  </div>
-  <br><br>
-  Already have an account?<a href="#/signin">Sign in</a>
+<h1>Sign Up</h1>
+<div>
+	<form ng-submit="signup()">
+		<input ng-model="user.username" type="text">
+		<input ng-model="user.password" type="password">
+		<input type="submit">
+	</form>
+	<a ui-sref="signin">Sign In</a>
 </div>

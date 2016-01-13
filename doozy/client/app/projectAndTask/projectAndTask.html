@@ -1,0 +1,35 @@
+<div class="container">
+    <nav-bar></nav-bar>
+    
+    <section>
+        <h2>Project Name: {{data.project.name}}</h2>
+    </section>
+
+    <section>
+        <user-manager 
+        current-users="data.projectUsers" 
+        user-list="data.orgUsers" 
+        handle-submit="addUserToProject" 
+        handle-remove="removeUserFromProject">
+        </user-manager>
+    </section>
+    
+    <section>
+        <h4>Add Task</h4>
+        
+        <task-manager
+        task="data.task"
+        handle-submit="submitTask"
+        handle-remove="removeTask"
+        project-users="data.projectUsers"
+        ></task-manager>
+    </section>
+
+    <section>
+        <task-detail
+        task-list="data.project.tasks"
+        handle-task-edit="loadTaskDetails"
+        >
+        </task-detail>
+    </section>
+</div>

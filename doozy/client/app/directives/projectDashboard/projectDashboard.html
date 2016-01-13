@@ -1,0 +1,16 @@
+<div>
+	<ul class="list-group">
+		<li ng-repeat="project in projectList" class="list-group-item">
+			<a ui-sref="project({projectId: project._id})"><h5>{{project.name}}</h5></a>
+			<div>
+				<h6>Pending Tasks</h6>
+				<ul class="list-unstyled">
+					<li ng-repeat="task in project.tasks | filter : isPending">
+						<a ui-sref="project({projectId: project._id, taskId: task._id})">
+						{{task.name}}</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>

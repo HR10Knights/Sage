@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+console.log("=============");
+console.log(process.env.MONGOLAB_URI);
+console.log(process.env);
 if (process.env.MONGOLAB_URI) {
   mongoose.connect(process.env.MONGOLAB_URI);
 } else if (process.env.NODE_ENV === 'test') {
@@ -12,29 +15,8 @@ if (process.env.MONGOLAB_URI) {
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-
-db.usersSchema = new Schema ({
-  id: Number,
-  tasks: [ {type: mongoose.Schema.ObjectId, ref : 'Task'} ],
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  created_at: Date,
-  updated_at: Date
-});
-
-
-db.teamsSchema = new Schema({
-  id: Number,
-  users: [db.usersSchema],
-  name: {type: String, required: true, unique: true},
-  created_at: Date,
-  updated_at: Date
-});
-
-
-db.tasksSchema = new Schema({
-  id: Number,
-  users: [ {type: mongoose.Schema.ObjectId, ref : 'User'} ],
+// Tasks
+var tasksSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -55,19 +37,37 @@ db.tasksSchema = new Schema({
     type: Boolean,
     default: false
   },
-  // due_date: Date, // TODO Add this
-  created_at: Date,
-  updated_at: Date
+  isAssigned: {
+    type: Boolean,
+    default: false
+  },
+  deadline: {
+    type: Date,
+    required: false,
+    unique: false
+  },
+  created_at: {
+    type: Date,
+    required: true,
+    default: Date.now
+  },
+  project_id: {
+    type: Schema.ObjectId,
+    ref: 'Project'
+  },
+  users: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }]
 });
 
+db.tasksSchema = tasksSchema;
 
-db.projectsSchema = new Schema({
-  id: Number,
-  tasks: [db.tasksSchema],
+// Projects
+var projectsSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
     validate: [
       function(name) {
         return name.trim().length >= 3;
@@ -77,18 +77,71 @@ db.projectsSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
-    unique: true,
-    validate: [
-      function(description) {
-        return description.trim().length >= 3;
-      },
-      'Description too short'
-    ]
+    required: false,
   },
-  created_at: Date,
-  updated_at: Date
+  teamLead: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  org_id: {
+    type: Schema.ObjectId,
+    ref: 'Org'
+  },
+  tasks: [{
+    type: Schema.ObjectId,
+    ref: 'Task'
+  }],
+  deadline: {
+    type: Date
+  },
+  users: [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }]
 });
 
+db.projectsSchema = projectsSchema;
+
+// Users
+var usersSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  organization: [{
+    type: Schema.ObjectId,
+    ref: 'Org'
+  }],
+  project_list: [{
+    type: Schema.ObjectId,
+    ref: 'Project'
+  }],
+  task_list: [{
+    type: Schema.ObjectId,
+    ref: 'Task'
+  }]
+});
+
+db.usersSchema = usersSchema;
+
+
+// Organization
+var orgSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  projects: [{
+    type: Schema.ObjectId,
+    ref: 'Project'
+  }]
+});
+
+db.orgSchema = orgSchema;
 
 module.exports = db;

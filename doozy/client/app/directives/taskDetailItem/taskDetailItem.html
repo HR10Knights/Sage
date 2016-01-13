@@ -1,0 +1,12 @@
+<div>
+	<span>
+	  <input 
+	  ng-model="task.isCompleted" 
+	  ng-change="updateTask(task)" 
+	  type="checkbox">
+	</span>
+	<span>{{task.name}} | {{task.description}}</span>
+	<div>
+	    <a href="#" ng-click="handleTaskEdit(task)">Edit</a>
+	</div>
+</div>

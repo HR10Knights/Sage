@@ -3,12 +3,22 @@ var router = express.Router();
 
 var projectController = require('../controllers/projectController');
 
-
+// Gets all projects
 router.get('/', projectController.allProjects);
 
-// To add a project by curl // NOTE: Untested
-// curl -H "Content-Type: application/json" -X POST -d '{"name":"my task", "description":"blahblah"}' http://localhost:3000/api/projects/create
-router.post('/create', projectController.createProject);
+// Get a project by Id
+router.get('/:id', projectController.getProjectById);
 
+// Gets all users for a project
+router.get('/users/:projectId', projectController.getUserByProjectId);
+
+// To add a project to an organization
+router.post('/create', projectController.createProjectByOrg);
+
+// Update a project
+router.put('/', projectController.updateProject);
+
+// Delete a Project
+router.delete('/:id', projectController.removeProject);
 
 module.exports = router;

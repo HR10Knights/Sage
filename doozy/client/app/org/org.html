@@ -1,0 +1,19 @@
+<div class="container">
+    <nav-bar></nav-bar>
+    <h1>Org</h1>
+    
+    <section>
+        <h3>Create New Organization</h3>
+        <div class="form-group">
+        	<form ng-submit="newOrganization(newOrg)">
+        	    <input ng-model="newOrg.title" class="form-control" type="text">
+        	    <input type="submit" class="btn btn-primary">
+        	</form>
+        </div>
+    </section>
+
+    <div>
+        <h3>Your Organizations</h3>
+        <organization-card ng-repeat="org in data.organization" org="org"></organization-card>
+    </div>
+</div>

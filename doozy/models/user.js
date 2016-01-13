@@ -1,6 +1,5 @@
 var db = require('../config');
 var bcrypt = require('bcrypt-nodejs');
-var Promise = require('bluebird');
 var mongoose = require('mongoose');
 
 
@@ -10,6 +9,15 @@ db.usersSchema.pre('save', function(next, done) {
       that.password = hash;
       next();
     });
+});
+
+db.usersSchema.pre('init', function(next, data) {
+  User.populate(data, {
+    path: 'organization project_list task_list'
+  }, function(err, user) {
+    data = user;
+    next();
+  });
 });
 
 var User = mongoose.model('User', db.usersSchema);

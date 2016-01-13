@@ -1,0 +1,19 @@
+<div class="container">
+	<nav-bar></nav-bar>
+	<h1>landing</h1>
+
+	<h3>Welcome {{user.username}}</h3>
+	<h6>Your Tasks</h6>
+	
+	<task-dashboard
+	task-list="user.task_list"
+	handle-change="initialize"
+	>
+	</task-dashboard>
+	
+	<h6>Your Projects</h6>
+	<project-dashboard project-list="user.project_list"></project-dashboard>
+
+	<h6>Your Organizations</h6>
+	<organization-dashboard org-list="user.organization"></organization-dashboard>
+</div>
