@@ -12,6 +12,15 @@ db.usersSchema.pre('save', function(next, done) {
     });
 });
 
+db.usersSchema.pre('init', function(next, data) {
+  User.populate(data, {
+    path: 'organization project_list task_list'
+  }, function(err, user) {
+    data = user;
+    next();
+  });
+});
+
 var User = mongoose.model('User', db.usersSchema);
 
 

@@ -3,26 +3,22 @@ var router = express.Router();
 
 var taskController = require('../controllers/taskController');
 
-
-// List tasks
-router.get('/', taskController.allTasks);
-
-// Create task
-// curl -H "Content-Type: application/json" -X POST -d '{"name":"my task 2","description":"my description"}' http://localhost:3000/api/tasks
-router.post('/', taskController.createTask);
-
 // View task
-router.get('/:id', taskController.idToTask);
+router.get('/:id', taskController.getTaskById);
 
 // Update task
-router.put('/:id', taskController.updateTask);
+router.put('/', taskController.updateTaskById);
 
-// Delete task
-router.delete('/:id', taskController.deleteTask);
+// View all assigned users
+router.get('/users/:taskId', taskController.getUserByTaskId);
 
-// Assign task to user
-// curl -H "Content-Type: application/json" -X POST -d '{"user":"564cd72524d8b619223cd11b","task":"564d0970c7de37cd2bdb3ec2"}' http://localhost:3000/api/tasks/assign
-router.post('/assign', taskController.assignTask);
+// Add a task to a project
+router.post('/create', taskController.createTaskByProject);
 
+//Check to see if task is assigned
+router.post('/assign', taskController.isTaskAssigned);
+
+// Remove a task
+router.delete('/:id', taskController.removeTask);
 
 module.exports = router;

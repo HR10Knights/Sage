@@ -1,0 +1,16 @@
+<div>
+    <div>
+        <a ui-sref="org"><span>{{task.organization.title}}</span></a> |
+        <a ui-sref="project({projectId: task.project._id})"><span>{{task.project.name}}</span></a>
+    </div>
+    <span>
+        <input 
+        ng-model="task.isCompleted" 
+        ng-change="updateTask(task)"
+        type="checkbox">
+    </span>
+    <span>{{task.name}} | {{task.description}}</span>
+    <div>
+        <a ui-sref="project({projectId: task.project._id, taskId:task._id})">Edit</a>
+    </div>
+</div>

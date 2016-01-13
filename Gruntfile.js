@@ -7,6 +7,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-mocha-istanbul');
+  grunt.loadNpmTasks('grunt-wiredep');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -22,7 +26,10 @@ module.exports = function(grunt) {
       options: {
         globals: {
           eqeqeq: true
-        }
+        },
+        ignores: ['doozy/dist/**/*',
+                  'doozy/seed.js'
+        ]
       }
     },
     mochaTest: {
@@ -61,15 +68,72 @@ module.exports = function(grunt) {
         tasks: [ 'test' ]
       }
     },
-    mocha_istabul: {
+    mocha_istanbul: {
       coverage: {
         src: 'test',
         options: {
-          
+
+        }
+      }
+    },
+
+
+    // Injects all bower dependencies into index.html
+    // Injects between <!-- bower:css / js --><!-- endbower -->
+    wiredep: {
+      task :{
+        src: ['doozy/client/index.html']
+      }
+    },
+
+    // Remove all files from the dist folder
+    clean: ['doozy/dist/**/*'],
+
+    concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        files: {
+          // Concat all js files in client
+          'doozy/dist/scripts/app.js': ['doozy/client/app/**/*.js'],
+        }
+      }
+    },
+
+    uglify: {
+      dist: {
+        files: {
+          // Minify concatenated files
+          'doozy/dist/scripts/app.min.js': ['doozy/dist/scripts/app.js'],
+        }
+      }
+    },
+
+    cssmin: {
+      target: {
+        files: {
+          'doozy/dist/styles/style.min.css': ['doozy/client/styles/**/*.css']
         }
       }
     }
+
   });
+
+  // Runs jshint, concats and minifies js and css to dist folder.
+  // jsHint removed bc error in tasks.js
+  grunt.registerTask('build', [
+    'clean',
+    // 'jshint',
+    'wiredep',
+    'concat',
+    'uglify',
+    'cssmin',
+  ]);
+
+  grunt.registerTask('hint', [
+    'jshint'
+    ]);
 
   grunt.registerTask('test', [
     'mochaTest'

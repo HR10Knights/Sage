@@ -1,0 +1,13 @@
+<div>
+	<ul class="list-group">
+		<li ng-repeat="org in orgList" class="list-group-item">
+			<a ui-sref="org"><h5>{{org.title}}</h5></a>
+			<span>Current Projects</span>
+			<ul class="list-inline">
+				<li ng-repeat="project in org.projects">
+					<a ui-sref="project({projectId: project._id})">{{project.name}}</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

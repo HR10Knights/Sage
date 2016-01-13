@@ -1,0 +1,29 @@
+<div>
+	<h3>{{org.title}}</h3>
+	
+	<!-- User Manager Directive -->
+	<user-manager 
+		user-list="data.users" 
+		current-users="data.orgUsers" 
+		handle-submit="addUserToOrganization" 
+		handle-remove="removeUserFromOrganization">
+	</user-manager>
+	
+	<p>Projects</p>
+	<ul class="list-group">
+		<li ng-repeat="project in org.projects" class="list-group-item">
+			<project-card org="org" project="project"></project-card>
+		</li>
+	</ul>
+	
+	<p>Add Project</p>
+	<div class="form-group">
+		<form ng-submit="newProject(data.project)">
+			<label>Title</label>
+			<input ng-model="data.project.name" type="text"  class="form-control">
+			<label>Description</label>
+			<input ng-model="data.project.description" type="text" class="form-control">
+			<input type="submit" class="btn btn-default">
+		</form>
+	</div>
+</div>

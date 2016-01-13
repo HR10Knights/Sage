@@ -7,9 +7,10 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var teams = require('./routes/teams');
+var orgs = require('./routes/orgs');
 var tasks = require('./routes/tasks');
 var projects = require('./routes/projects');
+var emails = require('./routes/emails');
 var util = require('./util');
 var app = express();
 // var expressJwt = require('express-jwt');
@@ -26,17 +27,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Client Route
-app.use(express.static(path.join(__dirname, '/client')));
 // app.use(expressJwt({ secret: 'secret' }));
+app.use(express.static(path.join(__dirname + '/client')));
 
 // Routing
 app.use('/api', routes);
+app.use('/api/orgs', orgs);
+app.use('/api/projects', projects);
+app.use('/api/users', util.decode);
 app.use('/api/users', users);
-app.use('/api/teams', teams);
+// Might need to modify where decoding happens (on user?)
 app.use('/api/tasks', util.decode);
 app.use('/api/tasks', tasks);
-app.use('/api/projects', projects);
-
+app.use('/api/email', emails);
+app.use('/*/', express.static(path.join(__dirname + '/client/index.html')));
 // TODO refactor into a controller
 // TODO remove this
 // checkAuth = util.checkAuth;
