@@ -11,6 +11,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-babel');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -24,29 +26,30 @@ module.exports = function(grunt) {
         'test/**/*.js',
       ],
       options: {
+        esnext: true,
         globals: {
           eqeqeq: true
         },
         ignores: ['doozy/dist/**/*',
-                  'doozy/seed.js'
+          'doozy/seed.js'
         ]
       }
     },
-    
+
     mochaTest: {
-        test: {
-          options: {
-              reporter: 'nyan',
-              growl: true,
-              clearRequireCache: true
-          },
-          src: ['test/unit/*.js', 'test/integration/*.js']
-        }
+      test: {
+        options: {
+          reporter: 'nyan',
+          growl: true,
+          clearRequireCache: true
+        },
+        src: ['test/unit/*.js', 'test/integration/*.js']
+      }
     },
     nodemon: {
-        dev: {
-            script: 'doozy/index.js'
-        }
+      dev: {
+        script: 'doozy/index.js'
+      }
     },
     express: {
       dev: {
@@ -58,15 +61,15 @@ module.exports = function(grunt) {
     },
     watch: {
       server: {
-        files: [ 'doozy/**' ],
-        tasks: [ 'test', 'express:dev' ],
+        files: ['doozy/**'],
+        tasks: ['test', 'express:dev'],
         options: {
           spawn: false
         }
       },
       test: {
-        files: [ 'test/**/*.js' ],
-        tasks: [ 'test' ]
+        files: ['test/**/*.js'],
+        tasks: ['test']
       }
     },
     mocha_istanbul: {
@@ -78,12 +81,22 @@ module.exports = function(grunt) {
       }
     },
 
+    copy: {
+      main: {
+        files : [
+          {expand: true, cwd:'doozy/client/', src: ['lib/**', 'index.html', 'assets/**', 'app/**/*.html'], dest: 'doozy/dist/'},
+        ]
+      }
+    },
 
     // Injects all bower dependencies into index.html
     // Injects between <!-- bower:css / js --><!-- endbower -->
     wiredep: {
-      task :{
-        src: ['doozy/client/index.html']
+      task: {
+        src: ['doozy/dist/index.html'],
+        options: {
+          ignorePath : '../client'
+        }
       }
     },
 
@@ -97,7 +110,19 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // Concat all js files in client
-          'doozy/dist/scripts/app.js': ['doozy/client/app/**/*.js'],
+          'doozy/dist/scripts/app.js': ['doozy/client/app/app.js', 'doozy/client/app/**/*.js'],
+        }
+      }
+    },
+
+    babel: {
+      options: {
+        sourceMap: true,
+        presets: ['es2015']
+      },
+      dist: {
+        files: {
+          'doozy/dist/scripts/app.bundle.js': 'doozy/dist/scripts/app.js'
         }
       }
     },
@@ -106,7 +131,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           // Minify concatenated files
-          'doozy/dist/scripts/app.min.js': ['doozy/dist/scripts/app.js'],
+          'doozy/dist/scripts/app.min.js': ['doozy/dist/scripts/app.bundle.js'],
         }
       }
     },
@@ -126,15 +151,16 @@ module.exports = function(grunt) {
   grunt.registerTask('build', [
     'clean',
     'jshint',
+    'copy',
     'wiredep',
     'concat',
-    'uglify',
+    'babel',
     'cssmin',
   ]);
 
   grunt.registerTask('hint', [
     'jshint'
-    ]);
+  ]);
 
   grunt.registerTask('test', [
     'mochaTest'

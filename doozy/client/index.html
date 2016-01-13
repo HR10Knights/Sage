@@ -5,52 +5,26 @@
     <meta charset="utf-8" />
     <title>Sage</title>
     <base href="/" target="_blank">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Inject Bower CSS dependencies -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    
     <link rel="stylesheet" type="text/css" href="styles/style.css" />
     <link href='https://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+
     <!-- the ng-view directive is where our templates will be loaded into when naviagted to
     -->
     <div ui-view></div>
-    <!-- Angular Material Dependencies -->
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.0.0/ui-bootstrap-tpls.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.js"></script>
-    <!-- Angular Material Javascript using GitCDN to load directly from `bower-material/master` -->
-    <script src="lib/angular-route/angular-route.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.17.0/TweenMax.min.js"></script>
-    <script src="lib/angular-animate/angular-animate.js"></script>
-    <script src="lib/ngFx/dist/ngFx.js"></script>
     
-    <script src="app/directives/navBar/navBar.js"></script>
-    <script src="app/directives/organizationCard/organizationCard.js"></script>
-    <script src="app/directives/organizationDashboard/organizationDashboard.js"></script>
-    <script src="app/directives/projectCard/projectCard.js"></script>
-    <script src="app/directives/projectDashboard/projectDashboard.js"></script>
-    <script src="app/directives/taskDashboard/taskDashboard.js"></script>
-    <script src="app/directives/taskDashboardItem/taskDashboardItem.js"></script>
-    <script src="app/directives/taskDetail/taskDetail.js"></script>
-    <script src="app/directives/taskDetailItem/taskDetailItem.js"></script>
-    <script src="app/directives/taskManager/taskManager.js"></script>
-    <script src="app/directives/userManager/userManager.js"></script>
-    
+    <!-- Inject Bower JS dependencies -->
+    <!-- bower:js -->
+    <!-- endbower -->
 
-    <script src="app/auth/auth.js"></script>
-<!--     // <script src="app/tasks/tasks.js"></script> -->
-    <script src="app/services/email.js"></script>
-    <script src="app/services/users.js"></script>
-    <script src="app/services/organization.js"></script>
-    <script src="app/services/projects.js"></script>
-    <script src="app/services/tasks.js"></script>
-    <script src="app/services/services.js"></script>
-    <script src="app/org/org.js"></script>
-    <script src="app/projectAndTask/projectAndTask.js"></script>
-    <script src="app/landing/landing.js"></script>
-    <script src="app/app.js"></script>
+    <script src="scripts/app.bundle.js"></script>
 </body>
 
 </html>

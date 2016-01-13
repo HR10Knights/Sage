@@ -12,7 +12,7 @@ angular.module('directives.projectDashboard', [])
   })
   .controller('ProjectDashboardCtrl', ['$scope', function($scope) {
     
-    $scope.$watch('projectList', function(list){
+    $scope.$watch('projectList', (list) => {
       $scope.projectList = list;
     });
 

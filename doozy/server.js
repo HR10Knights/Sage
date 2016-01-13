@@ -28,7 +28,7 @@ app.use(cookieParser());
 
 // Client Route
 // app.use(expressJwt({ secret: 'secret' }));
-app.use(express.static(path.join(__dirname + '/client')));
+app.use(express.static(path.join(__dirname + '/dist')));
 
 // Routing
 app.use('/api', routes);
@@ -40,7 +40,7 @@ app.use('/api/users', users);
 app.use('/api/tasks', util.decode);
 app.use('/api/tasks', tasks);
 app.use('/api/email', emails);
-app.use('/*/', express.static(path.join(__dirname + '/client/index.html')));
+app.use('/*/', express.static(path.join(__dirname + '/dist/index.html')));
 // TODO refactor into a controller
 // TODO remove this
 // checkAuth = util.checkAuth;

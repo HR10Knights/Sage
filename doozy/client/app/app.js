@@ -1,4 +1,5 @@
 angular.module('app', [
+  'ui.router',
   'directives.navBar',
   'directives.organizationCard',
   'directives.organizationDashboard',
@@ -11,15 +12,10 @@ angular.module('app', [
   'directives.taskManager',
   'directives.userManager',
   'app.services',
-  // 'app.tasks',
   'app.landingCtrl',
   'app.auth',
-  'ui.router',
   'app.org',
   'app.projectAndTask',
-  'ngRoute',
-  'ngAnimate',
-  'ngFx'
 ])
 .config(function($stateProvider, $httpProvider, $locationProvider) {
 
