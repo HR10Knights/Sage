@@ -5,10 +5,6 @@ var NavBarCtrl = function(Auth) {
     'state': 'org'
   },
   {
-    'name': 'Tasks',
-    'state': 'tasks'
-  },
-  {
     'name': 'Dashboard',
     'state': 'landing'
   }]

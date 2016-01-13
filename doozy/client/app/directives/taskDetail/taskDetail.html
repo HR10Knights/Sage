@@ -4,16 +4,12 @@
         <li 
         class="list-group-item" 
         ng-repeat="task in taskList | filter: stagingFilter">
-          <span>
-		        <input 
-		        ng-model="task.isCompleted" 
-		        ng-change="updateTask(task)" 
-		        type="checkbox">
-		      </span>
-          <span>{{task.name}} | {{task.description}}</span>
-          <div>
-          	<a href="#" ng-click="handleTaskEdit(task)">Edit</a>
-          </div>
+          
+          <task-detail-item
+          task="task"
+          handle-task-edit="handleTaskEdit"
+          ></task-detail-item>
+
         </li>
     </ul>
     <h6>Assigned</h6>
@@ -21,16 +17,12 @@
         <li 
         class="list-group-item" 
         ng-repeat="task in taskList | filter: assignedFilter">
-          <span>
-		        <input 
-		        ng-model="task.isCompleted" 
-		        ng-change="updateTask(task)"
-		        type="checkbox">
-		      </span>
-          <span>{{task.name}} | {{task.description}}</span>
-          <div>
-          	<a href="#" ng-click="handleTaskEdit(task)">Edit</a>
-          </div>
+          
+          <task-detail-item
+          task="task"
+          handle-task-edit="handleTaskEdit"
+          ></task-detail-item>
+
         </li>
     </ul>
     <h6>Completed</h6>
@@ -38,16 +30,12 @@
         <li 
         class="list-group-item" 
         ng-repeat="task in taskList | filter: completedFilter">
-          <span>
-		        <input 
-		        ng-model="task.isCompleted" 
-		        ng-change="updateTask(task)"
-		        type="checkbox">
-		      </span>
-          <span>{{task.name}} | {{task.description}}</span>
-          <div>
-          	<a href="#" ng-click="handleTaskEdit(task)">Edit</a>
-          </div>
+          
+          <task-detail-item
+          task="task"
+          handle-task-edit="handleTaskEdit"
+          ></task-detail-item>
+          
         </li>
     </ul>
 </div>

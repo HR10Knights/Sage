@@ -11,9 +11,14 @@ angular.module('directives.projectCard', [])
       }
     };
   })
-  .controller('ProjectCardController', ['$scope', 'Users', 'Project', 'Organization', function($scope, Users, Project, Organization) {
+  .controller('ProjectCardController', ['$scope', 'Project', function($scope, Project) {
+    
     $scope.data = {
       projectUsers: []
+    };
+
+    var initialize = function(){
+      $scope.updateUserList();
     };
 
     $scope.updateUserList = function() {
@@ -23,26 +28,5 @@ angular.module('directives.projectCard', [])
         });
     };
 
-    Organization.getUserByOrganizationId($scope.org._id)
-      .then(function(users) {
-        $scope.data.orgUsers = users;
-      });
-
-    $scope.addUser = function(userId) {
-      if ($scope.data.newUser) {
-        Users.addProjectToUser({
-          userId: userId,
-          projectId: $scope.project._id
-        }).then(function() {
-          $scope.updateUserList();
-        });
-      }
-    };
-
-    $scope.goToProject = function(projectId){
-      Project.setCurrentProject(projectId)
-    }
-
-    $scope.updateUserList();
-
+    initialize();
   }]);

@@ -38,7 +38,6 @@ angular.module('app.org', [])
 
   $scope.populateUserData = function() {
     $scope.data.organization = $scope.user.organization;
-    console.log($scope.data);
   };
 
   $scope.newOrganization = function(data) {

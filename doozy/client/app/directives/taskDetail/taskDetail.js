@@ -19,14 +19,6 @@ angular.module('directives.taskDetail', [])
       $scope.taskList = newList;
     });
 
-    // delete a task from the database
-    $scope.updateTask = function(task) {
-      return Tasks.updateTaskById(task)
-        .catch(function(err) {
-          console.log(err);
-        });
-    };
-
     // if a task is not completed and does not have any users, it belongs in the Staging area
     //&& !Tasks.isTaskAssigned({id: task._id});
     $scope.stagingFilter = function(task) {

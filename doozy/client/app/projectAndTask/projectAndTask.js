@@ -81,7 +81,7 @@ angular.module('app.projectAndTask', [])
   };
 
   $scope.submitTask = function(data) {
-    console.log('Submit');
+
     if (data._id) {
       if (data.userId) {
         $scope.assignUserToTask(data.userId, data._id);
