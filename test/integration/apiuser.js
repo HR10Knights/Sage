@@ -71,7 +71,7 @@ describe('User API (api/projects) ', function() {
           if (err) console.log(err);
           expect(user.username).to.equal('newuser');
           done();
-        })
+        });
       });
   });
 
@@ -96,7 +96,7 @@ describe('User API (api/projects) ', function() {
           organizationId: org._id
         })
         .expect(200)
-        .end(done)
+        .end(done);
     });
 
     it('should not add an organization that doesn\'t exist', function(done) {
@@ -107,7 +107,7 @@ describe('User API (api/projects) ', function() {
           organizationId: mongoose.Types.ObjectId()
         })
         .expect(404)
-        .end(done)
+        .end(done);
     });
 
     it('should find all organizations for the user', function(done) {
@@ -116,7 +116,7 @@ describe('User API (api/projects) ', function() {
         .expect(function(res) {
           expect(res.body.organization[0].title).to.equal('org');
         })
-        .end(done)
+        .end(done);
     });
 
     it('should find users for an organization', function(done) {
@@ -126,7 +126,7 @@ describe('User API (api/projects) ', function() {
           expect(res.body.length).to.equal(1);
           expect(res.body[0].username).to.equal('newuser');
         })
-        .end(done)
+        .end(done);
     });
   });
 
@@ -152,7 +152,7 @@ describe('User API (api/projects) ', function() {
           projectId: project._id
         })
         .expect(200)
-        .end(done)
+        .end(done);
     });
 
     it('should not add an project that doesn\'t exist', function(done) {
@@ -163,7 +163,7 @@ describe('User API (api/projects) ', function() {
           projectId: mongoose.Types.ObjectId()
         })
         .expect(404)
-        .end(done)
+        .end(done);
     });
 
     it('should find all projects for the user', function(done) {
@@ -207,7 +207,7 @@ describe('User API (api/projects) ', function() {
           taskId: task._id
         })
         .expect(200)
-        .end(done)
+        .end(done);
     });
 
     it('should not add an task that doesn\'t exist', function(done) {
@@ -218,7 +218,7 @@ describe('User API (api/projects) ', function() {
           taskId: mongoose.Types.ObjectId()
         })
         .expect(404)
-        .end(done)
+        .end(done);
     });
 
     it('should find all tasks for the user', function(done) {
@@ -227,7 +227,7 @@ describe('User API (api/projects) ', function() {
         .expect(function(res) {
           expect(res.body.task_list[0].name).to.equal('task');
         })
-        .end(done)
+        .end(done);
     });
 
     it('should find all users for the task', function(done) {

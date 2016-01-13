@@ -4,7 +4,7 @@ angular.module('app.org', [])
   $scope.showAddOrgButton = true;
   $scope.showOrgForm = false;
 
-  $scope.user;
+  $scope.user = {};
   $scope.data = {};
   $scope.newOrg = {};
 
@@ -47,7 +47,7 @@ angular.module('app.org', [])
         return Users.addOrganizationToUser({
           orgId: org._id,
           userId: $scope.user._id
-        })
+        });
       })
       .then(function() {
         $scope.resetOrgDetails();

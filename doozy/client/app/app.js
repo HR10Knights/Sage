@@ -11,7 +11,7 @@ angular.module('app', [
   'directives.taskManager',
   'directives.userManager',
   'app.services',
-  'app.tasks',
+  // 'app.tasks',
   'app.landingCtrl',
   'app.auth',
   'ui.router',
@@ -34,12 +34,12 @@ angular.module('app', [
       controller: 'AuthController',
       templateUrl: '/app/auth/signup.html'
     })
-    .state('tasks', {
-      url: '/tasks',
-      controller: 'TasksController',
-      templateUrl: 'app/tasks/tasks.html',
-      authenticate: true,
-    })
+    // .state('tasks', {
+    //   url: '/tasks',
+    //   controller: 'TasksController',
+    //   templateUrl: 'app/tasks/tasks.html',
+    //   authenticate: true,
+    // })
     .state('project', {
       url: '/project',
       templateUrl: '/app/projectAndTask/projectAndTask.html',

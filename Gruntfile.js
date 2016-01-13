@@ -32,6 +32,7 @@ module.exports = function(grunt) {
         ]
       }
     },
+    
     mochaTest: {
         test: {
           options: {
@@ -124,7 +125,7 @@ module.exports = function(grunt) {
   // jsHint removed bc error in tasks.js
   grunt.registerTask('build', [
     'clean',
-    // 'jshint',
+    'jshint',
     'wiredep',
     'concat',
     'uglify',

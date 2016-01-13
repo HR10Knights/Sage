@@ -9,7 +9,7 @@ angular.module('directives.taskDashboardItem', [])
       	task: '=',
         handleChange: '='
       }
-    }
+    };
   })
   .controller('TaskDashboardItemCtrl', ['$scope', function($scope) {
     // delete a task from the database
@@ -24,4 +24,4 @@ angular.module('directives.taskDashboardItem', [])
           console.log(err);
         });
     };
-  }])
+  }]);

@@ -26,7 +26,7 @@ angular.module('services.ProjectFactory', [])
 
     var getCurrentProject = function(){
       return currentProjectId;
-    }
+    };
 
     var getProjectById = function(projectId) {
       return $http({

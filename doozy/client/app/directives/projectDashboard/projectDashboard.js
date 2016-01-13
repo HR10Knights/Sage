@@ -8,7 +8,7 @@ angular.module('directives.projectDashboard', [])
       scope: {
       	projectList: '='
       }
-    }
+    };
   })
   .controller('ProjectDashboardCtrl', ['$scope', function($scope) {
     
@@ -19,4 +19,4 @@ angular.module('directives.projectDashboard', [])
     $scope.isPending = function(task){
       return !task.isCompleted;
     };
-  }])
+  }]);

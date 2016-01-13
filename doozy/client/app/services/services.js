@@ -67,5 +67,5 @@ angular.module('app.services', [
   };
   return {
     changeState: changeState
-  }
+  };
 });

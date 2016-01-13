@@ -89,7 +89,7 @@ module.exports = {
 
       task.name = req.body.name;
       task.description = req.body.description;
-      task.isAssigned = req.body.isAssigned
+      task.isAssigned = req.body.isAssigned;
       task.isCompleted = req.body.isCompleted;
 
       if (req.body.assigned) {
@@ -116,7 +116,7 @@ module.exports = {
         return res.status(205).send(false);
       }
       res.status(205).send(true);
-    })
+    });
   },
 
   assignTask: function(req, res, next) {

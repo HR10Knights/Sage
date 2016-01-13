@@ -42,7 +42,7 @@ angular.module('services.TaskFactory', [])
         data: JSON.stringify(data)
       })
       .then(function(resp){
-        return resp.data
+        return resp.data;
       });
     },
 

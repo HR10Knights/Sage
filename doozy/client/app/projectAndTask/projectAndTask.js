@@ -92,7 +92,7 @@ angular.module('app.projectAndTask', [])
       $scope.createNewTask(data)
         .then(initialize);
     }
-  }
+  };
 
   $scope.createNewTask = function(data) {
     data.projectId = $scope.data.project._id;
@@ -108,7 +108,7 @@ angular.module('app.projectAndTask', [])
     return Users.addTaskToUser({
       userId: userId,
       taskId: taskId
-    })
+    });
   };
 
   // delete a task from the database

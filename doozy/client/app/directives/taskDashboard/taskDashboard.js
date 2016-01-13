@@ -26,4 +26,4 @@ angular.module('directives.taskDashboard', [])
     $scope.completedFilter = function(task) {
       return !!task.isCompleted;
     };
-  }])
+  }]);

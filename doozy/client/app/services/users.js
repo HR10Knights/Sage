@@ -82,7 +82,7 @@ angular.module('services.UserFactory', [])
        * @param {[object]} data [{taskId:<REQUIRED>, userId:<REQUIRED>}]
        */
       addTaskToUser: function(data) {
-        console.log("in factory", data)
+
         return $http({
             method: 'POST',
             url: '/api/users/tasks',

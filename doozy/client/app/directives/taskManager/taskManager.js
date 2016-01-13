@@ -11,7 +11,7 @@ angular.module('directives.taskManager', [])
         task: '=',
         projectUsers: '='
       }
-    }
+    };
   })
   .controller('TaskManagerCtrl', ['$scope', 'Users', function($scope, Users) {
   	

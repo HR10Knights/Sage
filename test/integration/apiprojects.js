@@ -78,7 +78,7 @@ describe('Projects API (api/projects)', function() {
         .then(function(foundProject) {
           project = foundProject;
           project.tasks.push(task._id);
-          return project.save()
+          return project.save();
         })
         .then(function(foundTask) {
           return Org.create({
@@ -88,7 +88,7 @@ describe('Projects API (api/projects)', function() {
         .then(function(foundOrg) {
           org = foundOrg;
           org.projects.push(project._id);
-          return org.save()
+          return org.save();
         })
         .then(function() {
           done();

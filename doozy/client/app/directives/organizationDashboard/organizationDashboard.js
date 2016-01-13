@@ -8,7 +8,7 @@ angular.module('directives.organizationDashboard', [])
       scope: {
       	orgList: '='
       }
-    }
+    };
   })
   .controller('OrganizationDashboardCtrl', ['$scope', function($scope) {
   	

@@ -11,7 +11,7 @@ angular.module('directives.userManager', [])
         userList: '=',
         currentUsers: '='
       }
-    }
+    };
   })
   .controller('UserManagerCtrl', ['$scope', function($scope) {
   	$scope.data = {};

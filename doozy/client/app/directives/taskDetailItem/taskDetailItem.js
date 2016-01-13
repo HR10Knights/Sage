@@ -9,7 +9,7 @@ angular.module('directives.taskDetailItem', [])
         task: '=',
         handleTaskEdit: '='
       }
-    }
+    };
   })
   .controller('TaskDetailItemCtrl', ['$scope', 'Tasks', function($scope, Tasks) {
     
@@ -20,4 +20,4 @@ angular.module('directives.taskDetailItem', [])
           console.log(err);
         });
     };
-  }])
+  }]);

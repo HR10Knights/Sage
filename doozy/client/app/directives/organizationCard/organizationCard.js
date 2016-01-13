@@ -8,7 +8,7 @@ angular.module('directives.organizationCard', [])
       scope: {
         org: '=',
       }
-    }
+    };
   })
   .controller('OrganizationCardController', ['$scope', 'Project', 'Organization', 'Users', function($scope, Project, Organization, Users) {
     $scope.showProjectForm = false;

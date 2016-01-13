@@ -7,7 +7,7 @@ var NavBarCtrl = function(Auth) {
   {
     'name': 'Dashboard',
     'state': 'landing'
-  }]
+  }];
 
   angular.extend(this, Auth, {
   	navLinks: navLinks
@@ -22,6 +22,6 @@ angular.module('directives.navBar', [])
       templateUrl: 'app/directives/navBar/navBar.html',
       controller: 'NavBarCtrl',
       controllerAs: 'ctrl'
-    }
+    };
   })
   .controller('NavBarCtrl', ['Auth', NavBarCtrl]);

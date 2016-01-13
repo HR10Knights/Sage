@@ -41,7 +41,7 @@ db.projectsSchema.pre('init', function(next, data) {
 
 var Project = mongoose.model('Project', db.projectsSchema);
 
-var newProject = new Project({name: 'this project is awesome', description: 'totally'})
+var newProject = new Project({name: 'this project is awesome', description: 'totally'});
 newProject.save();
 
 module.exports = Project;

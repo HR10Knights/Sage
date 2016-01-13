@@ -11,7 +11,7 @@ angular.module('directives.taskDetail', [])
         handleTaskRemove: '=',
         taskList: '='
       }
-    }
+    };
   })
   .controller('TaskDetailCtrl', ['$scope', 'Tasks', function($scope, Tasks) {
 
