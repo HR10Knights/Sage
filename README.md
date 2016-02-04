@@ -1,7 +1,13 @@
-# Doozy
+# Sage
 [![Build Status](https://travis-ci.org/HR10Knights/Sage.svg?branch=master)](https://travis-ci.org/HR10Knights/Sage)
 
-> A simple, intuitive task management web application for teams.
+A project managment application that enables teams to collaborate on group to-do lists.
+
+![Sage Task List](http://i.imgur.com/9deiWIk.png)
+![Sage Create Task](http://i.imgur.com/anu6jJg.png)
+<p align="center">
+  <a href="http://imgur.com/X9Ee6Iq"><img src="http://i.imgur.com/X9Ee6Iq.png" title="source: imgur.com" /></a>
+</p>
 
 ## Team
 
