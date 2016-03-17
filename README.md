@@ -1,7 +1,9 @@
 # Sage
 [![Build Status](https://travis-ci.org/HR10Knights/Sage.svg?branch=master)](https://travis-ci.org/HR10Knights/Sage)
 
-A project managment application that enables teams to collaborate on group to-do lists.
+> A project managment application that enables teams to collaborate on group to-do lists.
+
+> [Link to live site](http://sageknights.herokuapp.com).
 
 ![Sage Task List](http://i.imgur.com/9deiWIk.png)
 ![Sage Create Task](http://i.imgur.com/anu6jJg.png)
